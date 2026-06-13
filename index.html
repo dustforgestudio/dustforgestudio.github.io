@@ -1,52 +1,237 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dustforge Studio</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dustforge Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-<style>
+    :root {
+      --bg: #0a0a0b;
+      --bg-card: #111114;
+      --bg-card2: #16161a;
+      --border: #222228;
+      --border-accent: #2a2a35;
+      --text: #e8e8f0;
+      --text-muted: #7a7a8c;
+      --text-dim: #4a4a5a;
+      --accent: #7c6af0;
+      --accent-dim: #3d3478;
+      --accent-glow: rgba(124, 106, 240, 0.12);
+      --teal: #2dd4a0;
+      --mono: 'JetBrains Mono', monospace;
+      --sans: 'Inter', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
     body {
-        margin: 0;
-        background: #0b0d12;
-        color: #ffffff;
-        font-family: Arial, sans-serif;
-        text-align: center;
-        padding: 80px 20px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
+    /* ── Nav ── */
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px;
+      height: 56px;
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--accent); }
+
+    /* ── Main ── */
+    main {
+      flex: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 96px 48px 80px;
+      width: 100%;
+    }
+
+    /* ── Studio intro ── */
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
     h1 {
-        font-size: 48px;
-        margin-bottom: 12px;
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+    .intro {
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--text-muted);
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 72px;
     }
 
-    p {
-        color: #bfc7d5;
-        max-width: 700px;
-        margin: auto;
-        line-height: 1.6;
+    /* ── Products label ── */
+    .products-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
     }
 
-    .coming-soon {
-        margin-top: 40px;
-        opacity: 0.7;
+    /* ── Product card ── */
+    .product-card {
+      display: flex;
+      gap: 32px;
+      align-items: flex-start;
+      padding: 32px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      text-decoration: none;
+      transition: border-color 0.15s, background 0.15s;
     }
-</style>
+    .product-card:hover {
+      border-color: var(--accent-dim);
+      background: var(--bg-card2);
+    }
+    .product-icon {
+      flex-shrink: 0;
+      width: 48px; height: 48px;
+      border-radius: 10px;
+      background: var(--accent-glow);
+      border: 1px solid var(--accent-dim);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+    }
+    .product-body { flex: 1; min-width: 0; }
+    .product-tag {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--teal);
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+    }
+    .product-name {
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .product-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .product-pills {
+      display: flex; flex-wrap: wrap; gap: 8px;
+    }
+    .pill {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 3px 10px;
+      letter-spacing: 0.03em;
+    }
+    .product-arrow {
+      flex-shrink: 0;
+      align-self: center;
+      font-size: 20px;
+      color: var(--text-dim);
+      transition: color 0.15s, transform 0.15s;
+    }
+    .product-card:hover .product-arrow {
+      color: var(--accent);
+      transform: translateX(4px);
+    }
 
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    footer p { font-size: 12px; color: var(--text-dim); font-family: var(--mono); }
+
+    @media (max-width: 600px) {
+      nav { padding: 0 20px; }
+      main { padding: 60px 20px 60px; }
+      footer { padding: 20px; }
+      .product-card { flex-direction: column; gap: 20px; }
+      .product-arrow { display: none; }
+    }
+  </style>
 </head>
-
 <body>
 
-<h1>Dustforge Studio</h1>
+<nav>
+  <a class="nav-logo" href="/"><span>//</span> dustforge.studio</a>
+</nav>
 
-<p>
-High-quality Unity tools built for performance and ease of use.
-</p>
+<main>
+  <div class="eyebrow">Independent game tools</div>
+  <h1>High-quality Unity tools<br>built for performance.</h1>
+  <p class="intro">
+    Dustforge Studio makes focused, well-documented Unity packages for developers who care about what runs under the hood.
+  </p>
 
-<p class="coming-soon">
-Official website coming soon.
-</p>
+  <div class="products-label">Products</div>
+
+  <a class="product-card" href="/urpuiblur/">
+    <div class="product-icon">◈</div>
+    <div class="product-body">
+      <div class="product-tag">URPUIBlur</div>
+      <div class="product-name">URP UI Blur</div>
+      <div class="product-desc">
+        Six real-time blur algorithms for frosted glass UI, world-space surfaces, and dynamic glass effects — built natively on the URP RenderGraph API.
+      </div>
+      <div class="product-pills">
+        <span class="pill">Unity 6</span>
+        <span class="pill">URP 17+</span>
+        <span class="pill">RenderGraph</span>
+        <span class="pill">6 algorithms</span>
+      </div>
+    </div>
+    <div class="product-arrow">→</div>
+  </a>
+</main>
+
+<footer>
+  <p>// dustforge.studio</p>
+  <p>© 2026 Dustforge Studio</p>
+</footer>
 
 </body>
 </html>
