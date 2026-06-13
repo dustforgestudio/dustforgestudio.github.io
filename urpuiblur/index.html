@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URP UI Blur — Dustforge Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0b;
+      --bg-card: #111114;
+      --bg-card2: #16161a;
+      --border: #222228;
+      --border-accent: #2a2a35;
+      --text: #e8e8f0;
+      --text-muted: #7a7a8c;
+      --text-dim: #4a4a5a;
+      --accent: #7c6af0;
+      --accent-dim: #3d3478;
+      --accent-glow: rgba(124, 106, 240, 0.15);
+      --teal: #2dd4a0;
+      --teal-dim: rgba(45, 212, 160, 0.1);
+      --mono: 'JetBrains Mono', monospace;
+      --sans: 'Inter', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px;
+      height: 56px;
+      background: rgba(10, 10, 11, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── Hero ── */
+    .hero {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 100px 40px 80px;
+    }
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 300;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+    .hero-sub {
+      font-size: 18px;
+      font-weight: 300;
+      color: var(--text-muted);
+      max-width: 560px;
+      margin: 24px 0 48px;
+      line-height: 1.6;
+    }
+    .hero-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: opacity 0.15s, transform 0.15s;
+    }
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 14px;
+      text-decoration: none;
+      border: 1px solid var(--border-accent);
+      border-radius: 6px;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .btn-ghost:hover { border-color: var(--accent-dim); color: var(--text); }
+
+    /* ── Section ── */
+    section { max-width: 900px; margin: 0 auto; padding: 80px 40px; }
+    .section-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    h2 {
+      font-size: 28px;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      margin-bottom: 40px;
+    }
+
+    /* ── Divider ── */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 0 40px; }
+
+    /* ── Algorithms grid ── */
+    .algo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .algo-card {
+      background: var(--bg-card);
+      padding: 28px;
+      transition: background 0.15s;
+    }
+    .algo-card:hover { background: var(--bg-card2); }
+    .algo-name {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--teal);
+      margin-bottom: 6px;
+      letter-spacing: 0.03em;
+    }
+    .algo-title {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .algo-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .algo-cost {
+      margin-top: 16px;
+      display: flex; gap: 3px;
+    }
+    .dot { width: 6px; height: 6px; border-radius: 50%; }
+    .dot.on { background: var(--accent); }
+    .dot.off { background: var(--border-accent); }
+
+    /* ── Feature list ── */
+    .feature-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .feature-item {
+      display: flex; gap: 16px;
+      padding: 24px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    .feature-icon {
+      flex-shrink: 0;
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      background: var(--accent-glow);
+      border: 1px solid var(--accent-dim);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      color: var(--accent);
+    }
+    .feature-item h3 {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .feature-item p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* ── Code block ── */
+    .code-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .code-header {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-card2);
+    }
+    .code-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .code-filename {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-left: 4px;
+    }
+    pre {
+      padding: 24px;
+      overflow-x: auto;
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+    .kw { color: #c792ea; }
+    .fn { color: #82aaff; }
+    .cl { color: #ffcb6b; }
+    .st { color: #c3e88d; }
+    .cm { color: var(--text-dim); }
+    .nm { color: var(--teal); }
+
+    /* ── Specs table ── */
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th {
+      text-align: left;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 12px 16px;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    td:first-child { color: var(--text); font-weight: 500; }
+    tr:last-child td { border-bottom: none; }
+    .table-wrap {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    /* ── CTA ── */
+    .cta-wrap {
+      text-align: center;
+      padding: 80px 40px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .cta-wrap h2 { margin-bottom: 16px; }
+    .cta-wrap p { color: var(--text-muted); margin-bottom: 40px; font-size: 15px; }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .footer-logo {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+    .footer-logo span { color: var(--accent); }
+    footer p { font-size: 12px; color: var(--text-dim); }
+    footer a { color: var(--text-dim); text-decoration: none; }
+    footer a:hover { color: var(--text-muted); }
+
+    @media (max-width: 600px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .hero, section { padding-left: 20px; padding-right: 20px; }
+      .divider { margin: 0 20px; }
+      footer { padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo"><span>//</span> dustforge.studio</div>
+  <div class="nav-links">
+    <a href="#algorithms">Algorithms</a>
+    <a href="#features">Features</a>
+    <a href="#api">Runtime API</a>
+    <a href="urpuiblur/docs/">Docs</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-eyebrow">Unity 6 · URP 17+ · RenderGraph</div>
+  <h1>Real-time blur<br>for <em>Unity UI</em></h1>
+  <p class="hero-sub">Six background blur algorithms for frosted glass panels, world-space surfaces, and dynamic glass effects — built natively on the URP RenderGraph API.</p>
+  <div class="hero-actions">
+    <a href="#" class="btn-primary">Get on Asset Store →</a>
+    <a href="urpuiblur/docs/" class="btn-ghost">Documentation</a>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- Algorithms -->
+<section id="algorithms">
+  <div class="section-label">Blur methods</div>
+  <h2>Six algorithms, one system</h2>
+  <div class="algo-grid">
+
+    <div class="algo-card">
+      <div class="algo-name">DualKawase</div>
+      <div class="algo-title">Dual Kawase</div>
+      <div class="algo-desc">Down/up mip pyramid — widest blur radius at the lowest cost. The go-to for frosted-glass UI panels.</div>
+      <div class="algo-cost">
+        <div class="dot on"></div><div class="dot on"></div>
+        <div class="dot off"></div><div class="dot off"></div><div class="dot off"></div>
+      </div>
+    </div>
+
+    <div class="algo-card">
+      <div class="algo-name">CustomKawase</div>
+      <div class="algo-title">Custom Kawase</div>
+      <div class="algo-desc">Circular ring blur with 3–12 tunable taps. CPU-precomputed directions — zero trig per pixel.</div>
+      <div class="algo-cost">
+        <div class="dot on"></div><div class="dot on"></div>
+        <div class="dot off"></div><div class="dot off"></div><div class="dot off"></div>
+      </div>
+    </div>
+
+    <div class="algo-card">
+      <div class="algo-name">PoissonDisk</div>
+      <div class="algo-title">Poisson Disk</div>
+      <div class="algo-desc">Cinematic bokeh look via Poisson disk sampling. Eliminates grid patterns even at heavy downsample rates.</div>
+      <div class="algo-cost">
+        <div class="dot on"></div><div class="dot on"></div><div class="dot on"></div>
+        <div class="dot off"></div><div class="dot off"></div>
+      </div>
+    </div>
+
+    <div class="algo-card">
+      <div class="algo-name">GaussianSeparable</div>
+      <div class="algo-title">Gaussian Separable</div>
+      <div class="algo-desc">Mathematically exact Gaussian circle in two separable passes. Visually perfect at moderate radii.</div>
+      <div class="algo-cost">
+        <div class="dot on"></div><div class="dot on"></div><div class="dot on"></div>
+        <div class="dot off"></div><div class="dot off"></div>
+      </div>
+    </div>
+
+    <div class="algo-card">
+      <div class="algo-name">TentHex</div>
+      <div class="algo-title">Tent / Hex</div>
+      <div class="algo-desc">Three box-blur passes at 0°/60°/120° producing a hexagonal lens bokeh. Best for cinematic moments.</div>
+      <div class="algo-cost">
+        <div class="dot on"></div><div class="dot on"></div><div class="dot on"></div>
+        <div class="dot on"></div><div class="dot on"></div>
+      </div>
+    </div>
+
+    <div class="algo-card">
+      <div class="algo-name">Radial</div>
+      <div class="algo-title">Radial</div>
+      <div class="algo-desc">Single-pass circular blur with per-pixel IGN rotation. Round bokeh feel — ideal for impact effects and cutscenes.</div>
+      <div class="algo-cost">
+        <div class="dot on"></div><div class="dot on"></div>
+        <div class="dot off"></div><div class="dot off"></div><div class="dot off"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- Features -->
+<section id="features">
+  <div class="section-label">What's included</div>
+  <h2>Everything you need, nothing you don't</h2>
+  <div class="feature-list">
+
+    <div class="feature-item">
+      <div class="feature-icon">⬡</div>
+      <div>
+        <h3>Multiple simultaneous presets</h3>
+        <p>Run Overlay, Camera, and World Space blur at the same time — each on its own RTHandle, fully isolated.</p>
+      </div>
+    </div>
+
+    <div class="feature-item">
+      <div class="feature-icon">◈</div>
+      <div>
+        <h3>Native RenderGraph API</h3>
+        <p>Built on URP 17+ RenderGraph from the ground up — no legacy command buffers, no camera stacking hacks.</p>
+      </div>
+    </div>
+
+    <div class="feature-item">
+      <div class="feature-icon">⊕</div>
+      <div>
+        <h3>Frosted glass shaders</h3>
+        <p>Two ready-made shaders: <code>UI_Blur_Universal</code> for Canvas panels and <code>WorldObject</code> for 3D glass meshes with true IOR refraction.</p>
+      </div>
+    </div>
+
+    <div class="feature-item">
+      <div class="feature-icon">◎</div>
+      <div>
+        <h3>Resolution-independent scaling</h3>
+        <p>Blur radius scales automatically with screen width — looks the same at 1080p and 4K without manual tweaking.</p>
+      </div>
+    </div>
+
+    <div class="feature-item">
+      <div class="feature-icon">⌘</div>
+      <div>
+        <h3>Setup Wizard</h3>
+        <p>One-click installation across all URP Renderer assets in your project. Working blur in under a minute.</p>
+      </div>
+    </div>
+
+    <div class="feature-item">
+      <div class="feature-icon">⚡</div>
+      <div>
+        <h3>Runtime API</h3>
+        <p>Toggle presets, fade intensity, and read parameters at runtime. Smooth blur transitions without one-frame pop-in.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- Runtime API -->
+<section id="api">
+  <div class="section-label">Runtime API</div>
+  <h2>Control blur from code</h2>
+  <div class="code-section">
+    <div class="code-header">
+      <div class="code-dot" style="background:#ff5f57"></div>
+      <div class="code-dot" style="background:#febc2e"></div>
+      <div class="code-dot" style="background:#28c840"></div>
+      <div class="code-filename">PauseMenuController.cs</div>
+    </div>
+    <pre><span class="cm">// Smooth fade on pause</span>
+<span class="kw">void</span> <span class="fn">Update</span>()
+{
+    <span class="kw">float</span> <span class="nm">target</span> = _paused ? <span class="nm">1f</span> : <span class="nm">0f</span>;
+    <span class="kw">float</span> <span class="nm">current</span> = <span class="cl">Blur</span>.<span class="fn">GetIntensity</span>(<span class="cl">CanvasSpaceType</span>.<span class="nm">OverlayBeforePostProcessing</span>);
+    <span class="cl">Blur</span>.<span class="fn">SetIntensity</span>(
+        <span class="cl">CanvasSpaceType</span>.<span class="nm">OverlayBeforePostProcessing</span>,
+        <span class="cl">Mathf</span>.<span class="fn">MoveTowards</span>(<span class="nm">current</span>, <span class="nm">target</span>, <span class="cl">Time</span>.<span class="nm">deltaTime</span> * <span class="nm">3f</span>));
+}
+
+<span class="cm">// React to preset state changes</span>
+<span class="kw">void</span> <span class="fn">OnEnable</span>()  => <span class="cl">Blur</span>.<span class="nm">OnPresetActiveChanged</span> += <span class="fn">OnBlurChanged</span>;
+<span class="kw">void</span> <span class="fn">OnDisable</span>() => <span class="cl">Blur</span>.<span class="nm">OnPresetActiveChanged</span> -= <span class="fn">OnBlurChanged</span>;
+
+<span class="kw">void</span> <span class="fn">OnBlurChanged</span>(<span class="cl">BlurPreset</span> <span class="nm">preset</span>)
+    => <span class="cl">Debug</span>.<span class="fn">Log</span>(<span class="st">$"{preset.name} → {preset.isActive}"</span>);</pre>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- Requirements -->
+<section id="requirements">
+  <div class="section-label">Requirements</div>
+  <h2>Compatibility</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Requirement</th><th>Minimum</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Unity version</td>
+          <td>6000.0 (Unity 6)</td>
+          <td>Tested on 6000.4.10f1 (Recommended)</td>
+        </tr>
+        <tr>
+          <td>Render pipeline</td>
+          <td>URP 17.0.0</td>
+          <td>RenderGraph must be enabled in URP Global Settings</td>
+        </tr>
+        <tr>
+          <td>Platforms</td>
+          <td>All URP-supported platforms</td>
+          <td>PC, Mobile, Console</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-wrap">
+  <div class="section-label" style="margin-bottom:16px">Get started</div>
+  <h2 style="margin-bottom:16px">Ready to ship your UI?</h2>
+  <p>Available on the Unity Asset Store. Drop in, run the Setup Wizard, and have blur working in your project within a minute.</p>
+  <div class="hero-actions" style="justify-content:center">
+    <a href="#" class="btn-primary">Get on Asset Store →</a>
+    <a href="urpuiblur/docs/" class="btn-ghost">Read the docs</a>
+  </div>
+</div>
+
+<hr class="divider">
+
+<footer>
+  <div class="footer-logo"><span>//</span> dustforge.studio</div>
+  <div style="display:flex;gap:24px">
+    <a href="urpuiblur/docs/">Docs</a>
+    <a href="urpuiblur/changelog/">Changelog</a>
+    <a href="urpuiblur/license/">License</a>
+  </div>
+  <p>© 2026 Dustforge Studio</p>
+</footer>
+
+</body>
+</html>
