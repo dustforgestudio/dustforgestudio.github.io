@@ -70,6 +70,7 @@ Each of the six blur algorithms writes a global _BlurredBackground_* texture tha
 ## Parameters
 
 ### All methods
+
 | Parameter | Description |
 |---|---|
 | Is Active | Enable/disable this preset at runtime without removing it |
@@ -77,12 +78,14 @@ Each of the six blur algorithms writes a global _BlurredBackground_* texture tha
 | Blur Method | Algorithm used for this preset |
 
 ### Dual Kawase
+
 | Parameter | Description |
 |---|---|
 | Iterations | Depth of the down/up mip pyramid — more = wider blur |
 | Blur Offset | Tap spread multiplier (scales with screen resolution) |
 
 ### Custom Kawase / Poisson Disk
+
 | Parameter | Description |
 |---|---|
 | Iterations | Number of ping-pong blur passes |
@@ -92,12 +95,14 @@ Each of the six blur algorithms writes a global _BlurredBackground_* texture tha
 | Use IGN Rotation | (Poisson only) Per-pixel sincos rotation — higher quality, tiny extra cost |
 
 ### Gaussian Separable / Tent Hex
+
 | Parameter | Description |
 |---|---|
 | Gaussian Radius | Sample radius in pixels (scales with screen resolution, capped at 64) |
 | Downsample | RT resolution divisor |
 
 ### Radial
+
 | Parameter | Description |
 |---|---|
 | Radial Taps | Number of samples arranged around the circle (4–32) |
@@ -259,4 +264,4 @@ Assets/URPUIBlur/
 
 ## License
 
-See LICENSE.md included with this package.
+See LICENSE included with this package.
