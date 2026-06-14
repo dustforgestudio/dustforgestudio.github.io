@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URP UI Blur — Documentation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0b;
+      --bg-card: #111114;
+      --bg-card2: #16161a;
+      --border: #222228;
+      --border-accent: #2a2a35;
+      --text: #e8e8f0;
+      --text-muted: #7a7a8c;
+      --text-dim: #4a4a5a;
+      --accent: #7c6af0;
+      --accent-dim: #3d3478;
+      --accent-glow: rgba(124, 106, 240, 0.12);
+      --teal: #2dd4a0;
+      --mono: 'JetBrains Mono', monospace;
+      --sans: 'Inter', sans-serif;
+      --sidebar-w: 220px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px;
+      height: 52px;
+      background: rgba(10,10,11,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-left { display: flex; align-items: center; gap: 24px; }
+    .nav-logo {
+      font-family: var(--mono); font-size: 12px;
+      color: var(--text-muted); text-decoration: none; letter-spacing: 0.04em;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-breadcrumb {
+      font-family: var(--mono); font-size: 11px;
+      color: var(--text-dim); letter-spacing: 0.04em;
+    }
+    .nav-breadcrumb span { color: var(--text-muted); }
+    .nav-links { display: flex; gap: 24px; }
+    .nav-links a {
+      font-size: 12px; color: var(--text-muted);
+      text-decoration: none; transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── Layout ── */
+    .layout {
+      display: flex;
+      padding-top: 52px;
+      min-height: 100vh;
+    }
+
+    /* ── Sidebar ── */
+    aside {
+      position: fixed;
+      top: 52px; left: 0; bottom: 0;
+      width: var(--sidebar-w);
+      overflow-y: auto;
+      border-right: 1px solid var(--border);
+      padding: 28px 0 40px;
+      background: var(--bg);
+    }
+    .sidebar-section {
+      font-family: var(--mono); font-size: 10px;
+      letter-spacing: 0.12em; color: var(--text-dim);
+      text-transform: uppercase;
+      padding: 0 20px; margin: 20px 0 8px;
+    }
+    aside a {
+      display: block;
+      padding: 6px 20px;
+      font-size: 13px; color: var(--text-muted);
+      text-decoration: none;
+      border-left: 2px solid transparent;
+      transition: color 0.12s, border-color 0.12s, background 0.12s;
+    }
+    aside a:hover { color: var(--text); background: var(--bg-card); }
+    aside a.active {
+      color: var(--accent); border-left-color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    /* ── Main content ── */
+    main {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      max-width: 760px;
+      padding: 56px 48px 100px;
+    }
+
+    /* ── Typography ── */
+    h1 {
+      font-size: 32px; font-weight: 300;
+      letter-spacing: -0.02em; color: var(--text);
+      margin-bottom: 12px;
+    }
+    .page-desc {
+      font-size: 15px; color: var(--text-muted);
+      margin-bottom: 48px; line-height: 1.6;
+      max-width: 560px;
+    }
+    h2 {
+      font-size: 20px; font-weight: 500;
+      color: var(--text); margin: 48px 0 16px;
+      padding-top: 48px; border-top: 1px solid var(--border);
+    }
+    h2:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+    h3 {
+      font-size: 14px; font-weight: 500;
+      color: var(--text-muted); margin: 28px 0 12px;
+      font-family: var(--mono); letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    p { color: var(--text-muted); margin-bottom: 16px; }
+    code {
+      font-family: var(--mono); font-size: 12px;
+      background: var(--bg-card2); color: var(--teal);
+      padding: 2px 7px; border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+    strong { color: var(--text); font-weight: 500; }
+
+    /* ── Steps (Quick Start) ── */
+    .steps { display: flex; flex-direction: column; gap: 2px; }
+    .step {
+      display: flex; gap: 16px; align-items: flex-start;
+      padding: 16px 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+    }
+    .step:first-child { border-radius: 8px 8px 0 0; }
+    .step:last-child  { border-radius: 0 0 8px 8px; }
+    .step-num {
+      flex-shrink: 0;
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: var(--accent-glow);
+      border: 1px solid var(--accent-dim);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--mono); font-size: 11px; color: var(--accent);
+    }
+    .step p { margin: 0; font-size: 14px; }
+
+    /* ── Tables ── */
+    .table-wrap {
+      border: 1px solid var(--border); border-radius: 8px;
+      overflow: hidden; margin-bottom: 24px;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th {
+      text-align: left; font-family: var(--mono);
+      font-size: 10px; letter-spacing: 0.1em;
+      color: var(--text-dim); text-transform: uppercase;
+      padding: 10px 16px; border-bottom: 1px solid var(--border);
+      background: var(--bg-card2);
+    }
+    td {
+      padding: 11px 16px; color: var(--text-muted);
+      border-bottom: 1px solid var(--border); vertical-align: top;
+      font-size: 13px;
+    }
+    td:first-child { color: var(--text); font-weight: 500; white-space: nowrap; }
+    tr:last-child td { border-bottom: none; }
+
+    /* ── Blockquote / note ── */
+    .note {
+      padding: 14px 18px;
+      background: var(--accent-glow);
+      border: 1px solid var(--accent-dim);
+      border-radius: 6px;
+      font-size: 13px; color: var(--text-muted);
+      margin: 16px 0 24px;
+    }
+    .note strong { color: var(--accent); }
+
+    /* ── Warning ── */
+    .warn {
+      padding: 14px 18px;
+      background: rgba(186,117,23,0.08);
+      border: 1px solid rgba(186,117,23,0.25);
+      border-radius: 6px;
+      font-size: 13px; color: var(--text-muted);
+      margin: 16px 0 24px;
+    }
+    .warn strong { color: #e8a040; }
+
+    /* ── Code blocks ── */
+    .code-block {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px; overflow: hidden;
+      margin: 12px 0 24px;
+    }
+    .code-header {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-card2);
+    }
+    .code-dot { width: 9px; height: 9px; border-radius: 50%; }
+    .code-filename {
+      font-family: var(--mono); font-size: 11px;
+      color: var(--text-dim); margin-left: 4px;
+    }
+    .code-block pre {
+      padding: 20px; margin: 0;
+      font-family: var(--mono); font-size: 12.5px;
+      line-height: 1.8; overflow-x: auto;
+      background: transparent !important;
+    }
+    .code-block code {
+      background: transparent; border: none;
+      color: inherit; padding: 0; font-size: inherit;
+    }
+
+    /* ── Pre-colored code without hljs ── */
+    .kw { color: #c792ea; }
+    .fn { color: #82aaff; }
+    .cl { color: #ffcb6b; }
+    .st { color: #c3e88d; }
+    .cm { color: #4a4a5a; }
+    .nm { color: #2dd4a0; }
+
+    /* ── Folder tree ── */
+    .tree {
+      font-family: var(--mono); font-size: 12.5px;
+      line-height: 1.9; color: var(--text-muted);
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 20px 24px;
+      margin-bottom: 24px;
+    }
+    .tree .dir { color: var(--text); }
+    .tree .comment { color: var(--text-dim); }
+
+    /* ── Troubleshooting ── */
+    .trouble-item {
+      margin-bottom: 24px;
+      padding: 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    .trouble-q {
+      font-size: 14px; font-weight: 500;
+      color: var(--text); margin-bottom: 10px;
+    }
+    .trouble-item ul { padding-left: 16px; }
+    .trouble-item li {
+      font-size: 13px; color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    /* ── Performance tip ── */
+    .perf-tip {
+      padding: 16px 20px;
+      background: rgba(45,212,160,0.06);
+      border: 1px solid rgba(45,212,160,0.2);
+      border-radius: 8px;
+      font-size: 13px; color: var(--text-muted);
+      margin: 16px 0 24px;
+    }
+    .perf-tip strong { color: var(--teal); }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 48px; margin-left: var(--sidebar-w);
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    }
+    footer p { font-size: 12px; color: var(--text-dim); font-family: var(--mono); margin: 0; }
+    footer a { color: var(--text-dim); text-decoration: none; font-size: 12px; }
+    footer a:hover { color: var(--text-muted); }
+
+    @media (max-width: 768px) {
+      aside { display: none; }
+      main { margin-left: 0; padding: 32px 20px 60px; }
+      footer { margin-left: 0; padding: 20px; }
+      nav { padding: 0 20px; }
+      .nav-breadcrumb { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <a class="nav-logo" href="../"><span>//</span> dustforge.studio</a>
+    <span class="nav-breadcrumb">/ <span>urpuiblur</span> / docs</span>
+  </div>
+  <div class="nav-links">
+    <a href="../">← Back</a>
+    <a href="../changelog/">Changelog</a>
+    <a href="../license/">License</a>
+  </div>
+</nav>
+
+<div class="layout">
+
+<!-- Sidebar -->
+<aside id="sidebar">
+  <div class="sidebar-section">Getting started</div>
+  <a href="#requirements">Requirements</a>
+  <a href="#quickstart">Quick Start</a>
+
+  <div class="sidebar-section">Reference</div>
+  <a href="#canvas-space-types">Canvas Space Types</a>
+  <a href="#blur-methods">Blur Methods</a>
+  <a href="#parameters">Parameters</a>
+
+  <div class="sidebar-section">Shaders</div>
+  <a href="#ui-shader">UI_Blur_Universal</a>
+  <a href="#world-shader">WorldObject</a>
+
+  <div class="sidebar-section">Code</div>
+  <a href="#runtime-api">Runtime API</a>
+
+  <div class="sidebar-section">Project</div>
+  <a href="#folder-structure">Folder Structure</a>
+  <a href="#troubleshooting">Troubleshooting</a>
+</aside>
+
+<!-- Main -->
+<main>
+  <h1>URP UI Blur</h1>
+  <p class="page-desc">Six background blur algorithms for Unity 6 (URP 17+), built on the native RenderGraph API. Each method writes a <code>_BlurredBackground_*</code> global texture sampled by the included frosted-glass shaders — no extra render passes or texture copies on the UI side.</p>
+
+  <!-- Requirements -->
+  <h2 id="requirements">Requirements</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Requirement</th><th>Version</th></tr></thead>
+      <tbody>
+        <tr><td>Unity</td><td>6000.0 or later — tested on 6000.0, 6000.3, 6000.4 (LTS)</td></tr>
+        <tr><td>Universal Render Pipeline</td><td>17.0.0 or later</td></tr>
+        <tr><td>RenderGraph mode</td><td>Must be enabled — do not enable Compatibility Mode in URP Global Settings</td></tr>
+        <tr><td>Platforms</td><td>All URP-supported platforms (PC, Mobile, Console)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Quick Start -->
+  <h2 id="quickstart">Quick Start</h2>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><p>Open the Setup Wizard via <strong>Tools → URPUIBlur → Setup Wizard</strong> — it also opens automatically the first time the package is imported.</p></div>
+    <div class="step"><div class="step-num">2</div><p>Tick the URP Renderer assets you want to add the feature to and click <strong>Add Blur Feature</strong>.</p></div>
+    <div class="step"><div class="step-num">3</div><p>A default <strong>Screen Space Overlay</strong> preset is assigned automatically — blur is working immediately.</p></div>
+    <div class="step"><div class="step-num">4</div><p>Add a UI Image component and assign the included <code>UI_Blur_Universal</code> material.</p></div>
+    <div class="step"><div class="step-num">5</div><p>Set the material's <strong>Canvas Mode</strong> dropdown to match your Canvas render mode.</p></div>
+  </div>
+
+  <!-- Canvas Space Types -->
+  <h2 id="canvas-space-types">Canvas Space Types</h2>
+  <p>Each preset targets one Canvas Space Type, which determines when the blur pass runs and which global texture it writes.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Space Type</th><th>Render Event</th><th>Use With</th></tr></thead>
+      <tbody>
+        <tr><td>Overlay Before Post-Processing</td><td>BeforeRenderingPostProcessing</td><td>Canvas — Screen Space Overlay (blur captured before bloom/tonemapping)</td></tr>
+        <tr><td>Overlay After Post-Processing</td><td>AfterRenderingPostProcessing</td><td>Canvas — Screen Space Overlay (blur includes post-processing output)</td></tr>
+        <tr><td>Screen Space Camera</td><td>BeforeRenderingTransparents</td><td>Canvas — Screen Space Camera</td></tr>
+        <tr><td>World Space</td><td>AfterRenderingSkybox</td><td>Canvas — World Space</td></tr>
+        <tr><td>World Objects</td><td>AfterRenderingSkybox</td><td>3D meshes using the WorldObject shader</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note"><strong>Duplicate rule:</strong> If two presets share the same Space Type, only the first active one executes. A warning is shown in the Inspector and a runtime guard skips duplicates.</div>
+
+  <!-- Blur Methods -->
+  <h2 id="blur-methods">Blur Methods</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Method</th><th>Cost</th><th>Best For</th></tr></thead>
+      <tbody>
+        <tr><td>Dual Kawase</td><td>●●○○○</td><td>Frosted-glass UI panels — widest radius at lowest cost</td></tr>
+        <tr><td>Custom Kawase</td><td>●●○○○</td><td>Fast circular blur with tunable tap count</td></tr>
+        <tr><td>Poisson Disk</td><td>●●●○○</td><td>Cinematic bokeh — eliminates grid sampling artifacts</td></tr>
+        <tr><td>Gaussian Separable</td><td>●●●○○</td><td>Mathematically exact Gaussian circle</td></tr>
+        <tr><td>Tent / Hex</td><td>●●●●●</td><td>Hexagonal lens bokeh — best for cinematic moments</td></tr>
+        <tr><td>Radial</td><td>●●○○○</td><td>Zoom blur, impact effects, cutscenes</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Parameters -->
+  <h2 id="parameters">Parameters</h2>
+
+  <h3>All methods</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Parameter</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Is Active</td><td>Enable/disable this preset at runtime without removing it</td></tr>
+        <tr><td>Space Type</td><td>Which canvas space and render event this preset targets</td></tr>
+        <tr><td>Blur Method</td><td>Algorithm used for this preset</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Dual Kawase</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Parameter</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Iterations</td><td>Depth of the down/up mip pyramid — more = wider blur</td></tr>
+        <tr><td>Blur Offset</td><td>Tap spread multiplier (scales with screen resolution)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Custom Kawase / Poisson Disk</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Parameter</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Iterations</td><td>Number of ping-pong blur passes</td></tr>
+        <tr><td>Blur Offset</td><td>Tap spread per pass (scales with screen resolution)</td></tr>
+        <tr><td>Taps</td><td>Number of samples per pass (3–12)</td></tr>
+        <tr><td>Downsample</td><td>RT resolution divisor — auto-adjusted for screens wider than 1920 px</td></tr>
+        <tr><td>Use IGN Rotation</td><td>(Poisson only) Per-pixel sincos rotation — higher quality, tiny extra cost</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Gaussian Separable / Tent Hex</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Parameter</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Gaussian Radius</td><td>Sample radius in pixels (scales with screen resolution, capped at 64)</td></tr>
+        <tr><td>Downsample</td><td>RT resolution divisor</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Radial</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Parameter</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Radial Taps</td><td>Number of samples arranged around the circle (4–32)</td></tr>
+        <tr><td>Radial Radius</td><td>Ring radius in texels (scales with screen resolution)</td></tr>
+        <tr><td>Downsample</td><td>RT resolution divisor</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="perf-tip"><strong>Performance tip:</strong> Each active preset runs its full pass chain every frame, regardless of whether any UI is currently visible. Only add presets for the space types you actually use — if your project only uses Screen Space Overlay, there is no reason to keep a World Space preset in the list.</div>
+
+  <!-- UI Shader -->
+  <h2 id="ui-shader">UI_Blur_Universal Shader</h2>
+  <p>For use with UI Image components and Canvas panels.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Property</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Canvas Mode</td><td>Must match the Canvas render mode: Screen Space Overlay / Screen Space Camera / World Space</td></tr>
+        <tr><td>Frost Tint</td><td>Color tint blended over the blurred background</td></tr>
+        <tr><td>Frost Strength</td><td>Tint blend weight (0 = no tint, 1 = full tint)</td></tr>
+        <tr><td>Brightness</td><td>Multiplier applied after tint</td></tr>
+        <tr><td>Desaturate</td><td>Desaturation amount (0 = full color, 1 = grayscale)</td></tr>
+        <tr><td>Edge Strength</td><td>Vignette darkening toward panel edges</td></tr>
+        <tr><td>Normal Map</td><td>Texture driving glass surface distortion</td></tr>
+        <tr><td>Normal Distortion Strength</td><td>Distortion intensity</td></tr>
+        <tr><td>Normal Mapping Mode</td><td><code>Standard Tile</code> / <code>Local Fixed Scale</code> / <code>Screen Space Fix</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- WorldObject Shader -->
+  <h2 id="world-shader">WorldObject Shader</h2>
+  <p>For 3D world-space glass meshes (windows, floors, panels). Requires a preset with Space Type set to <strong>World Objects</strong>.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Property</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Frost Tint / Strength</td><td>Same as UI shader</td></tr>
+        <tr><td>Brightness / Desaturate</td><td>Same as UI shader</td></tr>
+        <tr><td>Refraction Index</td><td>IOR offset — how strongly the surface bends the background sample</td></tr>
+        <tr><td>Normal Map</td><td>Surface detail used to perturb the refraction direction</td></tr>
+        <tr><td>Normal Map Strength</td><td>Refraction bend intensity</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Runtime API -->
+  <h2 id="runtime-api">Runtime API</h2>
+
+  <h3>Toggle presets</h3>
+  <div class="code-block">
+    <div class="code-header">
+      <div class="code-dot" style="background:#ff5f57"></div>
+      <div class="code-dot" style="background:#febc2e"></div>
+      <div class="code-dot" style="background:#28c840"></div>
+      <div class="code-filename">example.cs</div>
+    </div>
+    <pre><code class="language-csharp">// Enable or disable all presets targeting a space type
+Blur.SetPresetsActive(CanvasSpaceType.ScreenSpaceCamera, false);
+Blur.SetPresetsActive(CanvasSpaceType.OverlayBeforePostProcessing, true);
+
+// Subscribe to the event fired when a preset's active state changes
+Blur.OnPresetActiveChanged += preset =>
+    Debug.Log($"{preset.name} is now {(preset.isActive ? "active" : "inactive")}");</code></pre>
+  </div>
+  <p>Individual presets can also be toggled directly via <code>BlurPreset.isActive</code>.</p>
+
+  <h3>Read and modify presets</h3>
+  <div class="code-block">
+    <div class="code-header">
+      <div class="code-dot" style="background:#ff5f57"></div>
+      <div class="code-dot" style="background:#febc2e"></div>
+      <div class="code-dot" style="background:#28c840"></div>
+      <div class="code-filename">example.cs</div>
+    </div>
+    <pre><code class="language-csharp">// Get the first preset for a given space type (returns null if not found)
+BlurPreset overlay = Blur.GetPreset(CanvasSpaceType.OverlayBeforePostProcessing);
+if (overlay != null) overlay.blurOffset = 2.5f;
+
+// Get all presets as a snapshot list
+List&lt;BlurPreset&gt; all = Blur.GetAllPresets();
+foreach (var p in all)
+    Debug.Log($"{p.name}: {p.blurMethod}, active={p.isActive}");</code></pre>
+  </div>
+
+  <h3>Intensity — smooth fade without pop-in</h3>
+  <p><code>SetIntensity</code> scales all continuous parameters (<code>blurOffset</code>, <code>gaussianRadius</code>, <code>radialRadius</code>) by a multiplier each frame. Unlike toggling <code>isActive</code>, intensity 0 keeps the pass alive so there is no one-frame black flash when the blur returns.</p>
+  <div class="code-block">
+    <div class="code-header">
+      <div class="code-dot" style="background:#ff5f57"></div>
+      <div class="code-dot" style="background:#febc2e"></div>
+      <div class="code-dot" style="background:#28c840"></div>
+      <div class="code-filename">PauseMenuController.cs</div>
+    </div>
+    <pre><code class="language-csharp">// Instant set
+Blur.SetIntensity(CanvasSpaceType.OverlayBeforePostProcessing, 0.5f);
+
+// Read current value
+float current = Blur.GetIntensity(CanvasSpaceType.OverlayBeforePostProcessing);
+
+// Smooth fade in Update or a coroutine
+void Update()
+{
+    float target = _menuOpen ? 1f : 0f;
+    float current = Blur.GetIntensity(CanvasSpaceType.OverlayBeforePostProcessing);
+    Blur.SetIntensity(
+        CanvasSpaceType.OverlayBeforePostProcessing,
+        Mathf.MoveTowards(current, target, Time.deltaTime * 3f));
+}</code></pre>
+  </div>
+  <div class="note"><strong>Note:</strong> Intensity affects only continuous spatial parameters. Discrete values (<code>iterations</code>, <code>taps</code>, <code>radialTaps</code>) are never fractional and are not scaled.</div>
+
+  <!-- Folder Structure -->
+  <h2 id="folder-structure">Folder Structure</h2>
+  <div class="tree">
+<span class="dir">Assets/URPUIBlur/</span>
+├── <span class="dir">Runtime/</span>
+│   ├── <span class="dir">Scripts/</span>        <span class="comment">Blur.cs, BlurPreset.cs, *BlurPass.cs</span>
+│   ├── <span class="dir">Shaders/</span>        <span class="comment">All .shader files</span>
+│   ├── <span class="dir">Materials/</span>      <span class="comment">UI_Blur_Universal.mat, Blur_WorldSurface.mat</span>
+│   └── URPUIBlur.Runtime.asmdef
+├── <span class="dir">Editor/</span>
+│   ├── BlurEditor.cs       <span class="comment">Custom Inspector for Blur (Renderer Feature)</span>
+│   ├── BlurScriptable.cs   <span class="comment">Custom Inspector for BlurPreset</span>
+│   ├── BlurSetupWizard.cs  <span class="comment">Setup Wizard window</span>
+│   └── URPUIBlur.Editor.asmdef
+├── <span class="dir">Presets/</span>
+│   └── UI-Overlay.asset    <span class="comment">Default preset (auto-assigned by Setup Wizard)</span>
+├── <span class="dir">Samples~/</span>
+│   └── <span class="dir">Demo/</span>               <span class="comment">Interactive comparison scene</span>
+└── <span class="dir">Documentation~/</span>
+    └── README.md</div>
+
+  <!-- Troubleshooting -->
+  <h2 id="troubleshooting">Troubleshooting</h2>
+
+  <div class="trouble-item">
+    <div class="trouble-q">UI panel is black / shows no blur</div>
+    <ul>
+      <li>Confirm the Blur Renderer Feature is added and enabled on the active URP Renderer asset</li>
+      <li>Check that the preset's Space Type matches the Canvas render mode</li>
+      <li>Check that the material's Canvas Mode dropdown matches the Canvas render mode</li>
+    </ul>
+  </div>
+
+  <div class="trouble-item">
+    <div class="trouble-q">Two presets on the same Space Type — only one works</div>
+    <ul>
+      <li>This is by design. Each Space Type writes to one global texture; duplicates are skipped at runtime (first active preset wins). Assign different Space Types if you need multiple simultaneous blur effects.</li>
+    </ul>
+  </div>
+
+  <div class="trouble-item">
+    <div class="trouble-q">Blur is stretched horizontally</div>
+    <ul>
+      <li>This is fixed in Gaussian and Tent/Hex passes via <code>_TargetTexelSize</code>. If you see stretching, confirm you are using the included shader files and not an older version.</li>
+    </ul>
+  </div>
+
+  <div class="trouble-item">
+    <div class="trouble-q">Performance is poor on mobile</div>
+    <ul>
+      <li>Switch to <strong>Dual Kawase</strong> — lowest cost per quality</li>
+      <li>Increase <strong>Downsample</strong> to 4</li>
+      <li>Reduce <strong>Iterations</strong> to 2</li>
+    </ul>
+  </div>
+
+  <div class="trouble-item">
+    <div class="trouble-q">Setup Wizard does not appear</div>
+    <ul>
+      <li>Open it manually via <strong>Tools → URPUIBlur → Setup Wizard</strong></li>
+      <li>If the wizard shows no renderers, create a URP Universal Renderer asset first: <strong>Assets → Create → Rendering → URP Universal Renderer</strong></li>
+    </ul>
+  </div>
+
+</main>
+</div>
+
+<footer>
+  <p>// dustforge.studio / urpuiblur / docs</p>
+  <div style="display:flex;gap:20px">
+    <a href="../">Home</a>
+    <a href="../changelog/">Changelog</a>
+    <a href="../license/">License</a>
+  </div>
+  <p>© 2026 Dustforge Studio</p>
+</footer>
+
+<script>
+  hljs.highlightAll();
+
+  const sections = document.querySelectorAll('h2[id]');
+  const links = document.querySelectorAll('aside a');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`aside a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
