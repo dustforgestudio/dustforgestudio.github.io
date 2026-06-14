@@ -70,7 +70,6 @@
 
     /* ── Layout ── */
     .layout {
-      display: flex;
       padding-top: 52px;
       min-height: 100vh;
     }
@@ -107,9 +106,8 @@
 
     /* ── Main content ── */
     main {
-      margin-left: var(--sidebar-w);
-      flex: 1;
-      max-width: 760px;
+      max-width: 800px;
+      margin: 0 auto;
       padding: 56px 48px 100px;
     }
 
@@ -253,6 +251,7 @@
       background: var(--bg-card); border: 1px solid var(--border);
       border-radius: 8px; padding: 20px 24px;
       margin-bottom: 24px;
+      overflow-x: auto; white-space: pre;
     }
     .tree .dir { color: var(--text); }
     .tree .comment { color: var(--text-dim); }
@@ -289,18 +288,24 @@
     /* ── Footer ── */
     footer {
       border-top: 1px solid var(--border);
-      padding: 24px 48px; margin-left: var(--sidebar-w);
+      padding: 24px 48px;
       display: flex; align-items: center;
       justify-content: space-between; flex-wrap: wrap; gap: 12px;
+      max-width: 800px; margin: 0 auto;
     }
     footer p { font-size: 12px; color: var(--text-dim); font-family: var(--mono); margin: 0; }
     footer a { color: var(--text-dim); text-decoration: none; font-size: 12px; }
     footer a:hover { color: var(--text-muted); }
 
-    @media (max-width: 768px) {
+    @media (max-width: 1150px) {
       aside { display: none; }
-      main { margin-left: 0; padding: 32px 20px 60px; }
-      footer { margin-left: 0; padding: 20px; }
+      main { padding: 40px 32px 80px; }
+      footer { padding: 24px 32px; }
+    }
+
+    @media (max-width: 600px) {
+      main { padding: 32px 20px 60px; }
+      footer { padding: 20px; }
       nav { padding: 0 20px; }
       .nav-breadcrumb { display: none; }
     }
@@ -310,8 +315,8 @@
 
 <nav>
   <div class="nav-left">
-    <a class="nav-logo" href="/"><span>// dustforge.studio</span></a>
-    <span class="nav-breadcrumb">/ <span>urpuiblur</span> / docs</span>
+    <a class="nav-logo" href="/"><span>//</span> dustforge.studio</a>
+    <a class="nav-breadcrumb" href="../">/ <span>urpuiblur</span> / docs</a>
   </div>
   <div class="nav-links">
     <a href="../">← Back</a>
@@ -576,8 +581,7 @@ void Update()
 
   <!-- Folder Structure -->
   <h2 id="folder-structure">Folder Structure</h2>
-  <div class="tree">
-<span class="dir">Assets/URPUIBlur/</span>
+  <div class="tree"><span class="dir">Assets/URPUIBlur/</span>
 ├── <span class="dir">Runtime/</span>
 │   ├── <span class="dir">Scripts/</span>        <span class="comment">Blur.cs, BlurPreset.cs, *BlurPass.cs</span>
 │   ├── <span class="dir">Shaders/</span>        <span class="comment">All .shader files</span>
@@ -644,7 +648,7 @@ void Update()
 <footer>
   <p>// dustforge.studio / urpuiblur / docs</p>
   <div style="display:flex;gap:20px">
-    <a href="../">Home</a>
+    <a href="/">Home</a>
     <a href="../changelog/">Changelog</a>
     <a href="../license/">License</a>
   </div>
