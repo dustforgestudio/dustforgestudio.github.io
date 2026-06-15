@@ -11,18 +11,18 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0a0a0b;
-      --bg-card: #111114;
-      --bg-card2: #16161a;
-      --border: #222228;
-      --border-accent: #2a2a35;
-      --text: #e8e8f0;
-      --text-muted: #7a7a8c;
-      --text-dim: #4a4a5a;
-      --accent: #7c6af0;
-      --accent-dim: #3d3478;
-      --accent-glow: rgba(124, 106, 240, 0.12);
-      --teal: #2dd4a0;
+      --bg:           #0e0f12;
+      --bg-card:      #13141a;
+      --bg-card2:     #1a1b24;
+      --border:       #252631;
+      --border-accent:#2e2f40;
+      --text:         #eaeaf4;
+      --text-muted:   #8e8ea8;
+      --text-dim:     #54546a;
+      --accent:       #7c6af0;
+      --accent-dim:   #3d3478;
+      --accent-glow:  rgba(124,106,240,0.10);
+      --teal:         #2dd4a0;
       --mono: 'JetBrains Mono', monospace;
       --sans: 'Inter', sans-serif;
     }
@@ -32,165 +32,217 @@
       background: var(--bg);
       color: var(--text);
       font-family: var(--sans);
-      font-size: 16px;
+      font-size: 15px;
       line-height: 1.7;
       -webkit-font-smoothing: antialiased;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      background-image: radial-gradient(circle, #252631 1px, transparent 1px);
+      background-size: 28px 28px;
+      background-attachment: fixed;
     }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, transparent 40%, var(--bg) 100%);
+      pointer-events: none; z-index: 0;
+    }
+    nav, .hero-banner, main, footer { position: relative; z-index: 1; }
 
     /* ── Nav ── */
     nav {
+      position: sticky; top: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 48px;
-      height: 56px;
+      padding: 0 48px; height: 56px;
+      background: rgba(14,15,18,0.88);
+      backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
     }
     .nav-logo {
-      font-family: var(--mono);
-      font-size: 13px;
-      color: var(--text-muted);
-      letter-spacing: 0.04em;
-      text-decoration: none;
+      font-family: var(--mono); font-size: 12px; color: var(--text-muted);
+      letter-spacing: 0.04em; text-decoration: none; transition: color 0.15s;
     }
+    .nav-logo:hover { color: var(--text); }
     .nav-logo span { color: var(--accent); }
+
+    /* ── Hero banner ── */
+    .hero-banner {
+      width: 100%;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-card);
+      overflow: hidden;
+    }
+    /* Placeholder state — replace inner content with <img> or <video> when ready */
+    .hero-banner-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 48px;
+      height: 340px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    /* Subtle grid lines inside banner */
+    .hero-banner-inner::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 80px 80px;
+      opacity: 0.35;
+    }
+    .banner-placeholder {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+      text-align: center;
+    }
+    .banner-placeholder-icon {
+      font-size: 36px; opacity: 0.2;
+    }
+    .banner-placeholder-label {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--text-dim);
+    }
+    /* When a real banner image is used, add class .has-media to .hero-banner
+       and place <img> or <video> directly inside .hero-banner-inner */
+    .hero-banner.has-media .hero-banner-inner {
+      padding: 0; height: auto;
+    }
+    .hero-banner.has-media img,
+    .hero-banner.has-media video {
+      width: 100%; max-width: 860px;
+      display: block; margin: 0 auto;
+    }
 
     /* ── Main ── */
     main {
       flex: 1;
       max-width: 860px;
       margin: 0 auto;
-      padding: 96px 48px 80px;
+      padding: 64px 48px 100px;
       width: 100%;
     }
 
-    /* ── Studio intro ── */
+    /* ── Intro ── */
+    .intro-block { margin-bottom: 64px; }
     .eyebrow {
-      font-family: var(--mono);
-      font-size: 11px;
-      letter-spacing: 0.15em;
-      color: var(--accent);
-      text-transform: uppercase;
-      margin-bottom: 20px;
+      font-family: var(--mono); font-size: 11px;
+      letter-spacing: 0.15em; color: var(--accent);
+      text-transform: uppercase; margin-bottom: 20px;
     }
     h1 {
-      font-size: clamp(28px, 4vw, 42px);
-      font-weight: 300;
-      letter-spacing: -0.02em;
-      color: var(--text);
-      line-height: 1.15;
-      margin-bottom: 20px;
+      font-size: clamp(26px, 4vw, 40px);
+      font-weight: 300; letter-spacing: -0.025em;
+      color: var(--text); line-height: 1.18; margin-bottom: 20px;
     }
     .intro {
-      font-size: 16px;
-      font-weight: 300;
-      color: var(--text-muted);
-      max-width: 520px;
-      line-height: 1.7;
-      margin-bottom: 72px;
+      font-size: 15px; font-weight: 300; color: var(--text-muted);
+      max-width: 520px; line-height: 1.75; margin-bottom: 28px;
     }
 
-    /* ── Products label ── */
-    .products-label {
-      font-family: var(--mono);
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      color: var(--text-dim);
-      text-transform: uppercase;
-      margin-bottom: 20px;
-      padding-bottom: 12px;
+    /* ── Stat pills ── */
+    .stat-row {
+      display: flex; flex-wrap: wrap; gap: 8px;
+    }
+    .stat-pill {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 12px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 12px; color: var(--text-muted);
+    }
+    .stat-pill-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); flex-shrink: 0;
+    }
+    .stat-pill-dot.purple { background: var(--accent); }
+
+    /* ── Section label ── */
+    .section-label {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+      color: var(--text-dim); text-transform: uppercase;
+      margin-bottom: 14px; padding-bottom: 10px;
       border-bottom: 1px solid var(--border);
     }
 
-    /* ── Product card ── */
+    /* ── Product grid ── */
+    .product-grid { display: flex; flex-direction: column; gap: 6px; margin-bottom: 48px; }
+
     .product-card {
-      display: flex;
-      gap: 32px;
-      align-items: flex-start;
-      padding: 32px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
+      display: flex; gap: 24px; align-items: flex-start;
+      padding: 24px 28px; background: var(--bg-card);
+      border: 1px solid var(--border); border-radius: 10px;
       text-decoration: none;
-      transition: border-color 0.15s, background 0.15s;
+      transition: border-color 0.15s, background 0.15s, transform 0.15s;
     }
     .product-card:hover {
-      border-color: var(--accent-dim);
-      background: var(--bg-card2);
+      border-color: var(--accent-dim); background: var(--bg-card2);
+      transform: translateY(-1px);
     }
     .product-icon {
-      flex-shrink: 0;
-      width: 48px; height: 48px;
-      border-radius: 10px;
-      background: var(--accent-glow);
-      border: 1px solid var(--accent-dim);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 22px;
+      flex-shrink: 0; width: 42px; height: 42px; border-radius: 8px;
+      background: var(--accent-glow); border: 1px solid var(--accent-dim);
+      display: flex; align-items: center; justify-content: center; font-size: 18px;
     }
     .product-body { flex: 1; min-width: 0; }
-    .product-tag {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--teal);
-      letter-spacing: 0.06em;
-      margin-bottom: 6px;
-    }
-    .product-name {
-      font-size: 18px;
-      font-weight: 500;
-      color: var(--text);
-      margin-bottom: 8px;
-    }
-    .product-desc {
-      font-size: 14px;
-      color: var(--text-muted);
-      line-height: 1.6;
-      margin-bottom: 20px;
-    }
-    .product-pills {
-      display: flex; flex-wrap: wrap; gap: 8px;
-    }
+    .product-tag { font-family: var(--mono); font-size: 11px; color: var(--teal); letter-spacing: 0.05em; margin-bottom: 4px; }
+    .product-name { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 6px; }
+    .product-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 14px; }
+    .product-pills { display: flex; flex-wrap: wrap; gap: 6px; }
     .pill {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--text-dim);
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 3px 10px;
-      letter-spacing: 0.03em;
+      font-family: var(--mono); font-size: 11px; color: var(--text-dim);
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 4px; padding: 2px 8px;
     }
     .product-arrow {
-      flex-shrink: 0;
-      align-self: center;
-      font-size: 20px;
-      color: var(--text-dim);
+      flex-shrink: 0; align-self: center; font-size: 16px; color: var(--text-dim);
       transition: color 0.15s, transform 0.15s;
     }
-    .product-card:hover .product-arrow {
-      color: var(--accent);
-      transform: translateX(4px);
+    .product-card:hover .product-arrow { color: var(--accent); transform: translateX(4px); }
+
+    /* ── Game card — coming soon ── */
+    .game-card {
+      display: flex; gap: 24px; align-items: flex-start;
+      padding: 24px 28px; background: var(--bg-card);
+      border: 1px solid var(--border); border-radius: 10px;
+      opacity: 0.45;
+    }
+    .game-icon {
+      flex-shrink: 0; width: 42px; height: 42px; border-radius: 8px;
+      background: rgba(45,212,160,0.05); border: 1px solid rgba(45,212,160,0.12);
+      display: flex; align-items: center; justify-content: center; font-size: 18px;
+    }
+    .game-body { flex: 1; }
+    .game-tag { font-family: var(--mono); font-size: 11px; color: var(--text-dim); margin-bottom: 4px; }
+    .game-name { font-size: 15px; font-weight: 500; color: var(--text-muted); margin-bottom: 4px; }
+    .game-desc { font-size: 13px; color: var(--text-dim); }
+    .soon-badge {
+      flex-shrink: 0; align-self: center;
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--text-dim);
+      border: 1px solid var(--border); border-radius: 4px; padding: 3px 8px;
     }
 
     /* ── Footer ── */
     footer {
-      border-top: 1px solid var(--border);
-      padding: 24px 48px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
+      border-top: 1px solid var(--border); padding: 24px 48px;
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 12px;
     }
     footer p { font-size: 12px; color: var(--text-dim); font-family: var(--mono); }
 
-    @media (max-width: 600px) {
+    @media (max-width: 640px) {
       nav { padding: 0 20px; }
-      main { padding: 60px 20px 60px; }
+      .hero-banner-inner { height: 200px; padding: 0 20px; }
+      main { padding: 48px 20px 72px; }
       footer { padding: 20px; }
-      .product-card { flex-direction: column; gap: 20px; }
-      .product-arrow { display: none; }
+      .product-card, .game-card { gap: 14px; padding: 18px 20px; }
+      .product-arrow, .soon-badge { display: none; }
+      .stat-row { gap: 6px; }
     }
   </style>
 </head>
@@ -200,32 +252,69 @@
   <a class="nav-logo" href="/"><span>//</span> dustforge.studio</a>
 </nav>
 
-<main>
-  <div class="eyebrow">Independent game tools</div>
-  <h1>High-quality Unity tools<br>built for performance.</h1>
-  <p class="intro">
-    Dustforge Studio makes focused, well-documented Unity packages for developers who care about what runs under the hood.
-  </p>
-
-  <div class="products-label">Products</div>
-
-  <a class="product-card" href="/urpuiblur/">
-    <div class="product-icon">◈</div>
-    <div class="product-body">
-      <div class="product-tag">URPUIBlur</div>
-      <div class="product-name">URP UI Blur</div>
-      <div class="product-desc">
-        Six real-time blur algorithms for frosted glass UI, world-space surfaces, and dynamic glass effects — built natively on the URP RenderGraph API.
-      </div>
-      <div class="product-pills">
-        <span class="pill">Unity 6</span>
-        <span class="pill">URP 17+</span>
-        <span class="pill">RenderGraph</span>
-        <span class="pill">6 algorithms</span>
-      </div>
+<!-- ── Banner ──────────────────────────────────────────────────────────────
+     Replace .banner-placeholder with <img src="..."> or <video> when ready.
+     Add class "has-media" to .hero-banner when doing so.
+────────────────────────────────────────────────────────────────────────── -->
+<div class="hero-banner">
+  <div class="hero-banner-inner">
+    <div class="banner-placeholder">
+      <div class="banner-placeholder-icon">◈</div>
+      <div class="banner-placeholder-label">Banner — 860 × 340 px recommended</div>
     </div>
-    <div class="product-arrow">→</div>
-  </a>
+  </div>
+</div>
+
+<main>
+
+  <!-- ── Intro ── -->
+  <div class="intro-block">
+    <div class="eyebrow">Dustforge Studio</div>
+    <h1>We make games.<br>We build tools.</h1>
+    <p class="intro">
+      An independent studio creating original games for players and professional developer tools for Unity — crafted with the same attention to quality, performance, and craft.
+    </p>
+    <div class="stat-row">
+      <div class="stat-pill"><span class="stat-pill-dot"></span>Games in development</div>
+      <div class="stat-pill"><span class="stat-pill-dot purple"></span>Assets on Unity Asset Store</div>
+      <div class="stat-pill"><span class="stat-pill-dot purple"></span>Unity 6 · URP 17+</div>
+    </div>
+  </div>
+
+  <!-- ── Unity Asset Store ── -->
+  <div class="section-label">Unity Asset Store</div>
+  <div class="product-grid">
+    <a class="product-card" href="/urpuiblur/">
+      <div class="product-icon">◈</div>
+      <div class="product-body">
+        <div class="product-tag">com.dustforge.urpuiblur</div>
+        <div class="product-name">URP UI Blur Pro</div>
+        <div class="product-desc">Six real-time blur algorithms for frosted glass UI, world-space surfaces, and dynamic glass effects — built natively on the URP RenderGraph API.</div>
+        <div class="product-pills">
+          <span class="pill">Unity 6</span>
+          <span class="pill">URP 17+</span>
+          <span class="pill">RenderGraph</span>
+          <span class="pill">6 algorithms</span>
+        </div>
+      </div>
+      <div class="product-arrow">→</div>
+    </a>
+  </div>
+
+  <!-- ── Steam ── -->
+  <div class="section-label">Steam</div>
+  <div class="product-grid">
+    <div class="game-card">
+      <div class="game-icon">⬡</div>
+      <div class="game-body">
+        <div class="game-tag">In development</div>
+        <div class="game-name">Untitled Game</div>
+        <div class="game-desc">More details coming soon.</div>
+      </div>
+      <div class="soon-badge">Coming soon</div>
+    </div>
+  </div>
+
 </main>
 
 <footer>
