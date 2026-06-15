@@ -282,17 +282,48 @@
             border: 1px solid var(--border);
         }
 
-        pre {
+        /* ── Code block styled like index (4).html ── */
+        .code-block {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 18px 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 14px 0 24px;
+        }
+
+        .code-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-card2);
+        }
+
+        .code-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+        }
+
+        .code-filename {
             font-family: var(--mono);
-            font-size: 12px;
-            color: var(--text-muted);
+            font-size: 11px;
+            color: var(--text-dim);
+            margin-left: 4px;
+        }
+
+        pre {
+            padding: 22px 24px;
             overflow-x: auto;
-            margin: 10px 0 20px;
-            line-height: 1.8;
+            font-family: var(--mono);
+            font-size: 12.5px;
+            line-height: 1.85;
+            color: var(--text-muted);
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            margin: 0;
         }
 
             pre code {
@@ -302,42 +333,34 @@
                 color: inherit;
             }
 
-        /* ── C# Syntax Highlighting Classes (Visual Studio Dark Classic Style) ── */
-        .cs-keyword {
+        /* ── C# Syntax Highlighting Classes (Visual Studio Dark Style from main page) ── */
+        .cs-keyword, .kw {
             color: #569cd6;
             font-weight: normal;
         }
-        /* Blue (void, class, float, null, etc.) */
-        .cs-control {
+        .cs-control, .ct {
             color: #c586c0;
             font-weight: normal;
         }
-        /* Magenta/Pink (while, yield, return, if, foreach) */
-        .cs-type {
+        .cs-type, .cl {
             color: #4ec9b0;
         }
-        /* Teal (Blur, CanvasSpaceType, Time, etc.) */
-        .cs-string {
+        .cs-string, .st {
             color: #d69d85;
         }
-        /* Salmon String ("string") */
-        .cs-comment {
+        .cs-comment, .cm {
             color: #57a64a;
             font-style: italic;
         }
-        /* Green Comment (// comment) */
-        .cs-method {
+        .cs-method, .fn {
             color: #dcdcaa;
         }
-        /* Yellow/Gold MethodName() */
-        .cs-number {
+        .cs-number, .nu {
             color: #b5cea8;
         }
-        /* Pale Green Number (1f, 3f) */
-        .cs-identifier {
-            color: #ffffff;
+        .cs-identifier, .nm {
+            color: #eaeaf4;
         }
-        /* White for outstanding contrast */
         
         /* ── Section label ── */
         .section-label {
@@ -847,17 +870,32 @@
             <h2 id="runtime-api">Runtime API</h2>
             <h3>Toggle presets</h3>
             
-<pre><code></code><span class="cs-comment">// Enable or disable all presets targeting a space type</span>
+            <div class="code-block">
+                <div class="code-header">
+                    <div class="code-dot" style="background:#ff5f57"></div>
+                    <div class="code-dot" style="background:#febc2e"></div>
+                    <div class="code-dot" style="background:#28c840"></div>
+                    <span class="code-filename">RuntimeAPI.cs</span>
+                </div>
+<pre><code><span class="cs-comment">// Enable or disable all presets targeting a space type</span>
 <span class="cs-type">Blur</span>.<span class="cs-method">SetPresetsActive</span>(<span class="cs-type">CanvasSpaceType</span>.<span class="cs-identifier">ScreenSpaceCamera</span>, <span class="cs-keyword">false</span>);
 <span class="cs-type">Blur</span>.<span class="cs-method">SetPresetsActive</span>(<span class="cs-type">CanvasSpaceType</span>.<span class="cs-identifier">OverlayBeforePostProcessing</span>, <span class="cs-keyword">true</span>);
 
 <span class="cs-comment">// Subscribe to the event fired when a preset's active state changes</span>
 <span class="cs-type">Blur</span>.<span class="cs-identifier">OnPresetActiveChanged</span> += <span class="cs-identifier">preset</span> =>
     <span class="cs-type">Debug</span>.<span class="cs-method">Log</span>(<span class="cs-string">$"{preset.name} is now {(preset.isActive ? "active" : "inactive")}"</span>);</code></pre>
+            </div>
         
             <p>Individual presets can also be toggled directly via <code>BlurPreset.isActive</code>.</p>
             <h3>Read and modify presets</h3>
 
+            <div class="code-block">
+                <div class="code-header">
+                    <div class="code-dot" style="background:#ff5f57"></div>
+                    <div class="code-dot" style="background:#febc2e"></div>
+                    <div class="code-dot" style="background:#28c840"></div>
+                    <span class="code-filename">ModifyPresets.cs</span>
+                </div>
 <pre><code><span class="cs-comment">// Get the first preset for a given space type (returns null if not found)</span>
 <span class="cs-type">BlurPreset</span> <span class="cs-identifier">overlay</span> = <span class="cs-type">Blur</span>.<span class="cs-method">GetPreset</span>(<span class="cs-type">CanvasSpaceType</span>.<span class="cs-identifier">OverlayBeforePostProcessing</span>);
 <span class="cs-control">if</span> (<span class="cs-identifier">overlay</span> != <span class="cs-keyword">null</span>) <span class="cs-identifier">overlay</span>.<span class="cs-identifier">blurOffset</span> = <span class="cs-number">2.5f</span>;
@@ -866,10 +904,18 @@
 <span class="cs-type">List</span>&lt;<span class="cs-type">BlurPreset</span>&gt; <span class="cs-identifier">all</span> = <span class="cs-type">Blur</span>.<span class="cs-method">GetAllPresets</span>();
 <span class="cs-control">foreach</span> (<span class="cs-keyword">var</span> <span class="cs-identifier">p</span> <span class="cs-control">in</span> <span class="cs-identifier">all</span>)
     <span class="cs-type">Debug</span>.<span class="cs-method">Log</span>(<span class="cs-string">$"{p.name}: {p.blurMethod}, active={p.isActive}"</span>);</code></pre>
+            </div>
 
             <h3>Intensity — smooth fade without pop-in</h3>
             <p><code>SetIntensity</code> scales all continuous parameters (<code>blurOffset</code>, <code>gaussianRadius</code>, <code>radialRadius</code>) by a multiplier each frame. Unlike toggling <code>isActive</code>, intensity 0 keeps the pass alive so there is no one-frame black flash when the blur returns.</p>
 
+            <div class="code-block">
+                <div class="code-header">
+                    <div class="code-dot" style="background:#ff5f57"></div>
+                    <div class="code-dot" style="background:#febc2e"></div>
+                    <div class="code-dot" style="background:#28c840"></div>
+                    <span class="code-filename">PauseMenu.cs</span>
+                </div>
 <pre><code><span class="cs-comment">// Instant set</span>
 <span class="cs-type">Blur</span>.<span class="cs-method">SetIntensity</span>(<span class="cs-type">CanvasSpaceType</span>.<span class="cs-identifier">OverlayBeforePostProcessing</span>, <span class="cs-number">0.5f</span>);
 
@@ -884,6 +930,7 @@
     <span class="cs-type">Blur</span>.<span class="cs-method">SetIntensity</span>(<span class="cs-type">CanvasSpaceType</span>.<span class="cs-identifier">OverlayBeforePostProcessing</span>,
         <span class="cs-type">Mathf</span>.<span class="cs-method">MoveTowards</span>(<span class="cs-identifier">current</span>, <span class="cs-identifier">target</span>, <span class="cs-type">Time</span>.<span class="cs-identifier">deltaTime</span> * <span class="cs-number">3f</span>));
 }</code></pre>
+            </div>
             <div class="note"><strong>Note:</strong> Intensity scales continuous parameters (<code>blurOffset</code>, <code>gaussianRadius</code>, <code>radialRadius</code>) and discrete parameters (<code>iterations</code>, <code>downsample</code>) — <code>taps</code> and <code>radialTaps</code> are not scaled.</div>
 
             <h2 id="troubleshooting">Troubleshooting</h2>
@@ -941,6 +988,13 @@
             </div>
 
             <h2 id="folder-structure">Folder Structure</h2>
+            <div class="code-block">
+                <div class="code-header">
+                    <div class="code-dot" style="background:#ff5f57"></div>
+                    <div class="code-dot" style="background:#febc2e"></div>
+                    <div class="code-dot" style="background:#28c840"></div>
+                    <span class="code-filename">Project Structure</span>
+                </div>
 <pre><code>Assets/URPUIBlur/
 ├── Runtime/
 │   ├── Scripts/            Blur.cs, BlurPreset.cs, *BlurPass.cs
@@ -961,6 +1015,7 @@
 └── Documentation~/
     ├── CHANGELOG.md
     └── README.md</code></pre>
+            </div>
         </main>
     </div>
 
