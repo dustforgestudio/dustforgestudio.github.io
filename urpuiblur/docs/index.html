@@ -282,6 +282,24 @@
             border: 1px solid var(--border);
         }
 
+        /* ── Code block ── */
+        .code-block {
+          background: var(--bg-card);
+          border: 1px solid var(--border);
+          border-radius: 8px;
+          overflow: hidden;
+        }
+        .code-header {
+          display: flex; align-items: center; gap: 8px;
+          padding: 10px 16px; border-bottom: 1px solid var(--border);
+          background: var(--bg-card2);
+        }
+        .code-dot { width: 9px; height: 9px; border-radius: 50%; }
+        .code-filename {
+          font-family: var(--mono); font-size: 11px;
+          color: var(--text-dim); margin-left: 4px;
+        }
+
         pre {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -339,6 +357,24 @@
         }
         /* White for outstanding contrast */
 
+        /* ── Section ── */
+        .section-wrap {
+          max-width: 860px;
+          margin: 0 auto;
+          padding: 72px 48px;
+          border-top: 1px solid var(--border);
+        }
+        .section-label {
+          font-family: var(--mono); font-size: 10px;
+          letter-spacing: 0.15em; color: var(--accent);
+          text-transform: uppercase; margin-bottom: 12px;
+        }
+        .section-title {
+          font-size: 24px; font-weight: 300;
+          letter-spacing: -0.02em; color: var(--text);
+          margin-bottom: 32px;
+        }
+        
         /* ── Section label ── */
         .section-label {
             font-family: var(--mono);
@@ -847,6 +883,18 @@
             <h2 id="runtime-api">Runtime API</h2>
             <h3>Toggle presets</h3>
 
+  <!-- ── Runtime API ── -->
+  <div class="section-wrap" id="api">
+    <div class="section-label">Runtime API</div>
+    <div class="section-title">Control blur from code</div>
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dot" style="background:#ff5f57"></div>
+        <div class="code-dot" style="background:#febc2e"></div>
+        <div class="code-dot" style="background:#28c840"></div>
+        <span class="code-filename">PauseMenuController.cs</span>
+      </div>
+            
 <pre><code><span class="cs-comment">// Enable or disable all presets targeting a space type</span>
 <span class="cs-type">Blur</span>.<span class="cs-method">SetPresetsActive</span>(<span class="cs-type">CanvasSpaceType</span>.<span class="cs-identifier">ScreenSpaceCamera</span>, <span class="cs-keyword">false</span>);
 <span class="cs-type">Blur</span>.<span class="cs-method">SetPresetsActive</span>(<span class="cs-type">CanvasSpaceType</span>.<span class="cs-identifier">OverlayBeforePostProcessing</span>, <span class="cs-keyword">true</span>);
@@ -854,7 +902,10 @@
 <span class="cs-comment">// Subscribe to the event fired when a preset's active state changes</span>
 <span class="cs-type">Blur</span>.<span class="cs-identifier">OnPresetActiveChanged</span> += <span class="cs-identifier">preset</span> =>
     <span class="cs-type">Debug</span>.<span class="cs-method">Log</span>(<span class="cs-string">$"{preset.name} is now {(preset.isActive ? "active" : "inactive")}"</span>);</code></pre>
-            
+
+    </div>
+  </div>
+        
             <p>Individual presets can also be toggled directly via <code>BlurPreset.isActive</code>.</p>
             <h3>Read and modify presets</h3>
 
