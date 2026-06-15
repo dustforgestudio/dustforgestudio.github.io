@@ -11,18 +11,19 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:           #0a0a0b;
-      --bg-card:      #111114;
-      --bg-card2:     #16161a;
-      --border:       #222228;
-      --border-accent:#2a2a35;
-      --text:         #e8e8f0;
-      --text-muted:   #7a7a8c;
-      --text-dim:     #4a4a5a;
+      --bg:           #0e0f12;
+      --bg-card:      #13141a;
+      --bg-card2:     #1a1b24;
+      --border:       #252631;
+      --border-accent:#2e2f40;
+      --text:         #eaeaf4;
+      --text-muted:   #8e8ea8;
+      --text-dim:     #54546a;
       --accent:       #7c6af0;
       --accent-dim:   #3d3478;
-      --accent-glow:  rgba(124,106,240,0.12);
+      --accent-glow:  rgba(124,106,240,0.10);
       --teal:         #2dd4a0;
+      --orange:       #e8a040;
       --mono: 'JetBrains Mono', monospace;
       --sans: 'Inter', sans-serif;
     }
@@ -38,138 +39,145 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      background-image: radial-gradient(circle, #252631 1px, transparent 1px);
+      background-size: 28px 28px;
+      background-attachment: fixed;
     }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, transparent 40%, var(--bg) 100%);
+      pointer-events: none; z-index: 0;
+    }
+    nav, .page-layout, footer { position: relative; z-index: 1; }
 
     /* ── Nav ── */
     nav {
       position: sticky; top: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 48px;
-      height: 56px;
-      background: rgba(10,10,11,0.92);
-      backdrop-filter: blur(12px);
+      padding: 0 48px; height: 56px;
+      background: rgba(14,15,18,0.88); backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
     }
     .nav-left { display: flex; align-items: center; gap: 24px; }
-    .nav-logo {
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--text-muted);
-      text-decoration: none;
-      letter-spacing: 0.04em;
-    }
+    .nav-logo { font-family: var(--mono); font-size: 12px; color: var(--text-muted); text-decoration: none; letter-spacing: 0.04em; transition: color 0.15s; }
+    .nav-logo:hover { color: var(--text); }
     .nav-logo span { color: var(--accent); }
-    .nav-breadcrumb {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--text-dim);
-    }
-    .nav-breadcrumb a { color: var(--text-muted); text-decoration: none; }
+    .nav-breadcrumb { font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
+    .nav-breadcrumb a { color: var(--text-muted); text-decoration: none; transition: color 0.15s; }
     .nav-breadcrumb a:hover { color: var(--text); }
     .nav-links { display: flex; gap: 24px; }
-    .nav-links a {
-      font-size: 13px;
-      color: var(--text-muted);
-      text-decoration: none;
-      transition: color 0.15s;
-    }
-    .nav-links a:hover { color: var(--text); }
-    .nav-links a.active { color: var(--text); }
+    .nav-links a { font-size: 13px; color: var(--text-muted); text-decoration: none; transition: color 0.15s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
 
-    /* ── Main ── */
-    main {
-      flex: 1;
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 80px 48px 100px;
-      width: 100%;
+    /* ── Two-column layout ── */
+    .page-layout {
+      flex: 1; display: flex;
+      max-width: 1060px; margin: 0 auto; width: 100%;
     }
 
-    h1 {
-      font-size: 30px;
-      font-weight: 300;
-      letter-spacing: -0.02em;
-      color: var(--text);
-      margin-bottom: 8px;
+    /* ── Sidebar ── */
+    aside {
+      width: 210px; flex-shrink: 0;
+      padding: 56px 0 80px 48px;
+      position: sticky; top: 56px;
+      align-self: flex-start;
+      height: calc(100vh - 56px); overflow-y: auto;
     }
-    .page-desc {
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--text-dim);
-      margin-bottom: 48px;
-    }
+    .aside-name { font-family: var(--mono); font-size: 11px; font-weight: 500; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 20px; }
+    .aside-section { margin-bottom: 24px; }
+    .aside-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; color: var(--text-dim); text-transform: uppercase; margin-bottom: 8px; }
+    .aside-link { display: block; font-size: 13px; color: var(--text-muted); text-decoration: none; padding: 3px 0; transition: color 0.15s; }
+    .aside-link:hover, .aside-link.active { color: var(--text); }
 
-    h2 {
-      font-family: var(--mono);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin: 40px 0 12px;
-    }
+    /* ── Main content ── */
+    main { flex: 1; min-width: 0; padding: 56px 48px 100px; }
+
+    h1 { font-size: 28px; font-weight: 300; letter-spacing: -0.02em; color: var(--text); margin-bottom: 8px; }
+    .page-desc { font-family: var(--mono); font-size: 12px; color: var(--text-dim); margin-bottom: 48px; }
+    h2 { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin: 48px 0 12px; padding-top: 8px; }
     h2:first-of-type { margin-top: 0; }
-
-    p { font-size: 14px; color: var(--text-muted); margin-bottom: 10px; }
+    h3 { font-size: 14px; font-weight: 500; color: var(--text); margin: 20px 0 8px; }
+    p { font-size: 14px; color: var(--text-muted); margin-bottom: 12px; }
     a { color: var(--teal); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 24px 28px;
-      margin-bottom: 20px;
+    code {
+      font-family: var(--mono); font-size: 11px;
+      background: var(--bg-card2); color: var(--teal);
+      padding: 1px 5px; border-radius: 3px; border: 1px solid var(--border);
     }
+    pre {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 6px; padding: 18px 20px;
+      font-family: var(--mono); font-size: 12px; color: var(--text-muted);
+      overflow-x: auto; margin: 10px 0 20px; line-height: 1.8;
+    }
+    pre code { background: none; border: none; padding: 0; color: inherit; }
+
+    /* ── Section label ── */
+    .section-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; color: var(--text-dim); text-transform: uppercase; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+
+    /* ── Table ── */
+    .table-wrap { overflow-x: auto; margin: 10px 0 24px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--border); }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text-muted); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--bg-card); }
+    td:first-child { color: var(--text); font-weight: 500; }
+
+    /* ── List items ── */
+    .item-list { display: flex; flex-direction: column; gap: 2px; margin: 10px 0 24px; }
+    .item { padding: 11px 16px; background: var(--bg-card); border: 1px solid var(--border); font-size: 13px; color: var(--text-muted); line-height: 1.6; transition: background 0.1s; }
+    .item:first-child { border-radius: 6px 6px 0 0; }
+    .item:last-child  { border-radius: 0 0 6px 6px; }
+    .item:only-child  { border-radius: 6px; }
+    .item:hover { background: var(--bg-card2); }
+    .item-row { display: flex; gap: 14px; align-items: flex-start; }
+    .item-icon { flex-shrink: 0; margin-top: 1px; }
+    .item-icon.yes { color: var(--teal); }
+    .item-icon.no  { color: #e85050; }
+
+    /* ── Callout ── */
+    .note { padding: 13px 16px; background: var(--accent-glow); border: 1px solid var(--accent-dim); border-radius: 6px; font-size: 13px; color: var(--text-muted); margin: 10px 0 20px; }
+    .note strong { color: var(--accent); }
+    .warn { padding: 13px 16px; background: rgba(232,160,64,0.07); border: 1px solid rgba(232,160,64,0.22); border-radius: 6px; font-size: 13px; color: var(--text-muted); margin: 10px 0 20px; }
+    .warn strong { color: var(--orange); }
+
+    /* ── Card ── */
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 16px; }
     .card p:last-child { margin-bottom: 0; }
 
-    .terms-list { display: flex; flex-direction: column; gap: 2px; margin-bottom: 20px; }
-    .term-item {
-      display: flex; gap: 14px; align-items: flex-start;
-      padding: 12px 16px;
-      background: var(--bg-card2);
-      border: 1px solid var(--border);
-      font-size: 13px; color: var(--text-muted);
-    }
-    .term-item:first-child { border-radius: 6px 6px 0 0; }
-    .term-item:last-child  { border-radius: 0 0 6px 6px; }
-    .term-icon      { flex-shrink: 0; color: var(--teal);   margin-top: 2px; }
-    .term-icon.no   { flex-shrink: 0; color: #e85050; margin-top: 2px; }
-
-    .note {
-      padding: 14px 18px;
-      background: var(--accent-glow);
-      border: 1px solid var(--accent-dim);
-      border-radius: 6px;
-      font-size: 13px; color: var(--text-muted);
-      margin-bottom: 20px;
-    }
-    .note strong { color: var(--accent); }
+    /* ── Version block (changelog) ── */
+    .version-block { margin-bottom: 48px; }
+    .version-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+    .version-tag { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--accent); background: var(--accent-glow); border: 1px solid var(--accent-dim); padding: 3px 10px; border-radius: 4px; }
+    .version-date { font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
+    .version-divider { flex: 1; height: 1px; background: var(--border); }
+    .change-group { margin-bottom: 24px; }
+    .change-label { display: inline-flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
+    .change-label.added { color: var(--teal); }
+    .change-label.fixed { color: var(--orange); }
+    .change-label::before { content: ''; display: block; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
 
     /* ── Footer ── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 24px 48px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
+    footer { border-top: 1px solid var(--border); padding: 24px 48px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
     footer p { font-size: 12px; color: var(--text-dim); font-family: var(--mono); margin: 0; }
-    footer a { color: var(--text-dim); font-size: 12px; text-decoration: none; }
+    footer a { color: var(--text-dim); font-size: 12px; text-decoration: none; transition: color 0.15s; }
     footer a:hover { color: var(--text-muted); }
 
-    @media (max-width: 640px) {
-      nav  { padding: 0 20px; }
+    @media (max-width: 760px) {
+      nav { padding: 0 20px; }
       .nav-breadcrumb { display: none; }
-      main { padding: 48px 20px 72px; }
+      .page-layout { flex-direction: column; }
+      aside { display: none; }
+      main { padding: 40px 20px 72px; }
       footer { padding: 20px; }
     }
   </style>
 </head>
 <body>
-
 <nav>
   <div class="nav-left">
     <a class="nav-logo" href="/"><span>//</span> dustforge.studio</a>
@@ -182,36 +190,55 @@
   </div>
 </nav>
 
-<main>
-  <h1>License</h1>
-  <p class="page-desc">// URP UI Blur · Dustforge Studio</p>
+<div class="page-layout">
+  <aside>
+    <div class="aside-name">URPUIBlur</div>
+    <div class="aside-section">
+      <div class="aside-label">On this page</div>
+      <a class="aside-link" href="#agreement">License Agreement</a>
+      <a class="aside-link" href="#summary">Key Terms</a>
+      <a class="aside-link" href="#third-party">Third-party</a>
+      <a class="aside-link" href="#copyright">Copyright</a>
+    </div>
+    <div class="aside-section">
+      <div class="aside-label">Pages</div>
+      <a class="aside-link" href="/urpuiblur/">Overview</a>
+      <a class="aside-link" href="../docs/">Documentation</a>
+      <a class="aside-link" href="../changelog/">Changelog</a>
+    </div>
+  </aside>
 
-  <h2>License Agreement</h2>
-  <div class="card">
-    <p>URP UI Blur is licensed under the <strong>Unity Asset Store End User License Agreement (EULA)</strong>.</p>
-    <p>By purchasing or downloading this asset, you agree to the terms of the Unity Asset Store EULA:</p>
-    <p><a href="https://unity.com/legal/as-terms" target="_blank">https://unity.com/legal/as-terms →</a></p>
-  </div>
+  <main>
+    <h1>License</h1>
+    <p class="page-desc">// URP UI Blur · Dustforge Studio</p>
 
-  <h2>Summary of key terms</h2>
-  <div class="terms-list">
-    <div class="term-item"><span class="term-icon">✓</span><span>You may use this asset in personal and commercial projects.</span></div>
-    <div class="term-item"><span class="term-icon">✓</span><span>You may include this asset in products you distribute or sell, provided the asset itself is not the primary item being sold.</span></div>
-    <div class="term-item"><span class="term-icon no">✗</span><span>You may not redistribute, resell, or sublicense this asset as a standalone product.</span></div>
-    <div class="term-item"><span class="term-icon no">✗</span><span>You may not share your purchased copy with others who have not purchased the asset.</span></div>
-  </div>
-  <div class="note"><strong>Note:</strong> This summary is provided for convenience only. For the full and legally binding terms, refer to the Unity Asset Store EULA linked above.</div>
+    <h2 id="agreement">License Agreement</h2>
+    <div class="card">
+      <p>URP UI Blur is licensed under the <strong>Unity Asset Store End User License Agreement (EULA)</strong>.</p>
+      <p>By purchasing or downloading this asset, you agree to the terms of the Unity Asset Store EULA:</p>
+      <p><a href="https://unity.com/legal/as-terms" target="_blank">https://unity.com/legal/as-terms →</a></p>
+    </div>
 
-  <h2>Third-party references</h2>
-  <div class="card">
-    <p>The Dual Kawase blur algorithm is based on the technique presented by Marius Bjørge (Arm) at GDC 2015. No third-party code is included in this package — the implementation is original.</p>
-  </div>
+    <h2 id="summary">Summary of key terms</h2>
+    <div class="item-list">
+      <div class="item"><div class="item-row"><span class="item-icon yes">✓</span><span>You may use this asset in personal and commercial projects.</span></div></div>
+      <div class="item"><div class="item-row"><span class="item-icon yes">✓</span><span>You may include this asset in products you distribute or sell, provided the asset itself is not the primary item being sold.</span></div></div>
+      <div class="item"><div class="item-row"><span class="item-icon no">✗</span><span>You may not redistribute, resell, or sublicense this asset as a standalone product.</span></div></div>
+      <div class="item"><div class="item-row"><span class="item-icon no">✗</span><span>You may not share your purchased copy with others who have not purchased the asset.</span></div></div>
+    </div>
+    <div class="note"><strong>Note:</strong> This summary is provided for convenience only. For the full and legally binding terms, refer to the Unity Asset Store EULA linked above.</div>
 
-  <h2>Copyright</h2>
-  <div class="card">
-    <p>Copyright © 2026 Dustforge Studio — All rights reserved.</p>
-  </div>
-</main>
+    <h2 id="third-party">Third-party references</h2>
+    <div class="card">
+      <p>The Dual Kawase blur algorithm is based on the technique presented by Marius Bjørge (Arm) at GDC 2015. No third-party code is included in this package — the implementation is original.</p>
+    </div>
+
+    <h2 id="copyright">Copyright</h2>
+    <div class="card">
+      <p>Copyright © 2026 Dustforge Studio — All rights reserved.</p>
+    </div>
+  </main>
+</div>
 
 <footer>
   <p>// dustforge.studio / urpuiblur / license</p>
@@ -222,6 +249,5 @@
   </div>
   <p>© 2026 Dustforge Studio</p>
 </footer>
-
 </body>
 </html>
