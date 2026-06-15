@@ -895,13 +895,13 @@
         <span class="code-filename">PauseMenuController.cs</span>
       </div>
             
-<pre><code><span class="cs-comment">// Enable or disable all presets targeting a space type</span>
+<pre><span class="cs-comment">// Enable or disable all presets targeting a space type</span>
 <span class="cs-type">Blur</span>.<span class="cs-method">SetPresetsActive</span>(<span class="cs-type">CanvasSpaceType</span>.<span class="cs-identifier">ScreenSpaceCamera</span>, <span class="cs-keyword">false</span>);
 <span class="cs-type">Blur</span>.<span class="cs-method">SetPresetsActive</span>(<span class="cs-type">CanvasSpaceType</span>.<span class="cs-identifier">OverlayBeforePostProcessing</span>, <span class="cs-keyword">true</span>);
 
 <span class="cs-comment">// Subscribe to the event fired when a preset's active state changes</span>
 <span class="cs-type">Blur</span>.<span class="cs-identifier">OnPresetActiveChanged</span> += <span class="cs-identifier">preset</span> =>
-    <span class="cs-type">Debug</span>.<span class="cs-method">Log</span>(<span class="cs-string">$"{preset.name} is now {(preset.isActive ? "active" : "inactive")}"</span>);</code></pre>
+    <span class="cs-type">Debug</span>.<span class="cs-method">Log</span>(<span class="cs-string">$"{preset.name} is now {(preset.isActive ? "active" : "inactive")}"</span>);</pre>
 
     </div>
   </div>
