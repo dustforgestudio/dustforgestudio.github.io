@@ -933,6 +933,78 @@
             </div>
             <div class="note"><strong>Note:</strong> Intensity scales continuous parameters (<code>blurOffset</code>, <code>gaussianRadius</code>, <code>radialRadius</code>) and discrete parameters (<code>iterations</code>, <code>downsample</code>) — <code>taps</code> and <code>radialTaps</code> are not scaled.</div>
 
+            <h2 id="limitations">Known Limitations</h2>
+ 
+            <p>These are by-design constraints rooted in how URP's RenderGraph schedules render passes. They are not bugs.</p>
+ 
+            <div class="item-list">
+ 
+                <div class="item">
+                    <div class="item-row">
+                        <div style="flex-shrink:0; margin-top:2px; color:var(--orange);">⚠</div>
+                        <div>
+                            <strong>3D objects rendered after the capture point will not appear in the blur at all</strong>
+                            <p style="margin-top:6px; margin-bottom:6px;">
+                                Screen Space Camera and World Space presets capture the scene at
+                                <code>BeforeRenderingTransparents</code> and <code>AfterRenderingSkybox</code>
+                                respectively. Any 3D object that has not yet been rendered at that point
+                                is absent from the captured texture entirely — it will not appear inside
+                                the blur panel, as if the object does not exist behind it.
+                            </p>
+                            <p style="margin-bottom:0;">
+                                <strong>Workaround:</strong> use <strong>Overlay Before Post-Processing</strong>
+                                or <strong>Overlay After Post-Processing</strong> instead. Both capture the scene
+                                after all geometry has finished rendering, so every 3D object is present in the blur.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+ 
+                <div class="item">
+                    <div class="item-row">
+                        <div style="flex-shrink:0; margin-top:2px; color:var(--orange);">⚠</div>
+                        <div>
+                            <strong>World Space canvas panels are always occluded by Screen Space Camera canvases</strong>
+                            <p style="margin-top:6px; margin-bottom:6px;">
+                                Unity always draws Screen Space Camera canvases on top of World Space canvases,
+                                regardless of scene hierarchy or sorting order. A World Space panel will be
+                                hidden behind a Screen Space Camera panel whenever they overlap.
+                            </p>
+                            <p style="margin-bottom:6px;">
+                                On top of this, the two space types capture the scene at different render stages,
+                                so neither blur can see the other's panel content. Switching the Screen Space Camera
+                                preset to an Overlay type is not a valid workaround either: the Overlay preset
+                                captures the fully composited frame, which already includes the Screen Space Camera
+                                canvas itself — causing the panel to sample its own output and produce a black result.
+                            </p>
+                            <p style="margin-bottom:0;">
+                                <strong>There is no workaround for this combination.</strong>
+                                If you need the panels to overlap correctly, change the Screen Space Camera canvas
+                                to <strong>Screen Space Overlay</strong> instead — Overlay always renders after
+                                World Space geometry, so the layering and blur capture both work as expected.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+ 
+                <div class="item">
+                    <div class="item-row">
+                        <div style="flex-shrink:0; margin-top:2px; color:var(--teal);">✓</div>
+                        <div>
+                            <strong>Screen Space Overlay blurs everything</strong>
+                            <p style="margin-top:6px; margin-bottom:0;">
+                                Overlay presets capture the scene <em>after</em> all geometry — opaque, transparent,
+                                world-space, and 3D objects — has finished rendering.
+                                This makes them the most reliable option when you need the blur to include all scene content.
+                                Use <strong>Overlay Before Post-Processing</strong> to exclude post-process effects from the blur,
+                                or <strong>Overlay After Post-Processing</strong> to include bloom, tonemapping, and other effects.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+ 
+            </div>
+            
             <h2 id="troubleshooting">Troubleshooting</h2>
             <div class="item-list">
                 <div class="item">
