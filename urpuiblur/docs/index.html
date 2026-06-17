@@ -707,6 +707,8 @@
             <div class="aside-section">
                 <div class="aside-label">Runtime</div>
                 <a class="aside-link" href="#runtime-api">Runtime API</a>
+                <a class="aside-link" href="#runtime-modify">Modifying Parameters</a>
+                <a class="aside-link" href="#runtime-patterns">Common Patterns</a>
             </div>
             <div class="aside-section">
                 <div class="aside-label">Help</div>
@@ -907,6 +909,116 @@
 <span class="cs-control">foreach</span> (<span class="cs-keyword">var</span> <span class="cs-identifier">p</span> <span class="cs-control">in</span> <span class="cs-identifier">all</span>)
     <span class="cs-type">Debug</span>.<span class="cs-method">Log</span>(<span class="cs-string">$"{p.name}: {p.blurMethod}, active={p.isActive}"</span>);</code></pre>
             </div>
+
+            <h3 id="runtime-modify">Modifying parameters at runtime</h3>
+            <p>All fields on a <code>BlurPreset</code> can be written at runtime. Changes to continuous parameters take effect on the next rendered frame with no overhead.</p>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <div class="code-dot" style="background:#ff5f57"></div>
+                    <div class="code-dot" style="background:#febc2e"></div>
+                    <div class="code-dot" style="background:#28c840"></div>
+                    <span class="code-filename">RuntimeParameters.cs</span>
+                </div>
+<pre><code><span class="cs-type">BlurPreset</span> <span class="cs-identifier">p</span> = <span class="cs-type">Blur</span>.<span class="cs-method">GetPreset</span>(<span class="cs-type">CanvasSpaceType</span>.<span class="cs-identifier">OverlayBeforePostProcessing</span>);
+<span class="cs-control">if</span> (<span class="cs-identifier">p</span> == <span class="cs-keyword">null</span>) <span class="cs-control">return</span>;
+
+<span class="cs-comment">// ── Continuous parameters — take effect next frame, zero overhead ──</span>
+<span class="cs-identifier">p</span>.<span class="cs-identifier">blurOffset</span>    = <span class="cs-number">2f</span>;   <span class="cs-comment">// Dual Kawase / Kawase / Poisson tap spread</span>
+<span class="cs-identifier">p</span>.<span class="cs-identifier">gaussianRadius</span> = <span class="cs-number">8</span>;    <span class="cs-comment">// Gaussian / Tent-Hex pixel radius</span>
+<span class="cs-identifier">p</span>.<span class="cs-identifier">radialRadius</span>   = <span class="cs-number">6f</span>;   <span class="cs-comment">// Radial ring radius in texels</span>
+
+<span class="cs-comment">// ── Discrete parameters — take effect next frame, no rebuild ──────</span>
+<span class="cs-identifier">p</span>.<span class="cs-identifier">iterations</span>  = <span class="cs-number">4</span>;   <span class="cs-comment">// Pass count / mip depth</span>
+<span class="cs-identifier">p</span>.<span class="cs-identifier">taps</span>        = <span class="cs-number">8</span>;   <span class="cs-comment">// Kawase / Poisson sample count (3–12)</span>
+<span class="cs-identifier">p</span>.<span class="cs-identifier">downsample</span>  = <span class="cs-number">2</span>;   <span class="cs-comment">// RT resolution divisor</span>
+<span class="cs-identifier">p</span>.<span class="cs-identifier">radialTaps</span>  = <span class="cs-number">16</span>;  <span class="cs-comment">// Radial sample count (4–32)</span>
+
+<span class="cs-comment">// ── Method / space type — triggers a pass rebuild on the next frame ─</span>
+<span class="cs-comment">// A one-frame hitch may be visible on mobile. Change during loading</span>
+<span class="cs-comment">// screens or scene transitions, not during active gameplay.</span>
+<span class="cs-identifier">p</span>.<span class="cs-identifier">blurMethod</span> = <span class="cs-type">BlurMethod</span>.<span class="cs-identifier">GaussianSeparable</span>;
+<span class="cs-identifier">p</span>.<span class="cs-identifier">spaceType</span>  = <span class="cs-type">CanvasSpaceType</span>.<span class="cs-identifier">ScreenSpaceCamera</span>;</code></pre>
+            </div>
+
+            <div class="warn"><strong>Changing blurMethod or spaceType at runtime</strong> causes the renderer feature to destroy and recreate the pass objects and RTHandles on the next frame. This allocates GPU memory and may produce a one-frame hitch, particularly on mobile. Prefer changing these values during a loading screen or scene transition rather than in response to real-time input.</div>
+
+            <h3 id="runtime-patterns">Common patterns</h3>
+
+            <h4 style="font-size:13px; font-weight:500; color:var(--text); margin:20px 0 8px;">Fade blur in on menu open</h4>
+            <p>Use <code>SetIntensity</code> rather than toggling <code>isActive</code> — intensity 0 keeps the pass alive so there is no one-frame black flash when the blur returns.</p>
+            <div class="code-block">
+                <div class="code-header">
+                    <div class="code-dot" style="background:#ff5f57"></div>
+                    <div class="code-dot" style="background:#febc2e"></div>
+                    <div class="code-dot" style="background:#28c840"></div>
+                    <span class="code-filename">PauseMenu.cs</span>
+                </div>
+<pre><code><span class="cs-keyword">bool</span> <span class="cs-identifier">_menuOpen</span>;
+<span class="cs-keyword">float</span> <span class="cs-identifier">_fadeSpeed</span> = <span class="cs-number">4f</span>;
+
+<span class="cs-keyword">void</span> <span class="cs-method">Update</span>()
+{
+    <span class="cs-keyword">float</span> <span class="cs-identifier">target</span>  = <span class="cs-identifier">_menuOpen</span> ? <span class="cs-number">1f</span> : <span class="cs-number">0f</span>;
+    <span class="cs-keyword">float</span> <span class="cs-identifier">current</span> = <span class="cs-type">Blur</span>.<span class="cs-method">GetIntensity</span>(<span class="cs-type">CanvasSpaceType</span>.<span class="cs-identifier">OverlayBeforePostProcessing</span>);
+    <span class="cs-type">Blur</span>.<span class="cs-method">SetIntensity</span>(
+        <span class="cs-type">CanvasSpaceType</span>.<span class="cs-identifier">OverlayBeforePostProcessing</span>,
+        <span class="cs-type">Mathf</span>.<span class="cs-method">MoveTowards</span>(<span class="cs-identifier">current</span>, <span class="cs-identifier">target</span>, <span class="cs-type">Time</span>.<span class="cs-identifier">deltaTime</span> * <span class="cs-identifier">_fadeSpeed</span>));
+}</code></pre>
+            </div>
+
+            <h4 style="font-size:13px; font-weight:500; color:var(--text); margin:20px 0 8px;">Quality preset switching</h4>
+            <p>Switch between algorithm and parameter configurations at scene load time to match a player's graphics setting.</p>
+            <div class="code-block">
+                <div class="code-header">
+                    <div class="code-dot" style="background:#ff5f57"></div>
+                    <div class="code-dot" style="background:#febc2e"></div>
+                    <div class="code-dot" style="background:#28c840"></div>
+                    <span class="code-filename">QualityManager.cs</span>
+                </div>
+<pre><code><span class="cs-keyword">void</span> <span class="cs-method">ApplyQuality</span>(<span class="cs-keyword">int</span> <span class="cs-identifier">level</span>)
+{
+    <span class="cs-type">BlurPreset</span> <span class="cs-identifier">p</span> = <span class="cs-type">Blur</span>.<span class="cs-method">GetPreset</span>(<span class="cs-type">CanvasSpaceType</span>.<span class="cs-identifier">OverlayBeforePostProcessing</span>);
+    <span class="cs-control">if</span> (<span class="cs-identifier">p</span> == <span class="cs-keyword">null</span>) <span class="cs-control">return</span>;
+
+    <span class="cs-control">switch</span> (<span class="cs-identifier">level</span>)
+    {
+        <span class="cs-control">case</span> <span class="cs-number">0</span>: <span class="cs-comment">// Low</span>
+            <span class="cs-identifier">p</span>.<span class="cs-identifier">blurMethod</span>  = <span class="cs-type">BlurMethod</span>.<span class="cs-identifier">DualKawase</span>;
+            <span class="cs-identifier">p</span>.<span class="cs-identifier">iterations</span>  = <span class="cs-number">2</span>;
+            <span class="cs-identifier">p</span>.<span class="cs-identifier">downsample</span>  = <span class="cs-number">4</span>;
+            <span class="cs-control">break</span>;
+        <span class="cs-control">case</span> <span class="cs-number">1</span>: <span class="cs-comment">// Medium</span>
+            <span class="cs-identifier">p</span>.<span class="cs-identifier">blurMethod</span>  = <span class="cs-type">BlurMethod</span>.<span class="cs-identifier">DualKawase</span>;
+            <span class="cs-identifier">p</span>.<span class="cs-identifier">iterations</span>  = <span class="cs-number">3</span>;
+            <span class="cs-identifier">p</span>.<span class="cs-identifier">downsample</span>  = <span class="cs-number">2</span>;
+            <span class="cs-control">break</span>;
+        <span class="cs-control">case</span> <span class="cs-number">2</span>: <span class="cs-comment">// High</span>
+            <span class="cs-identifier">p</span>.<span class="cs-identifier">blurMethod</span>  = <span class="cs-type">BlurMethod</span>.<span class="cs-identifier">PoissonDisk</span>;
+            <span class="cs-identifier">p</span>.<span class="cs-identifier">iterations</span>  = <span class="cs-number">4</span>;
+            <span class="cs-identifier">p</span>.<span class="cs-identifier">downsample</span>  = <span class="cs-number">2</span>;
+            <span class="cs-control">break</span>;
+    }
+}</code></pre>
+            </div>
+
+            <h4 style="font-size:13px; font-weight:500; color:var(--text); margin:20px 0 8px;">Battery saver mode</h4>
+            <p>Disable all blur presets at once when the device is in low-power state.</p>
+            <div class="code-block">
+                <div class="code-header">
+                    <div class="code-dot" style="background:#ff5f57"></div>
+                    <div class="code-dot" style="background:#febc2e"></div>
+                    <div class="code-dot" style="background:#28c840"></div>
+                    <span class="code-filename">PowerManager.cs</span>
+                </div>
+<pre><code><span class="cs-keyword">void</span> <span class="cs-method">SetBatterySaver</span>(<span class="cs-keyword">bool</span> <span class="cs-identifier">enabled</span>)
+{
+    <span class="cs-type">List</span>&lt;<span class="cs-type">BlurPreset</span>&gt; <span class="cs-identifier">all</span> = <span class="cs-type">Blur</span>.<span class="cs-method">GetAllPresets</span>();
+    <span class="cs-control">foreach</span> (<span class="cs-keyword">var</span> <span class="cs-identifier">p</span> <span class="cs-control">in</span> <span class="cs-identifier">all</span>)
+        <span class="cs-identifier">p</span>.<span class="cs-identifier">isActive</span> = !<span class="cs-identifier">enabled</span>;
+}</code></pre>
+            </div>
+            <div class="note"><strong>Note:</strong> Toggling <code>isActive</code> to <code>false</code> stops the pass from running but leaves the last rendered frame in the global texture. When re-enabled there may be a one-frame flash of stale content before the blur updates. If a seamless transition is needed, fade intensity to zero via <code>SetIntensity</code> before disabling.</div>
 
             <h3>Intensity — smooth fade without pop-in</h3>
             <p><code>SetIntensity</code> scales all continuous parameters (<code>blurOffset</code>, <code>gaussianRadius</code>, <code>radialRadius</code>) by a multiplier each frame. Unlike toggling <code>isActive</code>, intensity 0 keeps the pass alive so there is no one-frame black flash when the blur returns.</p>
