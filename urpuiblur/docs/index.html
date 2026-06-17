@@ -693,6 +693,7 @@
             <div class="aside-name">URPUIBlur</div>
             <div class="aside-section">
                 <div class="aside-label">Getting started</div>
+                <a class="aside-link" href="#how-it-works">How It Works</a>
                 <a class="aside-link" href="#requirements">Requirements</a>
                 <a class="aside-link" href="#quick-start">Quick Start</a>
             </div>
@@ -721,6 +722,51 @@
         <main>
             <h1>Documentation</h1>
             <p class="page-desc">// URP UI Blur Pro · v1.0.0</p>
+
+            <h2 id="how-it-works">How It Works</h2>
+            <p>URP UI Blur Pro intercepts the URP render pipeline at a configurable point, captures the scene color, runs a blur algorithm on it, and writes the result to a global shader texture. UI materials and world-space shaders then sample that texture to produce the frosted-glass appearance. The blur is computed once per preset per frame — the shader itself does no blur work at draw time.</p>
+
+            <div style="margin: 20px 0 24px; display:flex; flex-direction:column; gap:2px;">
+                <div class="step">
+                    <span class="step-num" style="color:var(--teal);">01</span>
+                    <div>
+                        <strong>Scene renders normally</strong>
+                        <p style="margin:4px 0 0; font-size:13px;">The camera renders geometry, skybox, and transparents as usual through URP's standard pipeline.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <span class="step-num" style="color:var(--teal);">02</span>
+                    <div>
+                        <strong>Renderer Feature captures the frame</strong>
+                        <p style="margin:4px 0 0; font-size:13px;">The Blur Renderer Feature intercepts <code>activeColorTexture</code> at a chosen render event — before post-processing, after skybox, or elsewhere depending on the preset's Space Type.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <span class="step-num" style="color:var(--teal);">03</span>
+                    <div>
+                        <strong>Blur passes run on the GPU</strong>
+                        <p style="margin:4px 0 0; font-size:13px;">The captured texture is processed by the selected algorithm (Dual Kawase, Gaussian, Poisson Disk, etc.) across one or more render passes, writing into persistent RTHandles owned by the feature.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <span class="step-num" style="color:var(--teal);">04</span>
+                    <div>
+                        <strong>Result is written to a global texture</strong>
+                        <p style="margin:4px 0 0; font-size:13px;">The blurred output is set as a named global shader texture — <code>_BlurredBackground_ScreenSpaceOverlay</code>, <code>_BlurredBackground_ScreenSpaceCamera</code>, <code>_BlurredBackground_WorldSpace</code>, or <code>_BlurredBackground_WorldObjects</code> — depending on the preset's Space Type. This is the shared channel between the feature and the materials.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <span class="step-num" style="color:var(--teal);">05</span>
+                    <div>
+                        <strong>Shader samples the texture at draw time</strong>
+                        <p style="margin:4px 0 0; font-size:13px;"><code>UI_Blur_Universal</code> (for UI Image / Canvas panels) and <code>WorldObject</code> (for 3D meshes) read the matching global texture using screen-space UVs, then apply frost tint, brightness, desaturation, and optional normal-map distortion on top.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="note">
+                <strong>Why Canvas Mode must match Space Type:</strong> each Space Type writes to a different global texture name. If the material's Canvas Mode points to a different texture than the one the preset writes to, the material reads a black or stale texture and the panel appears black.
+            </div>
 
             <h2 id="requirements">Requirements</h2>
             <div class="table-wrap">
