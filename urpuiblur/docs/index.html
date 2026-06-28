@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>URP UI Blur — Documentation</title>
+    <title>URP UI Blur Pro — Documentation</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
@@ -32,9 +32,7 @@
             --sans: 'Inter', sans-serif;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
 
         body {
             background: var(--bg);
@@ -51,21 +49,18 @@
             background-attachment: fixed;
         }
 
-            body::before {
-                content: '';
-                position: fixed;
-                inset: 0;
-                background: radial-gradient(ellipse 80% 60% at 50% 0%, transparent 40%, var(--bg) 100%);
-                pointer-events: none;
-                z-index: 0;
-            }
-
-        nav, .page-layout, footer {
-            position: relative;
-            z-index: 1;
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse 80% 60% at 50% 0%, transparent 40%, var(--bg) 100%);
+            pointer-events: none;
+            z-index: 0;
         }
 
-        /* ── Nav ── */
+        nav, .page-layout, footer { position: relative; z-index: 1; }
+
+        /* Nav */
         nav {
             position: sticky;
             top: 0;
@@ -80,11 +75,7 @@
             border-bottom: 1px solid var(--border);
         }
 
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-        }
+        .nav-left { display: flex; align-items: center; gap: 24px; }
 
         .nav-logo {
             font-family: var(--mono);
@@ -94,48 +85,18 @@
             letter-spacing: 0.04em;
             transition: color 0.15s;
         }
+        .nav-logo:hover { color: var(--text); }
+        .nav-logo span { color: var(--accent); }
 
-            .nav-logo:hover {
-                color: var(--text);
-            }
+        .nav-breadcrumb { font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
+        .nav-breadcrumb a { color: var(--text-muted); text-decoration: none; transition: color 0.15s; }
+        .nav-breadcrumb a:hover { color: var(--text); }
 
-            .nav-logo span {
-                color: var(--accent);
-            }
+        .nav-links { display: flex; gap: 24px; }
+        .nav-links a { font-size: 13px; color: var(--text-muted); text-decoration: none; transition: color 0.15s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--text); }
 
-        .nav-breadcrumb {
-            font-family: var(--mono);
-            font-size: 11px;
-            color: var(--text-dim);
-        }
-
-            .nav-breadcrumb a {
-                color: var(--text-muted);
-                text-decoration: none;
-                transition: color 0.15s;
-            }
-
-                .nav-breadcrumb a:hover {
-                    color: var(--text);
-                }
-
-        .nav-links {
-            display: flex;
-            gap: 24px;
-        }
-
-            .nav-links a {
-                font-size: 13px;
-                color: var(--text-muted);
-                text-decoration: none;
-                transition: color 0.15s;
-            }
-
-                .nav-links a:hover, .nav-links a.active {
-                    color: var(--text);
-                }
-
-        /* ── Two-column layout ── */
+        /* Layout */
         .page-layout {
             flex: 1;
             display: flex;
@@ -144,7 +105,7 @@
             width: 100%;
         }
 
-        /* ── Sidebar ── */
+        /* Sidebar */
         aside {
             width: 210px;
             flex-shrink: 0;
@@ -155,16 +116,10 @@
             align-self: flex-start;
             height: calc(100vh - 56px);
             overflow-y: auto;
-        }
-
-            aside::-webkit-scrollbar {
-                display: none;
-            }
-
-        aside {
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+        aside::-webkit-scrollbar { display: none; }
 
         .aside-name {
             font-family: var(--mono);
@@ -177,9 +132,7 @@
             padding-left: 16px;
         }
 
-        .aside-section {
-            margin-bottom: 24px;
-        }
+        .aside-section { margin-bottom: 24px; }
 
         .aside-label {
             font-family: var(--mono);
@@ -200,40 +153,19 @@
             border-left: 2px solid transparent;
             transition: color 0.15s, border-color 0.15s, background-color 0.15s;
         }
-
-            .aside-link:hover {
-                color: var(--text);
-                background-color: rgba(255, 255, 255, 0.02);
-            }
-
-            .aside-link.active {
-                color: var(--text);
-                border-left-color: var(--accent);
-                background-color: var(--accent-glow);
-                font-weight: 500;
-            }
-
-        /* ── Main content ── */
-        main {
-            flex: 1;
-            min-width: 0;
-            padding: 56px 48px 100px;
-        }
-
-        h1 {
-            font-size: 28px;
-            font-weight: 300;
-            letter-spacing: -0.02em;
+        .aside-link:hover { color: var(--text); background-color: rgba(255,255,255,0.02); }
+        .aside-link.active {
             color: var(--text);
-            margin-bottom: 8px;
+            border-left-color: var(--accent);
+            background-color: var(--accent-glow);
+            font-weight: 500;
         }
 
-        .page-desc {
-            font-family: var(--mono);
-            font-size: 12px;
-            color: var(--text-dim);
-            margin-bottom: 48px;
-        }
+        /* Main */
+        main { flex: 1; min-width: 0; padding: 56px 48px 100px; }
+
+        h1 { font-size: 28px; font-weight: 300; letter-spacing: -0.02em; color: var(--text); margin-bottom: 8px; }
+        .page-desc { font-family: var(--mono); font-size: 12px; color: var(--text-dim); margin-bottom: 48px; }
 
         h2 {
             font-family: var(--mono);
@@ -245,32 +177,15 @@
             margin: 48px 0 12px;
             padding-top: 8px;
         }
+        h2:first-of-type { margin-top: 0; }
 
-            h2:first-of-type {
-                margin-top: 0;
-            }
+        h3 { font-size: 14px; font-weight: 500; color: var(--text); margin: 20px 0 8px; }
+        h4 { font-size: 13px; font-weight: 500; color: var(--text); margin: 20px 0 8px; }
 
-        h3 {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text);
-            margin: 20px 0 8px;
-        }
+        p { font-size: 14px; color: var(--text-muted); margin-bottom: 12px; }
 
-        p {
-            font-size: 14px;
-            color: var(--text-muted);
-            margin-bottom: 12px;
-        }
-
-        a {
-            color: var(--teal);
-            text-decoration: none;
-        }
-
-            a:hover {
-                text-decoration: underline;
-            }
+        a { color: var(--teal); text-decoration: none; }
+        a:hover { text-decoration: underline; }
 
         code {
             font-family: var(--mono);
@@ -282,7 +197,7 @@
             border: 1px solid var(--border);
         }
 
-        /* ── Code block styled like index (4).html ── */
+        /* Code block */
         .code-block {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -300,11 +215,7 @@
             background: var(--bg-card2);
         }
 
-        .code-dot {
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-        }
+        .code-dot { width: 9px; height: 9px; border-radius: 50%; }
 
         .code-filename {
             font-family: var(--mono);
@@ -325,66 +236,22 @@
             border-radius: 0;
             margin: 0;
         }
+        pre code { background: none; border: none; padding: 0; color: inherit; }
 
-            pre code {
-                background: none;
-                border: none;
-                padding: 0;
-                color: inherit;
-            }
+        /* Syntax highlighting */
+        .kw  { color: #569cd6; }
+        .ct  { color: #c586c0; }
+        .cl  { color: #4ec9b0; }
+        .st  { color: #d69d85; }
+        .cm  { color: #57a64a; font-style: italic; }
+        .fn  { color: #dcdcaa; }
+        .nu  { color: #b5cea8; }
+        .nm  { color: #eaeaf4; }
 
-        /* ── C# Syntax Highlighting Classes (Visual Studio Dark Style from main page) ── */
-        .cs-keyword, .kw {
-            color: #569cd6;
-            font-weight: normal;
-        }
-        .cs-control, .ct {
-            color: #c586c0;
-            font-weight: normal;
-        }
-        .cs-type, .cl {
-            color: #4ec9b0;
-        }
-        .cs-string, .st {
-            color: #d69d85;
-        }
-        .cs-comment, .cm {
-            color: #57a64a;
-            font-style: italic;
-        }
-        .cs-method, .fn {
-            color: #dcdcaa;
-        }
-        .cs-number, .nu {
-            color: #b5cea8;
-        }
-        .cs-identifier, .nm {
-            color: #eaeaf4;
-        }
-        
-        /* ── Section label ── */
-        .section-label {
-            font-family: var(--mono);
-            font-size: 10px;
-            letter-spacing: 0.14em;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            margin-bottom: 12px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border);
-        }
+        /* Table */
+        .table-wrap { overflow-x: auto; margin: 10px 0 24px; }
 
-        /* ── Table ── */
-        .table-wrap {
-            overflow-x: auto;
-            margin: 10px 0 24px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-        }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
 
         th {
             font-family: var(--mono);
@@ -404,242 +271,12 @@
             vertical-align: top;
         }
 
-        tr:last-child td {
-            border-bottom: none;
-        }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: var(--bg-card); }
+        td:first-child { color: var(--text); font-weight: 500; }
 
-        tr:hover td {
-            background: var(--bg-card);
-        }
-
-        td:first-child {
-            color: var(--text);
-            font-weight: 500;
-        }
-
-        /* ── List items ── */
-        .item-list {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            margin: 10px 0 24px;
-        }
-
-        .item {
-            padding: 11px 16px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            font-size: 13px;
-            color: var(--text-muted);
-            line-height: 1.6;
-            transition: background 0.1s;
-        }
-
-            .item:first-child {
-                border-radius: 6px 6px 0 0;
-            }
-
-            .item:last-child {
-                border-radius: 0 0 6px 6px;
-            }
-
-            .item:only-child {
-                border-radius: 6px;
-            }
-
-            .item:hover {
-                background: var(--bg-card2);
-            }
-
-        .item-row {
-            display: flex;
-            gap: 14px;
-            align-items: flex-start;
-        }
-
-        .item-icon {
-            flex-shrink: 0;
-            margin-top: 1px;
-        }
-
-            .item-icon.yes {
-                color: var(--teal);
-            }
-
-            .item-icon.no {
-                color: #e85050;
-            }
-
-        /* ── Callout ── */
-        .note {
-            padding: 13px 16px;
-            background: var(--accent-glow);
-            border: 1px solid var(--accent-dim);
-            border-radius: 6px;
-            font-size: 13px;
-            color: var(--text-muted);
-            margin: 10px 0 20px;
-        }
-
-            .note strong {
-                color: var(--accent);
-            }
-
-        .warn {
-            padding: 13px 16px;
-            background: rgba(232,160,64,0.07);
-            border: 1px solid rgba(232,160,64,0.22);
-            border-radius: 6px;
-            font-size: 13px;
-            color: var(--text-muted);
-            margin: 10px 0 20px;
-        }
-
-            .warn strong {
-                color: var(--orange);
-            }
-
-        /* ── Card ── */
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 20px 24px;
-            margin-bottom: 16px;
-        }
-
-            .card p:last-child {
-                margin-bottom: 0;
-            }
-
-        /* ── Version block (changelog) ── */
-        .version-block {
-            margin-bottom: 48px;
-        }
-
-        .version-header {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-
-        .version-tag {
-            font-family: var(--mono);
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--accent);
-            background: var(--accent-glow);
-            border: 1px solid var(--accent-dim);
-            padding: 3px 10px;
-            border-radius: 4px;
-        }
-
-        .version-date {
-            font-family: var(--mono);
-            font-size: 11px;
-            color: var(--text-dim);
-        }
-
-        .version-divider {
-            flex: 1;
-            height: 1px;
-            background: var(--border);
-        }
-
-        .change-group {
-            margin-bottom: 24px;
-        }
-
-        .change-label {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            font-family: var(--mono);
-            font-size: 10px;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-        }
-
-            .change-label.added {
-                color: var(--teal);
-            }
-
-            .change-label.fixed {
-                color: var(--orange);
-            }
-
-            .change-label::before {
-                content: '';
-                display: block;
-                width: 5px;
-                height: 5px;
-                border-radius: 50%;
-                background: currentColor;
-            }
-
-        /* ── Footer ── */
-        footer {
-            border-top: 1px solid var(--border);
-            padding: 24px 48px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-            footer p {
-                font-size: 12px;
-                color: var(--text-dim);
-                font-family: var(--mono);
-                margin: 0;
-            }
-
-            footer a {
-                color: var(--text-dim);
-                font-size: 12px;
-                text-decoration: none;
-                transition: color 0.15s;
-            }
-
-                footer a:hover {
-                    color: var(--text-muted);
-                }
-
-        @media (max-width: 960px) {
-            nav {
-                padding: 0 20px;
-            }
-
-            .nav-breadcrumb {
-                display: none;
-            }
-
-            .page-layout {
-                flex-direction: column;
-            }
-
-            aside {
-                display: none;
-            }
-
-            main {
-                padding: 56px 48px 100px;
-            }
-
-            footer {
-                padding: 20px;
-            }
-        }
-        /* ── Step list (docs-specific) ── */
-        .steps {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            margin: 10px 0 24px;
-        }
+        /* Step list */
+        .steps { display: flex; flex-direction: column; gap: 2px; margin: 10px 0 24px; }
 
         .step {
             display: flex;
@@ -652,18 +289,9 @@
             color: var(--text-muted);
             transition: background 0.1s;
         }
-
-            .step:first-child {
-                border-radius: 6px 6px 0 0;
-            }
-
-            .step:last-child {
-                border-radius: 0 0 6px 6px;
-            }
-
-            .step:hover {
-                background: var(--bg-card2);
-            }
+        .step:first-child { border-radius: 6px 6px 0 0; }
+        .step:last-child { border-radius: 0 0 6px 6px; }
+        .step:hover { background: var(--bg-card2); }
 
         .step-num {
             flex-shrink: 0;
@@ -672,6 +300,74 @@
             color: var(--accent);
             margin-top: 2px;
             min-width: 18px;
+        }
+
+        /* Item list */
+        .item-list { display: flex; flex-direction: column; gap: 2px; margin: 10px 0 24px; }
+
+        .item {
+            padding: 11px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            transition: background 0.1s;
+        }
+        .item:first-child { border-radius: 6px 6px 0 0; }
+        .item:last-child { border-radius: 0 0 6px 6px; }
+        .item:only-child { border-radius: 6px; }
+        .item:hover { background: var(--bg-card2); }
+
+        .item-row { display: flex; gap: 14px; align-items: flex-start; }
+        .item-icon { flex-shrink: 0; margin-top: 1px; }
+        .item-icon.yes { color: var(--teal); }
+        .item-icon.no  { color: #e85050; }
+
+        /* Callouts */
+        .note {
+            padding: 13px 16px;
+            background: var(--accent-glow);
+            border: 1px solid var(--accent-dim);
+            border-radius: 6px;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin: 10px 0 20px;
+        }
+        .note strong { color: var(--accent); }
+
+        .warn {
+            padding: 13px 16px;
+            background: rgba(232,160,64,0.07);
+            border: 1px solid rgba(232,160,64,0.22);
+            border-radius: 6px;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin: 10px 0 20px;
+        }
+        .warn strong { color: var(--orange); }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 24px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        footer p { font-size: 12px; color: var(--text-dim); font-family: var(--mono); margin: 0; }
+        footer a { color: var(--text-dim); font-size: 12px; text-decoration: none; transition: color 0.15s; }
+        footer a:hover { color: var(--text-muted); }
+
+        @media (max-width: 960px) {
+            nav { padding: 0 20px; }
+            .nav-breadcrumb { display: none; }
+            .page-layout { flex-direction: column; }
+            aside { display: none; }
+            main { padding: 40px 24px 80px; }
+            footer { padding: 20px; }
         }
     </style>
 </head>
@@ -690,25 +386,26 @@
 
     <div class="page-layout">
         <aside>
-            <div class="aside-name">URPUIBlur</div>
+            <div class="aside-name">URPUIBlur Pro</div>
             <div class="aside-section">
-                <div class="aside-label">Getting started</div>
+                <div class="aside-label">Getting Started</div>
                 <a class="aside-link" href="#how-it-works">How It Works</a>
                 <a class="aside-link" href="#requirements">Requirements</a>
                 <a class="aside-link" href="#quick-start">Quick Start</a>
             </div>
             <div class="aside-section">
                 <div class="aside-label">Reference</div>
-                <a class="aside-link" href="#canvas-space">Canvas Space Types</a>
+                <a class="aside-link" href="#capture-mode">Capture Mode</a>
                 <a class="aside-link" href="#blur-methods">Blur Methods</a>
-                <a class="aside-link" href="#parameters">Parameters</a>
-                <a class="aside-link" href="#ui-shader">UI Shader</a>
-                <a class="aside-link" href="#world-shader">WorldObject Shader</a>
+                <a class="aside-link" href="#blur-profile">BlurProfile</a>
+                <a class="aside-link" href="#blur-image">BlurImage</a>
+                <a class="aside-link" href="#blur-object">BlurObject</a>
             </div>
             <div class="aside-section">
                 <div class="aside-label">Runtime</div>
-                <a class="aside-link" href="#runtime-api">Runtime API</a>
-                <a class="aside-link" href="#runtime-modify">Modifying Parameters</a>
+                <a class="aside-link" href="#runtime-parameters">Modifying Parameters</a>
+                <a class="aside-link" href="#runtime-intensity">Intensity &amp; Fade</a>
+                <a class="aside-link" href="#runtime-updatemode">Update Mode</a>
                 <a class="aside-link" href="#runtime-patterns">Common Patterns</a>
             </div>
             <div class="aside-section">
@@ -721,53 +418,47 @@
 
         <main>
             <h1>Documentation</h1>
-            <p class="page-desc">// URP UI Blur Pro · v1.0.0</p>
+            <p class="page-desc">// URP UI Blur Pro &middot; v1.0.0 &middot; Unity 6 / URP 17+</p>
 
+            <!-- HOW IT WORKS -->
             <h2 id="how-it-works">How It Works</h2>
-            <p>URP UI Blur Pro intercepts the URP render pipeline at a configurable point, captures the scene color, runs a blur algorithm on it, and writes the result to a global shader texture. UI materials and world-space shaders then sample that texture to produce the frosted-glass appearance. The blur is computed once per preset per frame — the shader itself does no blur work at draw time.</p>
+            <p>URP UI Blur Pro hooks into URP's RenderGraph pipeline, captures the scene color at a configurable point, runs a blur algorithm on it, and writes the result into a global shader texture. UI materials and world-space shaders sample that texture to produce frosted-glass. The blur computes once per profile per frame — the display shader does no blur work at draw time.</p>
+            <p><strong>The blur only runs when at least one active <code>BlurImage</code> or <code>BlurObject</code> references that profile. Profiles with no active consumers cost nothing.</strong></p>
 
             <div style="margin: 20px 0 24px; display:flex; flex-direction:column; gap:2px;">
                 <div class="step">
                     <span class="step-num" style="color:var(--teal);">01</span>
-                    <div>
-                        <strong>Scene renders normally</strong>
-                        <p style="margin:4px 0 0; font-size:13px;">The camera renders geometry, skybox, and transparents as usual through URP's standard pipeline.</p>
+                    <div><strong>Scene renders normally</strong>
+                        <p style="margin:4px 0 0; font-size:13px;">Geometry, skybox, and transparents render through URP as usual.</p>
                     </div>
                 </div>
                 <div class="step">
                     <span class="step-num" style="color:var(--teal);">02</span>
-                    <div>
-                        <strong>Renderer Feature captures the frame</strong>
-                        <p style="margin:4px 0 0; font-size:13px;">The Blur Renderer Feature intercepts <code>activeColorTexture</code> at a chosen render event — before post-processing, after skybox, or elsewhere depending on the preset's Space Type.</p>
+                    <div><strong>Renderer Feature captures the frame</strong>
+                        <p style="margin:4px 0 0; font-size:13px;">The Blur Renderer Feature intercepts <code>activeColorTexture</code> at the render event chosen by each profile's <code>CaptureMode</code>.</p>
                     </div>
                 </div>
                 <div class="step">
                     <span class="step-num" style="color:var(--teal);">03</span>
-                    <div>
-                        <strong>Blur passes run on the GPU</strong>
-                        <p style="margin:4px 0 0; font-size:13px;">The captured texture is processed by the selected algorithm (Dual Kawase, Gaussian, Poisson Disk, etc.) across one or more render passes, writing into persistent RTHandles owned by the feature.</p>
+                    <div><strong>Blur passes run on the GPU</strong>
+                        <p style="margin:4px 0 0; font-size:13px;">The captured texture is processed by the selected algorithm across one or more passes, writing into persistent <code>RTHandle</code>s owned by the feature.</p>
                     </div>
                 </div>
                 <div class="step">
                     <span class="step-num" style="color:var(--teal);">04</span>
-                    <div>
-                        <strong>Result is written to a global texture</strong>
-                        <p style="margin:4px 0 0; font-size:13px;">The blurred output is set as a named global shader texture — <code>_BlurredBackground_ScreenSpaceOverlay</code>, <code>_BlurredBackground_ScreenSpaceCamera</code>, <code>_BlurredBackground_WorldSpace</code>, or <code>_BlurredBackground_WorldObjects</code> — depending on the preset's Space Type. This is the shared channel between the feature and the materials.</p>
+                    <div><strong>Result is written to a global texture</strong>
+                        <p style="margin:4px 0 0; font-size:13px;">The blurred output is set as a named global shader texture keyed by profile slot and branch (<code>_BLUR_1_BT</code>, <code>_BLUR_1_APP</code>, &hellip;). Materials sample whichever slot their <code>BlurImage</code> or <code>BlurObject</code> points to.</p>
                     </div>
                 </div>
                 <div class="step">
                     <span class="step-num" style="color:var(--teal);">05</span>
-                    <div>
-                        <strong>Shader samples the texture at draw time</strong>
-                        <p style="margin:4px 0 0; font-size:13px;"><code>UI_Blur_Universal</code> (for UI Image / Canvas panels) and <code>WorldObject</code> (for 3D meshes) read the matching global texture using screen-space UVs, then apply frost tint, brightness, desaturation, and optional normal-map distortion on top.</p>
+                    <div><strong>Shader samples at draw time</strong>
+                        <p style="margin:4px 0 0; font-size:13px;"><code>UI_Blur_Universal</code> (UI panels) and <code>WorldObject</code> (3D meshes) read the correct global texture using screen-space UVs, then apply frost tint, brightness, desaturation, and optional normal-map distortion.</p>
                     </div>
                 </div>
             </div>
 
-            <div class="note">
-                <strong>Why Canvas Mode must match Space Type:</strong> each Space Type writes to a different global texture name. If the material's Canvas Mode points to a different texture than the one the preset writes to, the material reads a black or stale texture and the panel appears black.
-            </div>
-
+            <!-- REQUIREMENTS -->
             <h2 id="requirements">Requirements</h2>
             <div class="table-wrap">
                 <table>
@@ -775,86 +466,90 @@
                     <tbody>
                         <tr><td>Unity</td><td>6000.0 or later</td></tr>
                         <tr><td>Universal Render Pipeline</td><td>17.0.0 or later</td></tr>
-                        <tr><td>RenderGraph</td><td>Enabled in Project Settings → Graphics → URP Global Settings</td></tr>
-                        <tr><td>Platforms</td><td>PC, Mobile — VR/XR not tested and not officially supported</td></tr>
+                        <tr><td>RenderGraph</td><td>Enabled in Project Settings &rarr; Graphics &rarr; URP Global Settings</td></tr>
+                        <tr><td>Platforms</td><td>PC, Mobile &mdash; VR/XR not tested, not officially supported</td></tr>
                     </tbody>
                 </table>
             </div>
 
+            <!-- QUICK START -->
             <h2 id="quick-start">Quick Start</h2>
             <div class="steps">
-                <div class="step"><span class="step-num">01</span><span>Open the <strong>Setup Wizard</strong> via <code>Tools → URPUIBlur → Setup Wizard</code>. (It also opens automatically the first time the package is imported)</span></div>
-                <div class="step"><span class="step-num">02</span><span>Tick the URP Renderer assets you want to add the feature to and click <strong>Add Blur Feature</strong>.</span></div>
-                <div class="step"><span class="step-num">03</span><span>A default <strong>Screen Space Overlay</strong> preset is assigned automatically — blur is active immediately in Play mode.</span></div>
-                <div class="step"><span class="step-num">04</span><span>Add a UI Image and assign the included <code>UI_Blur_Universal</code> material.</span></div>
-                <div class="step"><span class="step-num">05</span><span>Set the material's <strong>Canvas Mode</strong> to match your Canvas render mode.</span></div>
+                <div class="step"><span class="step-num">01</span><span>Open the <strong>Setup Wizard</strong> via <code>Tools &rarr; URPUIBlur &rarr; Setup Wizard</code>. It also opens automatically on first import.</span></div>
+                <div class="step"><span class="step-num">02</span><span>Tick the URP Renderer assets you want to add the feature to, then click <strong>Add Blur Feature</strong>.</span></div>
+                <div class="step"><span class="step-num">03</span><span>Add a UI Image component to your Canvas and add a <strong>BlurImage</strong> component to the same GameObject.</span></div>
+                <div class="step"><span class="step-num">04</span><span>Assign a <code>BlurProfile</code> asset to the <strong>Profile</strong> field, or click <strong>New</strong> to create one inline.</span></div>
+                <div class="step"><span class="step-num">05</span><span>Set <strong>Capture Mode</strong> — <code>Without Post Processing</code> works with all Canvas modes and is the recommended default.</span></div>
+                <div class="step"><span class="step-num">06</span><span>Press Play. The blur is active immediately.</span></div>
             </div>
-            <div class="note"><strong>To create additional materials:</strong> Use shader <code>URPUIBlur/UI_Blur_Universal</code> for UI panels or <code>URPUIBlur/WorldObject</code> for 3D world-space meshes.</div>
 
-            <h2 id="canvas-space">Canvas Space Types</h2>
+            <!-- CAPTURE MODE -->
+            <h2 id="capture-mode">Capture Mode</h2>
+            <p><code>CaptureMode</code> controls which point in URP's frame the background is captured at.</p>
             <div class="table-wrap">
                 <table>
-                    <thead><tr><th>Space Type</th><th>Render Event</th><th>Use With</th></tr></thead>
+                    <thead><tr><th>CaptureMode</th><th>Render Event</th><th>Notes</th></tr></thead>
                     <tbody>
-                        <tr><td>Overlay Before Post-Processing</td><td>BeforeRenderingPostProcessing</td><td>Canvas — Screen Space Overlay (blur captured before bloom/tonemapping)</td></tr>
-                        <tr><td>Overlay After Post-Processing</td><td>AfterRenderingPostProcessing</td><td>Canvas — Screen Space Overlay (blur includes post-processing output)</td></tr>
-                        <tr><td>Screen Space Camera</td><td>BeforeRenderingTransparents</td><td>Canvas — Screen Space Camera</td></tr>
-                        <tr><td>World Space</td><td>AfterRenderingSkybox</td><td>Canvas — World Space</td></tr>
-                        <tr><td>World Objects</td><td>AfterRenderingSkybox</td><td>3D meshes using the WorldObject shader</td></tr>
+                        <tr>
+                            <td><code>WithoutPostProcessing</code></td>
+                            <td>BeforeRenderingTransparents</td>
+                            <td>Compatible with all Canvas modes and <code>BlurObject</code>. Use in most cases.</td>
+                        </tr>
+                        <tr>
+                            <td><code>WithPostProcessing</code></td>
+                            <td>AfterRenderingPostProcessing</td>
+                            <td>Includes bloom, tonemapping, color grading. <strong>Screen Space Overlay only</strong> &mdash; using this with Screen Space Camera or World Space produces a black panel.</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="note"><strong>Duplicate rule:</strong> If two presets share the same Space Type, only the first active one executes. A warning is shown in the Inspector and a runtime guard skips duplicates.</div>
+            <div class="note"><strong>Both branches simultaneously:</strong> a single profile can serve <code>WithoutPostProcessing</code> and <code>WithPostProcessing</code> at the same time for different <code>BlurImage</code> components with no conflict &mdash; each branch is an independent pass-chain with its own <code>RTHandle</code>s.</div>
 
+            <!-- BLUR METHODS -->
             <h2 id="blur-methods">Blur Methods</h2>
             <div class="table-wrap">
                 <table>
                     <thead><tr><th>Method</th><th>Cost</th><th>Best For</th></tr></thead>
                     <tbody>
-                        <tr><td>Dual Kawase</td><td>●●○○○</td><td>Frosted-glass UI panels — widest radius at lowest cost</td></tr>
-                        <tr><td>Custom Kawase</td><td>●●○○○</td><td>Fast circular blur with tunable tap count</td></tr>
-                        <tr><td>Poisson Disk</td><td>●●●○○</td><td>Cinematic bokeh — eliminates grid sampling artifacts</td></tr>
-                        <tr><td>Gaussian Separable</td><td>●●●○○</td><td>Mathematically exact Gaussian circle</td></tr>
-                        <tr><td>Tent / Hex</td><td>●●●●●</td><td>Hexagonal lens bokeh — best for cinematic moments</td></tr>
-                        <tr><td>Radial</td><td>●●○○○</td><td>Zoom blur, impact effects, cutscenes</td></tr>
+                        <tr><td>Dual Kawase</td><td>&#9679;&#9679;&#9675;&#9675;&#9675;</td><td>Frosted-glass UI &mdash; widest radius at lowest cost</td></tr>
+                        <tr><td>Custom Kawase</td><td>&#9679;&#9679;&#9675;&#9675;&#9675;</td><td>Fast circular blur with tunable tap count</td></tr>
+                        <tr><td>Poisson Disk</td><td>&#9679;&#9679;&#9679;&#9675;&#9675;</td><td>Cinematic bokeh &mdash; eliminates grid sampling artifacts</td></tr>
+                        <tr><td>Gaussian Separable</td><td>&#9679;&#9679;&#9679;&#9675;&#9675;</td><td>Mathematically exact Gaussian circle</td></tr>
+                        <tr><td>Tent / Hex</td><td>&#9679;&#9679;&#9679;&#9679;&#9679;</td><td>Hexagonal lens bokeh &mdash; cinematic moments</td></tr>
+                        <tr><td>Radial</td><td>&#9679;&#9679;&#9675;&#9675;&#9675;</td><td>Zoom blur, impact effects, cutscenes</td></tr>
                     </tbody>
                 </table>
             </div>
 
-            <h2 id="parameters">Parameters</h2>
-            <h3>All methods</h3>
+            <!-- BLUR PROFILE -->
+            <h2 id="blur-profile">BlurProfile</h2>
+            <p>A <code>BlurProfile</code> is a serializable asset describing how to blur &mdash; algorithm, pass count, and per-algorithm parameters. It contains no appearance settings; those live on the <code>BlurImage</code> or <code>BlurObject</code> that references it. Up to <strong>16 profiles</strong> can be active simultaneously.</p>
+            <p><strong>Create a profile:</strong> <code>Assets &rarr; Create &rarr; URPUIBlurPro &rarr; Blur Profile</code>, or click <strong>New</strong> next to the Profile field on any <code>BlurImage</code> component.</p>
+
+            <h3>Common parameters</h3>
             <div class="table-wrap">
                 <table>
-                    <thead><tr><th>Parameter</th><th>Description</th></tr></thead>
+                    <thead><tr><th>Property</th><th>Type</th><th>Range</th><th>Description</th></tr></thead>
                     <tbody>
-                        <tr><td>Is Active</td><td>Enable/disable this preset at runtime without removing it</td></tr>
-                        <tr><td>Space Type</td><td>Which canvas space and render event this preset targets</td></tr>
-                        <tr><td>Blur Method</td><td>Algorithm used for this preset</td></tr>
+                        <tr><td><code>blurMethod</code></td><td>BlurMethod</td><td>&mdash;</td><td>Algorithm used for this profile</td></tr>
+                        <tr><td><code>intensity</code></td><td>float</td><td>0&ndash;1</td><td>Blur strength multiplier. 0 = no blur, 1 = full authored strength. Scales parameters each frame without modifying serialized values. Shared across all <code>BlurImage</code>s referencing this profile.</td></tr>
+                        <tr><td><code>iterations</code></td><td>int</td><td>1&ndash;8</td><td>Pass count / mip pyramid depth &mdash; more = wider blur</td></tr>
+                        <tr><td><code>blurOffset</code></td><td>float</td><td>0&ndash;5</td><td>Tap spread multiplier (scales with screen resolution)</td></tr>
+                        <tr><td><code>downsample</code></td><td>int</td><td>1&ndash;8</td><td>RT resolution divisor &mdash; auto-adjusted for screens wider than 1920 px</td></tr>
                     </tbody>
                 </table>
             </div>
 
             <h3>Dual Kawase</h3>
-            <div class="table-wrap">
-                <table>
-                    <thead><tr><th>Parameter</th><th>Description</th></tr></thead>
-                    <tbody>
-                        <tr><td>Iterations</td><td>Depth of the down/up mip pyramid — more = wider blur</td></tr>
-                        <tr><td>Blur Offset</td><td>Tap spread multiplier (scales with screen resolution)</td></tr>
-                    </tbody>
-                </table>
-            </div>
+            <p>Uses <code>iterations</code> and <code>blurOffset</code>. The mip pyramid is built automatically; no additional parameters needed.</p>
 
             <h3>Custom Kawase / Poisson Disk</h3>
             <div class="table-wrap">
                 <table>
-                    <thead><tr><th>Parameter</th><th>Description</th></tr></thead>
+                    <thead><tr><th>Property</th><th>Range</th><th>Description</th></tr></thead>
                     <tbody>
-                        <tr><td>Iterations</td><td>Number of ping-pong blur passes</td></tr>
-                        <tr><td>Blur Offset</td><td>Tap spread per pass (scales with screen resolution)</td></tr>
-                        <tr><td>Taps</td><td>Number of samples per pass (3–12)</td></tr>
-                        <tr><td>Downsample</td><td>RT resolution divisor — auto-adjusted for screens wider than 1920 px</td></tr>
-                        <tr><td>Use IGN Rotation</td><td>(Poisson only) Per-pixel sincos rotation — higher quality, tiny extra cost</td></tr>
+                        <tr><td><code>taps</code></td><td>3&ndash;12</td><td>Number of samples per pass</td></tr>
+                        <tr><td><code>useIGNRotation</code></td><td>bool</td><td>(Poisson only) Per-pixel sincos rotation &mdash; higher quality, minimal cost</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -862,10 +557,9 @@
             <h3>Gaussian Separable / Tent Hex</h3>
             <div class="table-wrap">
                 <table>
-                    <thead><tr><th>Parameter</th><th>Description</th></tr></thead>
+                    <thead><tr><th>Property</th><th>Range</th><th>Description</th></tr></thead>
                     <tbody>
-                        <tr><td>Gaussian Radius</td><td>Sample radius in pixels (scales with screen resolution, capped at 64)</td></tr>
-                        <tr><td>Downsample</td><td>RT resolution divisor</td></tr>
+                        <tr><td><code>gaussianRadius</code></td><td>1&ndash;16</td><td>Sample radius in pixels (scales with screen resolution, capped at 64)</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -873,91 +567,122 @@
             <h3>Radial</h3>
             <div class="table-wrap">
                 <table>
-                    <thead><tr><th>Parameter</th><th>Description</th></tr></thead>
+                    <thead><tr><th>Property</th><th>Range</th><th>Description</th></tr></thead>
                     <tbody>
-                        <tr><td>Radial Taps</td><td>Number of samples arranged around the circle (4–32)</td></tr>
-                        <tr><td>Radial Radius</td><td>Ring radius in texels (scales with screen resolution)</td></tr>
-                        <tr><td>Downsample</td><td>RT resolution divisor</td></tr>
+                        <tr><td><code>radialTaps</code></td><td>4&ndash;32</td><td>Number of samples arranged around the ring</td></tr>
+                        <tr><td><code>radialRadius</code></td><td>0.5&ndash;20</td><td>Ring radius in texels (scales with screen resolution)</td></tr>
                     </tbody>
                 </table>
             </div>
-            <div class="warn"><strong>Performance tip:</strong> Each active preset runs its full pass chain every frame, regardless of whether any UI is currently visible. Only add presets for the space types you actually use — if your project only uses Screen Space Overlay, there is no reason to keep a World Space preset in the list.</div>
 
-            <h2 id="ui-shader">UI_Blur_Universal Shader</h2>
-            <p>For use with UI Image components and Canvas panels.</p>
+            <h3>Update Mode</h3>
+            <p>Controls how often the blur pass chain re-runs. Skipped frames reuse the last blurred result at zero added cost.</p>
             <div class="table-wrap">
                 <table>
-                    <thead><tr><th>Property</th><th>Description</th></tr></thead>
+                    <thead><tr><th>Property</th><th>Type</th><th>Description</th></tr></thead>
                     <tbody>
-                        <tr><td>Canvas Mode</td><td>Must match the Canvas render mode: Screen Space Overlay / Screen Space Camera / World Space</td></tr>
-                        <tr><td>Frost Tint</td><td>Color tint blended over the blurred background</td></tr>
-                        <tr><td>Frost Strength</td><td>Tint blend weight (0 = no tint, 1 = full tint)</td></tr>
-                        <tr><td>Brightness</td><td>Multiplier applied after tint</td></tr>
-                        <tr><td>Desaturate</td><td>Desaturation amount (0 = full color, 1 = grayscale)</td></tr>
-                        <tr><td>Edge Strength</td><td>Vignette darkening toward panel edges</td></tr>
-                        <tr><td>Normal Map</td><td>Texture driving glass surface distortion</td></tr>
-                        <tr><td>Normal Distortion Strength</td><td>Distortion intensity</td></tr>
-                        <tr><td>Normal Mapping Mode</td><td><code>Standard Tile</code> / <code>Local Fixed Scale</code> / <code>Screen Space Fix</code></td></tr>
+                        <tr><td><code>updateMode</code></td><td>BlurUpdateMode</td><td><code>EveryFrame</code> (default) or <code>Throttled</code></td></tr>
+                        <tr><td><code>throttleFps</code></td><td>int 0&ndash;120</td><td>Max blur updates per second in <code>Throttled</code> mode. <strong>0 = freeze</strong>: blurs once on activation, holds that frame, re-captures each time the panel reopens.</td></tr>
                     </tbody>
                 </table>
             </div>
-
-            <h2 id="world-shader">WorldObject Shader</h2>
-            <p>For 3D world-space glass meshes (windows, floors, panels). Requires a preset with Space Type set to <strong>World Objects</strong>.</p>
             <div class="table-wrap">
                 <table>
-                    <thead><tr><th>Property</th><th>Description</th></tr></thead>
+                    <thead><tr><th>Mode</th><th>Use Case</th></tr></thead>
                     <tbody>
-                        <tr><td>Frost Tint / Strength</td><td>Same as UI shader</td></tr>
-                        <tr><td>Brightness / Desaturate</td><td>Same as UI shader</td></tr>
-                        <tr><td>Refraction Index</td><td>IOR offset — how strongly the surface bends the background sample</td></tr>
-                        <tr><td>Normal Map</td><td>Surface detail used to perturb the refraction direction</td></tr>
-                        <tr><td>Normal Map Strength</td><td>Refraction bend intensity</td></tr>
+                        <tr><td>EveryFrame</td><td>Live-moving content &mdash; game world, animated backgrounds</td></tr>
+                        <tr><td>Throttled (1&ndash;120)</td><td>Semi-static UI over a mostly-still background. May ghost on fast motion.</td></tr>
+                        <tr><td>Throttled (0, freeze)</td><td>Fully static backgrounds &mdash; pause menus, modals. Near-zero cost after first frame.</td></tr>
                     </tbody>
                 </table>
             </div>
 
-            <h2 id="runtime-api">Runtime API</h2>
-            <h3>Toggle presets</h3>
-            
+            <!-- BLUR IMAGE -->
+            <h2 id="blur-image">BlurImage Component</h2>
+            <p><code>BlurImage</code> attaches a profile's blur output to a UI <code>Graphic</code> (Image, RawImage, etc.). It creates and manages a private <code>Material</code> instance using <code>UI_Blur_Universal</code>, enabling the correct slot keyword and syncing appearance lazily via a dirty flag.</p>
+
+            <h3>Settings</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>profile</code></td><td>BlurProfile</td><td>The blur recipe to sample. Supports up to 16 profiles simultaneously.</td></tr>
+                        <tr><td><code>captureMode</code></td><td>CaptureMode</td><td>Whether to include post-processing in the blur (see Capture Mode).</td></tr>
+                        <tr><td><code>frostTint</code></td><td>Color</td><td>Color tinted over the blurred background.</td></tr>
+                        <tr><td><code>frostStrength</code></td><td>float 0&ndash;1</td><td>Tint blend weight (0 = no tint, 1 = full tint).</td></tr>
+                        <tr><td><code>brightness</code></td><td>float 0.8&ndash;1.5</td><td>Brightness multiplier applied after tint.</td></tr>
+                        <tr><td><code>desaturate</code></td><td>float 0&ndash;1</td><td>Desaturation amount (0 = full color, 1 = grayscale).</td></tr>
+                        <tr><td><code>edgeStrength</code></td><td>float 0.5&ndash;1</td><td>Vignette darkening toward panel edges (1 = no vignette).</td></tr>
+                        <tr><td><code>tintColor</code></td><td>Color</td><td>Overall tint multiplied with vertex color.</td></tr>
+                        <tr><td><code>normalMap</code></td><td>Texture</td><td>Normal map driving glass surface distortion.</td></tr>
+                        <tr><td><code>bumpStrength</code></td><td>float 0&ndash;1</td><td>Distortion intensity.</td></tr>
+                        <tr><td><code>normalMapTiling</code></td><td>Vector2</td><td>Tiling of the normal map texture.</td></tr>
+                        <tr><td><code>normalMapOffset</code></td><td>Vector2</td><td>Offset of the normal map texture.</td></tr>
+                        <tr><td><code>normalMode</code></td><td>NormalMode</td><td>UV calculation mode for the normal map (see below).</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Normal Mode</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Value</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td>StandardTile</td><td>Uses the Image's own UV directly.</td></tr>
+                        <tr><td>LocalFixedScale</td><td>Scales with screen resolution &mdash; resolution-independent (default).</td></tr>
+                        <tr><td>ScreenSpaceFix</td><td>Projected in screen space, aspect-corrected.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Public API</h3>
             <div class="code-block">
                 <div class="code-header">
                     <div class="code-dot" style="background:#ff5f57"></div>
                     <div class="code-dot" style="background:#febc2e"></div>
                     <div class="code-dot" style="background:#28c840"></div>
-                    <span class="code-filename">RuntimeAPI.cs</span>
+                    <span class="code-filename">BlurImage API</span>
                 </div>
-<pre><code><span class="cs-comment">// Enable or disable all presets targeting a space type</span>
-<span class="cs-type">Blur</span>.<span class="cs-method">SetPresetsActive</span>(<span class="cs-type">CanvasSpaceType</span>.<span class="cs-identifier">ScreenSpaceCamera</span>, <span class="cs-keyword">false</span>);
-<span class="cs-type">Blur</span>.<span class="cs-method">SetPresetsActive</span>(<span class="cs-type">CanvasSpaceType</span>.<span class="cs-identifier">OverlayBeforePostProcessing</span>, <span class="cs-keyword">true</span>);
+<pre><code><span class="cm">// Force appearance fields to push into the material on the next Canvas repaint.</span>
+<span class="cm">// Call this after changing appearance fields from script.</span>
+<span class="nm">blurImage</span>.<span class="fn">MarkDirty</span>();
 
-<span class="cs-comment">// Subscribe to the event fired when a preset's active state changes</span>
-<span class="cs-type">Blur</span>.<span class="cs-identifier">OnPresetActiveChanged</span> += <span class="cs-identifier">preset</span> =>
-    <span class="cs-type">Debug</span>.<span class="cs-method">Log</span>(<span class="cs-string">$"{preset.name} is now {(preset.isActive ? "active" : "inactive")}"</span>);</code></pre>
+<span class="cm">// Animate profile.intensity from its current value to 1 over `duration` seconds.</span>
+<span class="cm">// Reverses smoothly if called while a FadeOut is in progress.</span>
+<span class="cm">// Uses unscaled time -- works during Time.timeScale = 0.</span>
+<span class="nm">blurImage</span>.<span class="fn">FadeIn</span>(<span class="nu">0.4f</span>);
+
+<span class="cm">// Animate profile.intensity from its current value to 0, then stop.</span>
+<span class="nm">blurImage</span>.<span class="fn">FadeOut</span>(<span class="nu">0.4f</span>);</code></pre>
             </div>
-        
-            <p>Individual presets can also be toggled directly via <code>BlurPreset.isActive</code>.</p>
-            <h3>Read and modify presets</h3>
+            <div class="note"><strong>Shared profile note:</strong> <code>FadeIn</code> and <code>FadeOut</code> animate <code>profile.intensity</code>, which is per-profile. If multiple <code>BlurImage</code> components share the same profile, all of them fade together. Use a dedicated profile per panel to fade them independently.</div>
 
-            <div class="code-block">
-                <div class="code-header">
-                    <div class="code-dot" style="background:#ff5f57"></div>
-                    <div class="code-dot" style="background:#febc2e"></div>
-                    <div class="code-dot" style="background:#28c840"></div>
-                    <span class="code-filename">ModifyPresets.cs</span>
-                </div>
-<pre><code><span class="cs-comment">// Get the first preset for a given space type (returns null if not found)</span>
-<span class="cs-type">BlurPreset</span> <span class="cs-identifier">overlay</span> = <span class="cs-type">Blur</span>.<span class="cs-method">GetPreset</span>(<span class="cs-type">CanvasSpaceType</span>.<span class="cs-identifier">OverlayBeforePostProcessing</span>);
-<span class="cs-control">if</span> (<span class="cs-identifier">overlay</span> != <span class="cs-keyword">null</span>) <span class="cs-identifier">overlay</span>.<span class="cs-identifier">blurOffset</span> = <span class="cs-number">2.5f</span>;
+            <!-- BLUR OBJECT -->
+            <h2 id="blur-object">BlurObject Component</h2>
+            <p><code>BlurObject</code> attaches a profile's blur output to a <code>MeshRenderer</code> (windows, floors, glass panels in 3D space). It always uses <code>WithoutPostProcessing</code> capture &mdash; 3D transparent objects render during the transparent pass, so capturing any later would include the object's own draw call and produce a black surface.</p>
 
-<span class="cs-comment">// Get all presets as a snapshot list</span>
-<span class="cs-type">List</span>&lt;<span class="cs-type">BlurPreset</span>&gt; <span class="cs-identifier">all</span> = <span class="cs-type">Blur</span>.<span class="cs-method">GetAllPresets</span>();
-<span class="cs-control">foreach</span> (<span class="cs-keyword">var</span> <span class="cs-identifier">p</span> <span class="cs-control">in</span> <span class="cs-identifier">all</span>)
-    <span class="cs-type">Debug</span>.<span class="cs-method">Log</span>(<span class="cs-string">$"{p.name}: {p.blurMethod}, active={p.isActive}"</span>);</code></pre>
+            <h3>Settings</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>profile</code></td><td>BlurProfile</td><td>The blur profile to sample.</td></tr>
+                        <tr><td><code>frostTint</code></td><td>Color</td><td>Color tinted over the blurred background.</td></tr>
+                        <tr><td><code>frostStrength</code></td><td>float 0&ndash;1</td><td>Tint blend weight.</td></tr>
+                        <tr><td><code>brightness</code></td><td>float 0.8&ndash;1.5</td><td>Brightness multiplier applied after tint.</td></tr>
+                        <tr><td><code>desaturate</code></td><td>float 0&ndash;1</td><td>Desaturation amount.</td></tr>
+                        <tr><td><code>refractionIndex</code></td><td>float 0&ndash;0.5</td><td>IOR offset &mdash; how strongly the surface bends the background sample.</td></tr>
+                        <tr><td><code>normalMap</code></td><td>Texture</td><td>Surface detail driving refraction direction.</td></tr>
+                        <tr><td><code>bumpStrength</code></td><td>float 0&ndash;1</td><td>Refraction bend intensity.</td></tr>
+                        <tr><td><code>tintColor</code></td><td>Color</td><td>Overall tint multiplied with vertex color.</td></tr>
+                        <tr><td><code>mainTex</code></td><td>Texture</td><td>Albedo texture blended over the blur result. Leave empty for plain frosted glass.</td></tr>
+                    </tbody>
+                </table>
             </div>
 
-            <h3 id="runtime-modify">Modifying parameters at runtime</h3>
-            <p>All fields on a <code>BlurPreset</code> can be written at runtime. Changes to continuous parameters take effect on the next rendered frame with no overhead.</p>
+            <!-- RUNTIME: PARAMETERS -->
+            <h2 id="runtime-parameters">Modifying Parameters at Runtime</h2>
+            <p>All fields on a <code>BlurProfile</code> can be written at runtime. Changes take effect on the next rendered frame.</p>
 
             <div class="code-block">
                 <div class="code-header">
@@ -966,33 +691,102 @@
                     <div class="code-dot" style="background:#28c840"></div>
                     <span class="code-filename">RuntimeParameters.cs</span>
                 </div>
-<pre><code><span class="cs-type">BlurPreset</span> <span class="cs-identifier">p</span> = <span class="cs-type">Blur</span>.<span class="cs-method">GetPreset</span>(<span class="cs-type">CanvasSpaceType</span>.<span class="cs-identifier">OverlayBeforePostProcessing</span>);
-<span class="cs-control">if</span> (<span class="cs-identifier">p</span> == <span class="cs-keyword">null</span>) <span class="cs-control">return</span>;
+<pre><code><span class="cl">BlurProfile</span> <span class="nm">p</span> = <span class="nm">myBlurProfile</span>;
 
-<span class="cs-comment">// ── Continuous parameters — take effect next frame, zero overhead ──</span>
-<span class="cs-identifier">p</span>.<span class="cs-identifier">blurOffset</span>    = <span class="cs-number">2f</span>;   <span class="cs-comment">// Dual Kawase / Kawase / Poisson tap spread</span>
-<span class="cs-identifier">p</span>.<span class="cs-identifier">gaussianRadius</span> = <span class="cs-number">8</span>;    <span class="cs-comment">// Gaussian / Tent-Hex pixel radius</span>
-<span class="cs-identifier">p</span>.<span class="cs-identifier">radialRadius</span>   = <span class="cs-number">6f</span>;   <span class="cs-comment">// Radial ring radius in texels</span>
+<span class="cm">// Continuous -- takes effect next frame, zero overhead</span>
+<span class="nm">p</span>.<span class="nm">blurOffset</span>     = <span class="nu">2f</span>;   <span class="cm">// Dual Kawase / Kawase / Poisson tap spread</span>
+<span class="nm">p</span>.<span class="nm">gaussianRadius</span> = <span class="nu">8</span>;    <span class="cm">// Gaussian / Tent-Hex pixel radius</span>
+<span class="nm">p</span>.<span class="nm">radialRadius</span>   = <span class="nu">6f</span>;   <span class="cm">// Radial ring radius in texels</span>
 
-<span class="cs-comment">// ── Discrete parameters — take effect next frame, no rebuild ──────</span>
-<span class="cs-identifier">p</span>.<span class="cs-identifier">iterations</span>  = <span class="cs-number">4</span>;   <span class="cs-comment">// Pass count / mip depth</span>
-<span class="cs-identifier">p</span>.<span class="cs-identifier">taps</span>        = <span class="cs-number">8</span>;   <span class="cs-comment">// Kawase / Poisson sample count (3–12)</span>
-<span class="cs-identifier">p</span>.<span class="cs-identifier">downsample</span>  = <span class="cs-number">2</span>;   <span class="cs-comment">// RT resolution divisor</span>
-<span class="cs-identifier">p</span>.<span class="cs-identifier">radialTaps</span>  = <span class="cs-number">16</span>;  <span class="cs-comment">// Radial sample count (4–32)</span>
+<span class="cm">// Discrete -- takes effect next frame, no pass rebuild</span>
+<span class="nm">p</span>.<span class="nm">iterations</span> = <span class="nu">4</span>;
+<span class="nm">p</span>.<span class="nm">taps</span>       = <span class="nu">8</span>;
+<span class="nm">p</span>.<span class="nm">downsample</span> = <span class="nu">2</span>;
+<span class="nm">p</span>.<span class="nm">radialTaps</span> = <span class="nu">16</span>;
 
-<span class="cs-comment">// ── Method / space type — triggers a pass rebuild on the next frame ─</span>
-<span class="cs-comment">// A one-frame hitch may be visible on mobile. Change during loading</span>
-<span class="cs-comment">// screens or scene transitions, not during active gameplay.</span>
-<span class="cs-identifier">p</span>.<span class="cs-identifier">blurMethod</span> = <span class="cs-type">BlurMethod</span>.<span class="cs-identifier">GaussianSeparable</span>;
-<span class="cs-identifier">p</span>.<span class="cs-identifier">spaceType</span>  = <span class="cs-type">CanvasSpaceType</span>.<span class="cs-identifier">ScreenSpaceCamera</span>;</code></pre>
+<span class="cm">// Method -- triggers pass rebuild on next frame</span>
+<span class="cm">// May produce a one-frame hitch on mobile. Change during loading screens.</span>
+<span class="nm">p</span>.<span class="nm">blurMethod</span> = <span class="cl">BlurMethod</span>.<span class="nm">GaussianSeparable</span>;</code></pre>
             </div>
 
-            <div class="warn"><strong>Changing blurMethod or spaceType at runtime</strong> causes the renderer feature to destroy and recreate the pass objects and RTHandles on the next frame. This allocates GPU memory and may produce a one-frame hitch, particularly on mobile. Prefer changing these values during a loading screen or scene transition rather than in response to real-time input.</div>
+            <p>After changing appearance fields on <code>BlurImage</code> or <code>BlurObject</code> from script, call <code>MarkDirty()</code> to push the changes to the material:</p>
+            <div class="code-block">
+                <div class="code-header">
+                    <div class="code-dot" style="background:#ff5f57"></div>
+                    <div class="code-dot" style="background:#febc2e"></div>
+                    <div class="code-dot" style="background:#28c840"></div>
+                    <span class="code-filename">AppearanceRuntime.cs</span>
+                </div>
+<pre><code><span class="nm">blurImage</span>.<span class="nm">frostTint</span>     = <span class="kw">new</span> <span class="cl">Color</span>(<span class="nu">0.8f</span>, <span class="nu">0.9f</span>, <span class="nu">1f</span>, <span class="nu">1f</span>);
+<span class="nm">blurImage</span>.<span class="nm">frostStrength</span> = <span class="nu">0.5f</span>;
+<span class="nm">blurImage</span>.<span class="nm">brightness</span>    = <span class="nu">1.1f</span>;
+<span class="nm">blurImage</span>.<span class="fn">MarkDirty</span>();</code></pre>
+            </div>
 
-            <h3 id="runtime-patterns">Common patterns</h3>
+            <!-- RUNTIME: INTENSITY & FADE -->
+            <h2 id="runtime-intensity">Intensity &amp; Fade</h2>
+            <p><code>profile.intensity</code> scales all blur-strength parameters each frame without modifying the serialized values. Unlike toggling <code>isActive</code>, intensity 0 keeps the pass alive so there is no one-frame black flash when the blur returns.</p>
 
-            <h4 style="font-size:13px; font-weight:500; color:var(--text); margin:20px 0 8px;">Fade blur in on menu open</h4>
-            <p>Use <code>SetIntensity</code> rather than toggling <code>isActive</code> — intensity 0 keeps the pass alive so there is no one-frame black flash when the blur returns.</p>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Scaled</th><th>Not Scaled</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td><code>blurOffset</code>, <code>gaussianRadius</code>, <code>radialRadius</code>, <code>iterations</code>, <code>downsample</code></td>
+                            <td><code>blurMethod</code>, <code>taps</code>, <code>radialTaps</code>, <code>useIGNRotation</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <div class="code-dot" style="background:#ff5f57"></div>
+                    <div class="code-dot" style="background:#febc2e"></div>
+                    <div class="code-dot" style="background:#28c840"></div>
+                    <span class="code-filename">IntensityAPI.cs</span>
+                </div>
+<pre><code><span class="cm">// Set directly</span>
+<span class="nm">myProfile</span>.<span class="nm">intensity</span> = <span class="nu">0.5f</span>;
+
+<span class="cm">// Or via the typed API</span>
+<span class="nm">myProfile</span>.<span class="fn">SetIntensity</span>(<span class="nu">0.5f</span>);
+<span class="kw">float</span> <span class="nm">current</span> = <span class="nm">myProfile</span>.<span class="fn">GetIntensity</span>();
+
+<span class="cm">// Built-in coroutine fade on BlurImage</span>
+<span class="nm">blurImage</span>.<span class="fn">FadeIn</span>(<span class="nu">0.4f</span>);   <span class="cm">// current -&gt; 1 over 0.4s, unscaled time</span>
+<span class="nm">blurImage</span>.<span class="fn">FadeOut</span>(<span class="nu">0.3f</span>);  <span class="cm">// current -&gt; 0 over 0.3s, unscaled time</span></code></pre>
+            </div>
+
+            <div class="note"><strong>Shared profile note:</strong> <code>intensity</code> is per-profile, not per-<code>BlurImage</code>. Multiple <code>BlurImage</code> components sharing the same profile are all affected simultaneously. Use a dedicated profile per panel to control them independently.</div>
+
+            <!-- RUNTIME: UPDATE MODE -->
+            <h2 id="runtime-updatemode">Update Mode</h2>
+            <p>Use <code>updateMode</code> and <code>throttleFps</code> to reduce how often the blur pass re-runs. Skipped frames reuse the persistent <code>RTHandle</code> untouched &mdash; zero added cost beyond the <code>BlurImage</code>'s own sample.</p>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <div class="code-dot" style="background:#ff5f57"></div>
+                    <div class="code-dot" style="background:#febc2e"></div>
+                    <div class="code-dot" style="background:#28c840"></div>
+                    <span class="code-filename">UpdateModeAPI.cs</span>
+                </div>
+<pre><code><span class="cm">// Throttle to 30 blur updates/sec</span>
+<span class="nm">myProfile</span>.<span class="nm">updateMode</span>  = <span class="cl">BlurUpdateMode</span>.<span class="nm">Throttled</span>;
+<span class="nm">myProfile</span>.<span class="nm">throttleFps</span> = <span class="nu">30</span>;
+
+<span class="cm">// Freeze: blur once on activation, hold until panel closes and reopens</span>
+<span class="nm">myProfile</span>.<span class="nm">updateMode</span>  = <span class="cl">BlurUpdateMode</span>.<span class="nm">Throttled</span>;
+<span class="nm">myProfile</span>.<span class="nm">throttleFps</span> = <span class="nu">0</span>;
+
+<span class="cm">// Return to every-frame blur</span>
+<span class="nm">myProfile</span>.<span class="nm">updateMode</span> = <span class="cl">BlurUpdateMode</span>.<span class="nm">EveryFrame</span>;</code></pre>
+            </div>
+
+            <!-- RUNTIME: COMMON PATTERNS -->
+            <h2 id="runtime-patterns">Common Patterns</h2>
+
+            <h3>Pause menu with blur fade</h3>
             <div class="code-block">
                 <div class="code-header">
                     <div class="code-dot" style="background:#ff5f57"></div>
@@ -1000,21 +794,45 @@
                     <div class="code-dot" style="background:#28c840"></div>
                     <span class="code-filename">PauseMenu.cs</span>
                 </div>
-<pre><code><span class="cs-keyword">bool</span> <span class="cs-identifier">_menuOpen</span>;
-<span class="cs-keyword">float</span> <span class="cs-identifier">_fadeSpeed</span> = <span class="cs-number">4f</span>;
+<pre><code>[<span class="cl">SerializeField</span>] <span class="cl">BlurImage</span> <span class="nm">_blurImage</span>;
 
-<span class="cs-keyword">void</span> <span class="cs-method">Update</span>()
+<span class="kw">void</span> <span class="fn">OpenMenu</span>()
 {
-    <span class="cs-keyword">float</span> <span class="cs-identifier">target</span>  = <span class="cs-identifier">_menuOpen</span> ? <span class="cs-number">1f</span> : <span class="cs-number">0f</span>;
-    <span class="cs-keyword">float</span> <span class="cs-identifier">current</span> = <span class="cs-type">Blur</span>.<span class="cs-method">GetIntensity</span>(<span class="cs-type">CanvasSpaceType</span>.<span class="cs-identifier">OverlayBeforePostProcessing</span>);
-    <span class="cs-type">Blur</span>.<span class="cs-method">SetIntensity</span>(
-        <span class="cs-type">CanvasSpaceType</span>.<span class="cs-identifier">OverlayBeforePostProcessing</span>,
-        <span class="cs-type">Mathf</span>.<span class="cs-method">MoveTowards</span>(<span class="cs-identifier">current</span>, <span class="cs-identifier">target</span>, <span class="cs-type">Time</span>.<span class="cs-identifier">deltaTime</span> * <span class="cs-identifier">_fadeSpeed</span>));
+    <span class="nm">gameObject</span>.<span class="fn">SetActive</span>(<span class="kw">true</span>);
+    <span class="nm">_blurImage</span>.<span class="fn">FadeIn</span>(<span class="nu">0.4f</span>);
+    <span class="cl">Time</span>.<span class="nm">timeScale</span> = <span class="nu">0f</span>;
+}
+
+<span class="kw">void</span> <span class="fn">CloseMenu</span>()
+{
+    <span class="nm">_blurImage</span>.<span class="fn">FadeOut</span>(<span class="nu">0.3f</span>);
+    <span class="cl">Time</span>.<span class="nm">timeScale</span> = <span class="nu">1f</span>;
 }</code></pre>
             </div>
 
-            <h4 style="font-size:13px; font-weight:500; color:var(--text); margin:20px 0 8px;">Quality preset switching</h4>
-            <p>Switch between algorithm and parameter configurations at scene load time to match a player's graphics setting.</p>
+            <h3>Manual intensity animation</h3>
+            <div class="code-block">
+                <div class="code-header">
+                    <div class="code-dot" style="background:#ff5f57"></div>
+                    <div class="code-dot" style="background:#febc2e"></div>
+                    <div class="code-dot" style="background:#28c840"></div>
+                    <span class="code-filename">ManualFade.cs</span>
+                </div>
+<pre><code>[<span class="cl">SerializeField</span>] <span class="cl">BlurProfile</span> <span class="nm">_profile</span>;
+<span class="kw">float</span> <span class="nm">_target</span>;
+
+<span class="kw">void</span> <span class="fn">Update</span>()
+{
+    <span class="kw">float</span> <span class="nm">current</span> = <span class="nm">_profile</span>.<span class="fn">GetIntensity</span>();
+    <span class="nm">_profile</span>.<span class="fn">SetIntensity</span>(<span class="cl">Mathf</span>.<span class="fn">MoveTowards</span>(<span class="nm">current</span>, <span class="nm">_target</span>, <span class="cl">Time</span>.<span class="nm">deltaTime</span> * <span class="nu">4f</span>));
+}
+
+<span class="kw">void</span> <span class="fn">OnMenuOpen</span>()  =&gt; <span class="nm">_target</span> = <span class="nu">1f</span>;
+<span class="kw">void</span> <span class="fn">OnMenuClose</span>() =&gt; <span class="nm">_target</span> = <span class="nu">0f</span>;</code></pre>
+            </div>
+
+            <h3>Quality preset switching</h3>
+            <p>Switch algorithm and parameters during scene load to match player graphics settings.</p>
             <div class="code-block">
                 <div class="code-header">
                     <div class="code-dot" style="background:#ff5f57"></div>
@@ -1022,34 +840,33 @@
                     <div class="code-dot" style="background:#28c840"></div>
                     <span class="code-filename">QualityManager.cs</span>
                 </div>
-<pre><code><span class="cs-keyword">void</span> <span class="cs-method">ApplyQuality</span>(<span class="cs-keyword">int</span> <span class="cs-identifier">level</span>)
-{
-    <span class="cs-type">BlurPreset</span> <span class="cs-identifier">p</span> = <span class="cs-type">Blur</span>.<span class="cs-method">GetPreset</span>(<span class="cs-type">CanvasSpaceType</span>.<span class="cs-identifier">OverlayBeforePostProcessing</span>);
-    <span class="cs-control">if</span> (<span class="cs-identifier">p</span> == <span class="cs-keyword">null</span>) <span class="cs-control">return</span>;
+<pre><code>[<span class="cl">SerializeField</span>] <span class="cl">BlurProfile</span> <span class="nm">_profile</span>;
 
-    <span class="cs-control">switch</span> (<span class="cs-identifier">level</span>)
+<span class="kw">void</span> <span class="fn">ApplyQuality</span>(<span class="kw">int</span> <span class="nm">level</span>)
+{
+    <span class="ct">switch</span> (<span class="nm">level</span>)
     {
-        <span class="cs-control">case</span> <span class="cs-number">0</span>: <span class="cs-comment">// Low</span>
-            <span class="cs-identifier">p</span>.<span class="cs-identifier">blurMethod</span>  = <span class="cs-type">BlurMethod</span>.<span class="cs-identifier">DualKawase</span>;
-            <span class="cs-identifier">p</span>.<span class="cs-identifier">iterations</span>  = <span class="cs-number">2</span>;
-            <span class="cs-identifier">p</span>.<span class="cs-identifier">downsample</span>  = <span class="cs-number">4</span>;
-            <span class="cs-control">break</span>;
-        <span class="cs-control">case</span> <span class="cs-number">1</span>: <span class="cs-comment">// Medium</span>
-            <span class="cs-identifier">p</span>.<span class="cs-identifier">blurMethod</span>  = <span class="cs-type">BlurMethod</span>.<span class="cs-identifier">DualKawase</span>;
-            <span class="cs-identifier">p</span>.<span class="cs-identifier">iterations</span>  = <span class="cs-number">3</span>;
-            <span class="cs-identifier">p</span>.<span class="cs-identifier">downsample</span>  = <span class="cs-number">2</span>;
-            <span class="cs-control">break</span>;
-        <span class="cs-control">case</span> <span class="cs-number">2</span>: <span class="cs-comment">// High</span>
-            <span class="cs-identifier">p</span>.<span class="cs-identifier">blurMethod</span>  = <span class="cs-type">BlurMethod</span>.<span class="cs-identifier">PoissonDisk</span>;
-            <span class="cs-identifier">p</span>.<span class="cs-identifier">iterations</span>  = <span class="cs-number">4</span>;
-            <span class="cs-identifier">p</span>.<span class="cs-identifier">downsample</span>  = <span class="cs-number">2</span>;
-            <span class="cs-control">break</span>;
+        <span class="ct">case</span> <span class="nu">0</span>: <span class="cm">// Low</span>
+            <span class="nm">_profile</span>.<span class="nm">blurMethod</span> = <span class="cl">BlurMethod</span>.<span class="nm">DualKawase</span>;
+            <span class="nm">_profile</span>.<span class="nm">iterations</span> = <span class="nu">2</span>;
+            <span class="nm">_profile</span>.<span class="nm">downsample</span> = <span class="nu">4</span>;
+            <span class="ct">break</span>;
+        <span class="ct">case</span> <span class="nu">1</span>: <span class="cm">// Medium</span>
+            <span class="nm">_profile</span>.<span class="nm">blurMethod</span> = <span class="cl">BlurMethod</span>.<span class="nm">DualKawase</span>;
+            <span class="nm">_profile</span>.<span class="nm">iterations</span> = <span class="nu">3</span>;
+            <span class="nm">_profile</span>.<span class="nm">downsample</span> = <span class="nu">2</span>;
+            <span class="ct">break</span>;
+        <span class="ct">case</span> <span class="nu">2</span>: <span class="cm">// High</span>
+            <span class="nm">_profile</span>.<span class="nm">blurMethod</span> = <span class="cl">BlurMethod</span>.<span class="nm">PoissonDisk</span>;
+            <span class="nm">_profile</span>.<span class="nm">iterations</span> = <span class="nu">4</span>;
+            <span class="nm">_profile</span>.<span class="nm">downsample</span> = <span class="nu">2</span>;
+            <span class="ct">break</span>;
     }
 }</code></pre>
             </div>
 
-            <h4 style="font-size:13px; font-weight:500; color:var(--text); margin:20px 0 8px;">Battery saver mode</h4>
-            <p>Disable all blur presets at once when the device is in low-power state.</p>
+            <h3>Battery saver mode</h3>
+            <p>Disable all <code>BlurImage</code> components to stop the blur from running entirely.</p>
             <div class="code-block">
                 <div class="code-header">
                     <div class="code-dot" style="background:#ff5f57"></div>
@@ -1057,168 +874,106 @@
                     <div class="code-dot" style="background:#28c840"></div>
                     <span class="code-filename">PowerManager.cs</span>
                 </div>
-<pre><code><span class="cs-keyword">void</span> <span class="cs-method">SetBatterySaver</span>(<span class="cs-keyword">bool</span> <span class="cs-identifier">enabled</span>)
+<pre><code><span class="cl">BlurImage</span>[] <span class="nm">_allImages</span>;
+
+<span class="kw">void</span> <span class="fn">Awake</span>()
 {
-    <span class="cs-type">List</span>&lt;<span class="cs-type">BlurPreset</span>&gt; <span class="cs-identifier">all</span> = <span class="cs-type">Blur</span>.<span class="cs-method">GetAllPresets</span>();
-    <span class="cs-control">foreach</span> (<span class="cs-keyword">var</span> <span class="cs-identifier">p</span> <span class="cs-control">in</span> <span class="cs-identifier">all</span>)
-        <span class="cs-identifier">p</span>.<span class="cs-identifier">isActive</span> = !<span class="cs-identifier">enabled</span>;
+    <span class="nm">_allImages</span> = <span class="fn">FindObjectsByType</span>&lt;<span class="cl">BlurImage</span>&gt;(
+        <span class="cl">FindObjectsInactive</span>.<span class="nm">Include</span>, <span class="cl">FindObjectsSortMode</span>.<span class="nm">None</span>);
+}
+
+<span class="kw">void</span> <span class="fn">SetBatterySaver</span>(<span class="kw">bool</span> <span class="nm">enabled</span>)
+{
+    <span class="ct">foreach</span> (<span class="kw">var</span> <span class="nm">img</span> <span class="ct">in</span> <span class="nm">_allImages</span>)
+        <span class="nm">img</span>.<span class="nm">enabled</span> = !<span class="nm">enabled</span>;
 }</code></pre>
             </div>
-            <div class="note"><strong>Note:</strong> Toggling <code>isActive</code> to <code>false</code> stops the pass from running but leaves the last rendered frame in the global texture. When re-enabled there may be a one-frame flash of stale content before the blur updates. If a seamless transition is needed, fade intensity to zero via <code>SetIntensity</code> before disabling.</div>
 
-            <h3>Intensity — smooth fade without pop-in</h3>
-            <p><code>SetIntensity</code> scales all continuous parameters (<code>blurOffset</code>, <code>gaussianRadius</code>, <code>radialRadius</code>) by a multiplier each frame. Unlike toggling <code>isActive</code>, intensity 0 keeps the pass alive so there is no one-frame black flash when the blur returns.</p>
-
-            <div class="code-block">
-                <div class="code-header">
-                    <div class="code-dot" style="background:#ff5f57"></div>
-                    <div class="code-dot" style="background:#febc2e"></div>
-                    <div class="code-dot" style="background:#28c840"></div>
-                    <span class="code-filename">PauseMenu.cs</span>
-                </div>
-<pre><code><span class="cs-comment">// Instant set</span>
-<span class="cs-type">Blur</span>.<span class="cs-method">SetIntensity</span>(<span class="cs-type">CanvasSpaceType</span>.<span class="cs-identifier">OverlayBeforePostProcessing</span>, <span class="cs-number">0.5f</span>);
-
-<span class="cs-comment">// Read current value</span>
-<span class="cs-keyword">float</span> <span class="cs-identifier">current</span> = <span class="cs-type">Blur</span>.<span class="cs-method">GetIntensity</span>(<span class="cs-type">CanvasSpaceType</span>.<span class="cs-identifier">OverlayBeforePostProcessing</span>);
-
-<span class="cs-comment">// Smooth fade in Update or a coroutine</span>
-<span class="cs-keyword">void</span> <span class="cs-method">Update</span>()
-{
-    <span class="cs-keyword">float</span> <span class="cs-identifier">target</span> = <span class="cs-identifier">_menuOpen</span> ? <span class="cs-number">1f</span> : <span class="cs-number">0f</span>;
-    <span class="cs-keyword">float</span> <span class="cs-identifier">current</span> = <span class="cs-type">Blur</span>.<span class="cs-method">GetIntensity</span>(<span class="cs-type">CanvasSpaceType</span>.<span class="cs-identifier">OverlayBeforePostProcessing</span>);
-    <span class="cs-type">Blur</span>.<span class="cs-method">SetIntensity</span>(<span class="cs-type">CanvasSpaceType</span>.<span class="cs-identifier">OverlayBeforePostProcessing</span>,
-        <span class="cs-type">Mathf</span>.<span class="cs-method">MoveTowards</span>(<span class="cs-identifier">current</span>, <span class="cs-identifier">target</span>, <span class="cs-type">Time</span>.<span class="cs-identifier">deltaTime</span> * <span class="cs-number">3f</span>));
-}</code></pre>
-            </div>
-            <div class="note"><strong>Note:</strong> Intensity scales continuous parameters (<code>blurOffset</code>, <code>gaussianRadius</code>, <code>radialRadius</code>) and discrete parameters (<code>iterations</code>, <code>downsample</code>) — <code>taps</code> and <code>radialTaps</code> are not scaled.</div>
-
+            <!-- KNOWN LIMITATIONS -->
             <h2 id="limitations">Known Limitations</h2>
- 
-            <p>These are by-design constraints rooted in how URP's RenderGraph schedules render passes. They are not bugs.</p>
- 
+            <p>These are by-design constraints from how URP's RenderGraph schedules render passes. They are not bugs.</p>
+
             <div class="item-list">
- 
                 <div class="item">
                     <div class="item-row">
-                        <div style="flex-shrink:0; margin-top:2px; color:var(--orange);">⚠</div>
+                        <div style="flex-shrink:0; margin-top:2px; color:var(--orange);">&#9888;</div>
                         <div>
-                            <strong>3D objects rendered after the capture point will not appear in the blur at all</strong>
-                            <p style="margin-top:6px; margin-bottom:6px;">
-                                Screen Space Camera and World Space presets capture the scene at
-                                <code>BeforeRenderingTransparents</code> and <code>AfterRenderingSkybox</code>
-                                respectively. Any 3D object that has not yet been rendered at that point
-                                is absent from the captured texture entirely — it will not appear inside
-                                the blur panel, as if the object does not exist behind it.
-                            </p>
-                            <p style="margin-bottom:0;">
-                                <strong>Workaround:</strong> use <strong>Overlay Before Post-Processing</strong>
-                                or <strong>Overlay After Post-Processing</strong> instead. Both capture the scene
-                                after all geometry has finished rendering, so every 3D object is present in the blur.
-                            </p>
+                            <strong>3D objects may not appear inside the blur</strong>
+                            <p style="margin-top:6px; margin-bottom:6px;"><code>WithoutPostProcessing</code> captures at <code>BeforeRenderingTransparents</code>. Any 3D object that hasn't rendered yet at that point is entirely absent from the captured texture.</p>
+                            <p style="margin-bottom:0;"><strong>Workaround:</strong> use <code>WithPostProcessing</code> on a Screen Space Overlay canvas &mdash; it captures after all geometry has finished rendering.</p>
                         </div>
                     </div>
                 </div>
- 
                 <div class="item">
                     <div class="item-row">
-                        <div style="flex-shrink:0; margin-top:2px; color:var(--orange);">⚠</div>
+                        <div style="flex-shrink:0; margin-top:2px; color:var(--orange);">&#9888;</div>
                         <div>
                             <strong>World Space canvas panels are always occluded by Screen Space Camera canvases</strong>
-                            <p style="margin-top:6px; margin-bottom:6px;">
-                                Unity always draws Screen Space Camera canvases on top of World Space canvases,
-                                regardless of scene hierarchy or sorting order. A World Space panel will be
-                                hidden behind a Screen Space Camera panel whenever they overlap.
-                            </p>
-                            <p style="margin-bottom:6px;">
-                                On top of this, the two space types capture the scene at different render stages,
-                                so neither blur can see the other's panel content. Switching the Screen Space Camera
-                                preset to an Overlay type is not a valid workaround either: the Overlay preset
-                                captures the fully composited frame, which already includes the Screen Space Camera
-                                canvas itself — causing the panel to sample its own output and produce a black result.
-                            </p>
-                            <p style="margin-bottom:0;">
-                                <strong>There is no workaround for this combination.</strong>
-                                If you need the panels to overlap correctly, change the Screen Space Camera canvas
-                                to <strong>Screen Space Overlay</strong> instead — Overlay always renders after
-                                World Space geometry, so the layering and blur capture both work as expected.
-                            </p>
+                            <p style="margin-top:6px; margin-bottom:6px;">Unity draws Screen Space Camera canvases on top of World Space canvases regardless of scene hierarchy. Additionally, the two canvas modes capture at different stages, so neither blur can see the other's panel content.</p>
+                            <p style="margin-bottom:0;"><strong>There is no workaround for this combination.</strong> Change the Screen Space Camera canvas to <strong>Screen Space Overlay</strong> instead &mdash; Overlay always renders after World Space geometry, so layering and blur capture both work correctly.</p>
                         </div>
                     </div>
                 </div>
- 
                 <div class="item">
                     <div class="item-row">
-                        <div style="flex-shrink:0; margin-top:2px; color:var(--teal);">✓</div>
+                        <div class="item-icon yes">&#10003;</div>
                         <div>
                             <strong>Screen Space Overlay blurs everything</strong>
-                            <p style="margin-top:6px; margin-bottom:0;">
-                                Overlay presets capture the scene <em>after</em> all geometry — opaque, transparent,
-                                world-space, and 3D objects — has finished rendering.
-                                This makes them the most reliable option when you need the blur to include all scene content.
-                                Use <strong>Overlay Before Post-Processing</strong> to exclude post-process effects from the blur,
-                                or <strong>Overlay After Post-Processing</strong> to include bloom, tonemapping, and other effects.
-                            </p>
+                            <p style="margin-top:6px; margin-bottom:0;">Overlay + <code>WithPostProcessing</code> captures after all geometry &mdash; opaque, transparent, world-space, and 3D objects &mdash; and includes post-processing effects. It is the most reliable option when you need the blur to include all scene content.</p>
                         </div>
                     </div>
                 </div>
- 
             </div>
-            
+
+            <!-- TROUBLESHOOTING -->
             <h2 id="troubleshooting">Troubleshooting</h2>
             <div class="item-list">
                 <div class="item">
                     <div class="item-row">
-                        <div class="item-icon no">✕</div>
+                        <div class="item-icon no">&#10005;</div>
                         <div>
                             <strong>UI panel is black / shows no blur</strong>
-                            <p style="margin-top:4px; margin-bottom:0;">• Confirm the Blur Renderer Feature is added and enabled on the active URP Renderer asset</p>
-                            <p style="margin-bottom:0;">• Check that the preset's Space Type matches the Canvas render mode</p>
-                            <p style="margin-bottom:0;">• Check that the material's Canvas Mode dropdown matches the Canvas render mode</p>
+                            <p style="margin-top:4px; margin-bottom:2px;">&bull; Confirm the Blur Renderer Feature is added and enabled on the active URP Renderer asset.</p>
+                            <p style="margin-bottom:2px;">&bull; Ensure a <code>BlurProfile</code> is assigned to the <code>BlurImage</code> component.</p>
+                            <p style="margin-bottom:0;">&bull; If using <code>WithPostProcessing</code>, confirm the Canvas is set to Screen Space Overlay.</p>
                         </div>
                     </div>
                 </div>
                 <div class="item">
                     <div class="item-row">
-                        <div class="item-icon no">✕</div>
-                        <div>
-                            <strong>Two presets on the same Space Type — only one works</strong>
-                            <p style="margin-top:4px; margin-bottom:0;">This is by design. Each Space Type writes to one global texture; duplicates are skipped at runtime (first active preset wins). Assign different Space Types if you need multiple simultaneous blur effects.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="item-row">
-                        <div class="item-icon no">✕</div>
-                        <div>
-                            <strong>Blur is stretched horizontally</strong>
-                            <p style="margin-top:4px; margin-bottom:0;">This is fixed in Gaussian and Tent/Hex passes via <code>_TargetTexelSize</code>. If you see stretching, confirm you are using the included shader files and not an older version.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="item-row">
-                        <div class="item-icon yes">✓</div>
+                        <div class="item-icon yes">&#10003;</div>
                         <div>
                             <strong>Performance is poor on mobile</strong>
-                            <p style="margin-top:4px; margin-bottom:0;">• Switch to <strong>Dual Kawase</strong> (lowest cost per quality)</p>
-                            <p style="margin-bottom:0;">• Increase <strong>Downsample</strong> to 4</p>
-                            <p style="margin-bottom:0;">• Reduce <strong>Iterations</strong> to 2</p>
+                            <p style="margin-top:4px; margin-bottom:2px;">&bull; Switch to <strong>Dual Kawase</strong> (lowest cost per quality).</p>
+                            <p style="margin-bottom:2px;">&bull; Increase <code>downsample</code> to 4 and reduce <code>iterations</code> to 2.</p>
+                            <p style="margin-bottom:2px;">&bull; Share one profile across multiple <code>BlurImage</code>s where blur parameters are the same.</p>
+                            <p style="margin-bottom:2px;">&bull; Set <code>updateMode</code> to <code>Throttled</code> for semi-static UI. Set <code>throttleFps</code> to <strong>0</strong> (freeze) for fully static backgrounds like pause menus &mdash; blurs once then holds for free.</p>
+                            <p style="margin-bottom:0;">&bull; Where possible, assign the same <code>CaptureMode</code> to all <code>BlurImage</code>s referencing a profile &mdash; each distinct branch is a separate pass-chain with its own <code>RTHandle</code>s.</p>
                         </div>
                     </div>
                 </div>
                 <div class="item">
                     <div class="item-row">
-                        <div class="item-icon yes">✓</div>
+                        <div class="item-icon no">&#10005;</div>
                         <div>
-                            <strong>Setup Wizard does not appear</strong>
-                            <p style="margin-top:4px; margin-bottom:0;">• Open it manually via <code>Tools → URPUIBlur → Setup Wizard</code></p>
-                            <p style="margin-bottom:0;">• If the wizard shows no renderers, create a URP Universal Renderer asset first: <code>Assets → Create → Rendering → URP Universal Renderer</code></p>
+                            <strong>Setup Wizard shows no renderers</strong>
+                            <p style="margin-top:4px; margin-bottom:2px;">&bull; Open it manually via <code>Tools &rarr; URPUIBlur &rarr; Setup Wizard</code>.</p>
+                            <p style="margin-bottom:0;">&bull; If no renderers appear, create a URP Universal Renderer asset first: <code>Assets &rarr; Create &rarr; Rendering &rarr; URP Universal Renderer</code>.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="item-row">
+                        <div class="item-icon yes">&#10003;</div>
+                        <div>
+                            <strong><code>GetInstanceID()</code> deprecation warning in Unity 6.4+</strong>
+                            <p style="margin-top:4px; margin-bottom:0;">This is a known Unity 6.4 API change. A <code>#pragma warning disable CS0618</code> suppression is in place until official migration guidance is available. No functionality is affected.</p>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- FOLDER STRUCTURE -->
             <h2 id="folder-structure">Folder Structure</h2>
             <div class="code-block">
                 <div class="code-header">
@@ -1227,64 +982,72 @@
                     <div class="code-dot" style="background:#28c840"></div>
                     <span class="code-filename">Project Structure</span>
                 </div>
-<pre><code>Assets/URPUIBlur/
-├── Runtime/
-│   ├── Scripts/            Blur.cs, BlurPreset.cs, *BlurPass.cs
-│   ├── Shaders/            All .shader files
-│   └── URPUIBlur.Runtime.asmdef
-├── Materials/
-│   ├── UI_Blur_Universal.mat
-│   └── Blur_WorldSurface.mat
-├── Editor/
-│   ├── BlurEditor.cs       Custom Inspector for Blur (Renderer Feature)
-│   ├── BlurScriptable.cs   Custom Inspector for BlurPreset
-│   ├── BlurSetupWizard.cs  Setup Wizard window
-│   └── URPUIBlur.Editor.asmdef
-├── Presets/
-│   └── UI-Overlay.asset    Default preset (auto-assigned by Setup Wizard)
-├── Samples~/
-│   └── Demo/               Interactive comparison scene
-└── Documentation~/
-    ├── CHANGELOG.md
-    └── README.md</code></pre>
+<pre><code>Assets/URPUIBlurPro/
+&#9500;&#9472;&#9472; Runtime/
+&#9474;   &#9500;&#9472;&#9472; Scripts/
+&#9474;   &#9474;   &#9500;&#9472;&#9472; Blur.cs                  Renderer Feature + IBlurConsumer interface
+&#9474;   &#9474;   &#9500;&#9472;&#9472; BlurProfile.cs           Serializable blur recipe asset
+&#9474;   &#9474;   &#9500;&#9472;&#9472; BlurImage.cs             UI Graphic consumer component
+&#9474;   &#9474;   &#9500;&#9472;&#9472; BlurObject.cs            MeshRenderer consumer component
+&#9474;   &#9474;   &#9500;&#9472;&#9472; DualKawaseBlurPass.cs
+&#9474;   &#9474;   &#9500;&#9472;&#9472; GaussianBlurPass.cs
+&#9474;   &#9474;   &#9500;&#9472;&#9472; KawaseBlurPass.cs
+&#9474;   &#9474;   &#9500;&#9472;&#9472; TentHexBlurPass.cs
+&#9474;   &#9474;   &#9492;&#9472;&#9472; RadialBlurPass.cs
+&#9474;   &#9500;&#9472;&#9472; Shaders/
+&#9474;   &#9474;   &#9500;&#9472;&#9472; UI_Blur_Universal.shader
+&#9474;   &#9474;   &#9500;&#9472;&#9472; WorldObject.shader
+&#9474;   &#9474;   &#9500;&#9472;&#9472; DualKawaseBlur.shader
+&#9474;   &#9474;   &#9500;&#9472;&#9472; GaussianBlur.shader
+&#9474;   &#9474;   &#9500;&#9472;&#9472; CustomKawaseBlur.shader
+&#9474;   &#9474;   &#9500;&#9472;&#9472; TentHexBlur.shader
+&#9474;   &#9474;   &#9500;&#9472;&#9472; RadialBlur.shader
+&#9474;   &#9474;   &#9492;&#9472;&#9472; PoissonDiskBlur.shader
+&#9474;   &#9492;&#9472;&#9472; URPUIBlurPro.Runtime.asmdef
+&#9500;&#9472;&#9472; Editor/
+&#9474;   &#9500;&#9472;&#9472; BlurEditor.cs                Custom Inspector for Blur (Renderer Feature)
+&#9474;   &#9500;&#9472;&#9472; BlurProfileEditor.cs         Custom Inspector for BlurProfile
+&#9474;   &#9500;&#9472;&#9472; BlurImageEditor.cs           Custom Inspector for BlurImage
+&#9474;   &#9500;&#9472;&#9472; BlurObjectEditor.cs          Custom Inspector for BlurObject
+&#9474;   &#9500;&#9472;&#9472; BlurProfileSync.cs           Syncs slot indices when profiles list changes
+&#9474;   &#9500;&#9472;&#9472; BlurSetupWizard.cs           Setup Wizard window
+&#9474;   &#9492;&#9472;&#9472; URPUIBlurPro.Editor.asmdef
+&#9500;&#9472;&#9472; Samples~/
+&#9474;   &#9492;&#9472;&#9472; Demo/                        Interactive comparison scene
+&#9492;&#9472;&#9472; Documentation~/
+    &#9500;&#9472;&#9472; CHANGELOG.md
+    &#9492;&#9472;&#9472; README.md</code></pre>
             </div>
+
+            <h2 id="credits" style="margin-top:48px;">Third-Party Credits</h2>
+            <p><strong>Dual Kawase Blur</strong> &mdash; algorithm by Marius Bj&oslash;rge, presented at GDC 2015 (ARM).</p>
+
         </main>
     </div>
 
     <footer>
         <p>// dustforge.studio / urpuiblur / docs</p>
         <div style="display:flex;gap:20px">
-            <a href="/urpuiblur/">← Back</a>
+            <a href="/urpuiblur/">&larr; Back</a>
             <a href="../changelog/">Changelog</a>
             <a href="../license/">License</a>
         </div>
-        <p>© 2026 Dustforge Studio</p>
+        <p>&copy; 2026 Dustforge Studio</p>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // ────────────────────────────────────────────────────────
-            // SCROLLSPY WITH LEFT BORDER ACCENT (Perfect Navigation)
-            // ────────────────────────────────────────────────────────
             const asideLinks = document.querySelectorAll('.aside-link');
             const targets = [];
             asideLinks.forEach(link => {
                 const id = link.getAttribute('href');
                 if (id && id.startsWith('#')) {
                     const targetEl = document.querySelector(id);
-                    if (targetEl) {
-                        targets.push({ link, targetEl });
-                    }
+                    if (targetEl) targets.push({ link, targetEl });
                 }
             });
 
-            const observerOptions = {
-                root: null,
-                rootMargin: '-10% 0px -70% 0px',
-                threshold: 0
-            };
-
-            const observerCallback = (entries) => {
+            const observer = new IntersectionObserver(entries => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         const matched = targets.find(t => t.targetEl === entry.target);
@@ -1295,26 +1058,19 @@
                         }
                     }
                 });
-            };
+            }, { root: null, rootMargin: '-10% 0px -70% 0px', threshold: 0 });
 
-            const observer = new IntersectionObserver(observerCallback, observerOptions);
             targets.forEach(t => observer.observe(t.targetEl));
 
             asideLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
+                link.addEventListener('click', e => {
                     e.preventDefault();
-                    const id = link.getAttribute('href');
-                    const targetEl = document.querySelector(id);
+                    const targetEl = document.querySelector(link.getAttribute('href'));
                     if (targetEl) {
-                        const offsetTop = targetEl.getBoundingClientRect().top + window.pageYOffset - 80;
-                        window.scrollTo({
-                            top: offsetTop,
-                            behavior: 'smooth'
-                        });
-
+                        window.scrollTo({ top: targetEl.getBoundingClientRect().top + window.pageYOffset - 80, behavior: 'smooth' });
                         asideLinks.forEach(l => l.classList.remove('active'));
                         link.classList.add('active');
-                        history.pushState(null, null, id);
+                        history.pushState(null, null, link.getAttribute('href'));
                     }
                 });
             });
