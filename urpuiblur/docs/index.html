@@ -411,6 +411,7 @@
             <div class="aside-section">
                 <div class="aside-label">Help</div>
                 <a class="aside-link" href="#limitations">Known Limitations</a>
+                <a class="aside-link" href="#layered-blur">Layered Blur Panels</a>
                 <a class="aside-link" href="#troubleshooting">Troubleshooting</a>
                 <a class="aside-link" href="#folder-structure">Folder Structure</a>
             </div>
@@ -914,11 +915,42 @@
                         </div>
                     </div>
                 </div>
-                <div class="item">
+                <div class="item" id="layered-blur">
                     <div class="item-row">
-                        <div class="item-icon yes">&#10003;</div>
+                        <div style="flex-shrink:0; margin-top:2px; color:var(--orange);">&#9888;</div>
                         <div>
-                            <strong>Screen Space Overlay blurs everything</strong>
+                            <strong>Blur panels cannot see each other's blur output when on the same canvas</strong>
+                            <p style="margin-top:6px; margin-bottom:6px;">
+                                When two <code>BlurImage</code> panels overlap on the same canvas, both capture the scene
+                                at <code>BeforeRenderingTransparents</code> &mdash; the same moment. The front panel's
+                                blur pass runs before the back panel has been composited into the color buffer, so it
+                                samples the raw scene rather than the already-blurred backdrop.
+                            </p>
+                            <p style="margin-bottom:6px;">
+                                <strong>Screen Space Overlay: no workaround.</strong> All Overlay canvases share
+                                the same capture point. There is no way to make a front panel's blur see a back
+                                panel's blur output within the Overlay pipeline.
+                            </p>
+                            <p style="margin-bottom:6px;">
+                                <strong>Workaround &mdash; Screen Space Camera + Camera Stack:</strong>
+                                Place each canvas on a separate camera, stacked in order. The Stack Camera renders
+                                after the Main Camera has fully composited its output, so the popup's
+                                <code>BlurImage</code> captures a color buffer that already contains the backdrop blur.
+                            </p>
+                            <ol style="margin:0 0 6px 20px; font-size:13px; color:var(--text-muted); line-height:1.9;">
+                                <li>Keep your <strong>Main Camera</strong> with Culling Mask set to <strong>Everything</strong>.</li>
+                                <li>Add a second camera. Set its <strong>Render Type</strong> to <strong>Overlay</strong> and <strong>Culling Mask</strong> to <strong>UI</strong> only. Match projection, FOV, and clipping planes to the Main Camera.</li>
+                                <li>Make the new camera a <strong>child</strong> of the Main Camera and zero its local position and rotation.</li>
+                                <li>In the Main Camera's <strong>Camera Stack</strong>, add the new camera as the last entry.</li>
+                                <li>Set the <strong>backdrop</strong> canvas to <strong>Screen Space Camera</strong>, Render Camera = <strong>Main Camera</strong>.</li>
+                                <li>Set the <strong>popup</strong> canvas to <strong>Screen Space Camera</strong>, Render Camera = <strong>Stack Camera</strong>.</li>
+                            </ol>
+                            <p style="margin-bottom:0;">
+                                Use a separate <code>BlurProfile</code> per panel to control each independently.
+                            </p>
+                        </div>
+                    </div>
+                </div>
                             <p style="margin-top:6px; margin-bottom:0;">Overlay + <code>WithPostProcessing</code> captures after all geometry &mdash; opaque, transparent, world-space, and 3D objects &mdash; and includes post-processing effects. It is the most reliable option when you need the blur to include all scene content.</p>
                         </div>
                     </div>
