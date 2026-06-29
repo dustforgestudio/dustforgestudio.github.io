@@ -413,6 +413,7 @@
                 <a class="aside-link" href="#limitations">Known Limitations</a>
                 <a class="aside-link" href="#layered-blur">Layered Blur Panels</a>
                 <a class="aside-link" href="#troubleshooting">Troubleshooting</a>
+                <a class="aside-link" href="#perf-tips">Performance Tips</a>
                 <a class="aside-link" href="#folder-structure">Folder Structure</a>
             </div>
         </aside>
@@ -919,34 +920,38 @@
                     <div class="item-row">
                         <div style="flex-shrink:0; margin-top:2px; color:var(--orange);">&#9888;</div>
                         <div>
-                            <strong>Blur panels cannot see each other's blur output when on the same canvas</strong>
+                            <strong>Blur panels rendered by the same camera cannot see each other's blur output</strong>
                             <p style="margin-top:6px; margin-bottom:6px;">
-                                When two <code>BlurImage</code> panels overlap on the same canvas, both capture the scene
-                                at <code>BeforeRenderingTransparents</code> &mdash; the same moment. The front panel's
-                                blur pass runs before the back panel has been composited into the color buffer, so it
-                                samples the raw scene rather than the already-blurred backdrop.
+                                When two <code>BlurImage</code> panels are rendered by the same camera, both
+                                capture at <code>BeforeRenderingTransparents</code> &mdash; the same moment in
+                                the same frame. The front panel's blur runs before the back panel has been
+                                composited into the color buffer, so it samples the raw scene rather than the
+                                already-blurred backdrop.
                             </p>
                             <p style="margin-bottom:6px;">
-                                <strong>Screen Space Overlay: no workaround.</strong> All Overlay canvases share
-                                the same capture point. There is no way to make a front panel's blur see a back
-                                panel's blur output within the Overlay pipeline.
+                                <strong>Screen Space Overlay: no workaround.</strong> All Overlay canvases
+                                render through the same implicit camera and share the same capture point.
                             </p>
                             <p style="margin-bottom:6px;">
-                                <strong>Workaround &mdash; Screen Space Camera + Camera Stack:</strong>
-                                Place each canvas on a separate camera, stacked in order. The Stack Camera renders
-                                after the Main Camera has fully composited its output, so the popup's
-                                <code>BlurImage</code> captures a color buffer that already contains the backdrop blur.
+                                <strong>Workaround &mdash; separate canvases on separate cameras via Camera Stack:</strong>
+                                place each panel on its own <strong>Screen Space Camera</strong> canvas, each
+                                assigned to a different camera. Stack the cameras so the popup camera renders
+                                after the backdrop camera. The popup's <code>BlurImage</code> then captures
+                                a color buffer that already contains the backdrop blur.
                             </p>
                             <ol style="margin:0 0 6px 20px; font-size:13px; color:var(--text-muted); line-height:1.9;">
                                 <li>Keep your <strong>Main Camera</strong> with Culling Mask set to <strong>Everything</strong>.</li>
-                                <li>Add a second camera. Set its <strong>Render Type</strong> to <strong>Overlay</strong> and <strong>Culling Mask</strong> to <strong>UI</strong> only. Match projection, FOV, and clipping planes to the Main Camera.</li>
+                                <li>Add a second camera. Set <strong>Render Type</strong> to <strong>Overlay</strong> and <strong>Culling Mask</strong> to <strong>UI</strong> only. Match projection, FOV, and clipping planes to the Main Camera.</li>
                                 <li>Make the new camera a <strong>child</strong> of the Main Camera and zero its local position and rotation.</li>
                                 <li>In the Main Camera's <strong>Camera Stack</strong>, add the new camera as the last entry.</li>
                                 <li>Set the <strong>backdrop</strong> canvas to <strong>Screen Space Camera</strong>, Render Camera = <strong>Main Camera</strong>.</li>
                                 <li>Set the <strong>popup</strong> canvas to <strong>Screen Space Camera</strong>, Render Camera = <strong>Stack Camera</strong>.</li>
                             </ol>
                             <p style="margin-bottom:0;">
-                                Use a separate <code>BlurProfile</code> per panel to control each independently.
+                                Both canvases must use <strong>Screen Space Camera</strong> mode &mdash; placing
+                                both panels on the same canvas or the same camera will not work even with a
+                                Camera Stack. Use a separate <code>BlurProfile</code> per panel to control
+                                each independently.
                             </p>
                         </div>
                     </div>
@@ -978,14 +983,42 @@
                 </div>
                 <div class="item">
                     <div class="item-row">
-                        <div class="item-icon yes">&#10003;</div>
+                        <div class="item-icon no">&#10005;</div>
                         <div>
-                            <strong>Performance is poor on mobile</strong>
+                            <strong>Blur appears pixelated or blocky</strong>
+                            <p style="margin-top:4px; margin-bottom:2px;">&bull; Reduce <code>downsample</code> &mdash; high values produce a low-resolution RT that becomes visible at low blur strength or when <code>intensity</code> is below 1.</p>
+                            <p style="margin-bottom:0;">&bull; Increase <code>iterations</code> or <code>blurOffset</code> to widen the blur and soften the pixelation.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="item-row">
+                        <div class="item-icon no">&#10005;</div>
+                        <div>
+                            <strong>Blur stops updating / freezes unexpectedly</strong>
+                            <p style="margin-top:4px; margin-bottom:2px;">&bull; Check <code>updateMode</code> on the profile &mdash; <code>Throttled</code> with <code>throttleFps = 0</code> intentionally freezes the blur after the first frame.</p>
+                            <p style="margin-bottom:0;">&bull; Confirm at least one <code>BlurImage</code> referencing the profile is enabled and visible &mdash; profiles with no active consumers stop running automatically.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="item-row">
+                        <div class="item-icon no">&#10005;</div>
+                        <div>
+                            <strong>Normal map shows dark fringe / black edges at high bump strength</strong>
+                            <p style="margin-top:4px; margin-bottom:2px;">&bull; The distortion UV is sampling outside the blur RT's scissor region. The scissor automatically expands by <code>bumpStrength</code> to cover the distortion range &mdash; confirm <code>bumpStrength</code> is not larger than the panel's screen-space margin allows.</p>
+                            <p style="margin-bottom:0;">&bull; Move the panel away from screen edges, or reduce <code>bumpStrength</code>.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="item-row">
+                        <div class="item-icon no">&#10005;</div>
+                        <div>
+                            <strong>Performance is poor</strong>
                             <p style="margin-top:4px; margin-bottom:2px;">&bull; Switch to <strong>Dual Kawase</strong> (lowest cost per quality).</p>
                             <p style="margin-bottom:2px;">&bull; Increase <code>downsample</code> to 4 and reduce <code>iterations</code> to 2.</p>
-                            <p style="margin-bottom:2px;">&bull; Share one profile across multiple <code>BlurImage</code>s where blur parameters are the same.</p>
-                            <p style="margin-bottom:2px;">&bull; Set <code>updateMode</code> to <code>Throttled</code> for semi-static UI. Set <code>throttleFps</code> to <strong>0</strong> (freeze) for fully static backgrounds like pause menus &mdash; blurs once then holds for free.</p>
-                            <p style="margin-bottom:0;">&bull; Where possible, assign the same <code>CaptureMode</code> to all <code>BlurImage</code>s referencing a profile &mdash; each distinct branch is a separate pass-chain with its own <code>RTHandle</code>s.</p>
+                            <p style="margin-bottom:0;">&bull; See <a href="#perf-tips">Performance Tips</a> below for profiling-level optimisations.</p>
                         </div>
                     </div>
                 </div>
@@ -1001,10 +1034,64 @@
                 </div>
                 <div class="item">
                     <div class="item-row">
+                        <div class="item-icon no">&#10005;</div>
+                        <div>
+                            <strong>BlurImage looks correct in Scene view but wrong in Game view</strong>
+                            <p style="margin-top:4px; margin-bottom:2px;">&bull; The Scene view camera is separate from the Game camera and may capture at a different resolution or with different post-processing. Always treat Game view as the reference.</p>
+                            <p style="margin-bottom:0;">&bull; If the Scene view blur looks distorted, this is expected &mdash; the scissor rect is computed from the Game camera's viewport, not the Scene camera's.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PERFORMANCE TIPS -->
+            <h2 id="perf-tips">Performance Tips</h2>
+            <p>These optimisations apply to any platform, not just mobile. Each active profile runs its full pass chain every frame it is needed &mdash; reducing what runs and how often has the most impact.</p>
+
+            <div class="item-list">
+                <div class="item">
+                    <div class="item-row">
                         <div class="item-icon yes">&#10003;</div>
                         <div>
-                            <strong><code>GetInstanceID()</code> deprecation warning in Unity 6.4+</strong>
-                            <p style="margin-top:4px; margin-bottom:0;">This is a known Unity 6.4 API change. A <code>#pragma warning disable CS0618</code> suppression is in place until official migration guidance is available. No functionality is affected.</p>
+                            <strong>Share one profile across multiple BlurImages</strong>
+                            <p style="margin-top:4px; margin-bottom:0;">If multiple panels need identical blur parameters, assign them the same <code>BlurProfile</code>. The pass chain runs once and all panels sample the same result &mdash; zero additional GPU cost per extra panel.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="item-row">
+                        <div class="item-icon yes">&#10003;</div>
+                        <div>
+                            <strong>Use Update Mode to reduce how often the blur re-runs</strong>
+                            <p style="margin-top:4px; margin-bottom:2px;">Set <code>updateMode</code> to <code>Throttled</code> for panels over a mostly-still background. Skipped frames reuse the last blurred result at zero added cost.</p>
+                            <p style="margin-bottom:0;">Set <code>throttleFps</code> to <strong>0</strong> to freeze the blur after its first frame &mdash; ideal for pause menus, modals, and any background that does not move while the panel is open.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="item-row">
+                        <div class="item-icon yes">&#10003;</div>
+                        <div>
+                            <strong>Assign the same CaptureMode to all BlurImages on a profile</strong>
+                            <p style="margin-top:4px; margin-bottom:0;">Each distinct <code>CaptureMode</code> branch (<code>WithoutPostProcessing</code> / <code>WithPostProcessing</code>) is a separate pass chain with its own <code>RTHandle</code>s. Mixing capture modes on the same profile doubles the GPU and memory cost for that profile.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="item-row">
+                        <div class="item-icon yes">&#10003;</div>
+                        <div>
+                            <strong>Keep the active profile count low</strong>
+                            <p style="margin-top:4px; margin-bottom:0;">Each active profile is an independent pass chain. Consolidate panels that share parameters into fewer profiles rather than giving every panel its own profile.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="item-row">
+                        <div class="item-icon yes">&#10003;</div>
+                        <div>
+                            <strong>Disable BlurImage components when not visible</strong>
+                            <p style="margin-top:4px; margin-bottom:0;">A profile's pass chain stops running automatically when all its <code>BlurImage</code> consumers are disabled or invisible. Disable the component (not just the GameObject's alpha) when a panel is fully hidden to eliminate its cost entirely.</p>
                         </div>
                     </div>
                 </div>
