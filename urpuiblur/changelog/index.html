@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>URP UI Blur — Changelog</title>
+  <title>URP UI Blur Pro — Changelog</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
@@ -51,7 +51,7 @@
     }
     nav, .page-layout, footer { position: relative; z-index: 1; }
 
-    /* ── Nav ── */
+    /* Nav */
     nav {
       position: sticky; top: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
@@ -70,34 +70,35 @@
     .nav-links a { font-size: 13px; color: var(--text-muted); text-decoration: none; transition: color 0.15s; }
     .nav-links a:hover, .nav-links a.active { color: var(--text); }
 
-    /* ── Two-column layout ── */
+    /* Layout */
     .page-layout {
       flex: 1; display: flex;
       max-width: 1060px; margin: 0 auto; width: 100%;
     }
 
-    /* ── Sidebar ── */
+    /* Sidebar */
     aside {
       width: 210px; flex-shrink: 0;
       padding: 56px 0 80px 48px;
       position: sticky; top: 56px;
       align-self: flex-start;
       height: calc(100vh - 56px); overflow-y: auto;
+      -ms-overflow-style: none; scrollbar-width: none;
     }
+    aside::-webkit-scrollbar { display: none; }
     .aside-name { font-family: var(--mono); font-size: 11px; font-weight: 500; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 20px; }
     .aside-section { margin-bottom: 24px; }
     .aside-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; color: var(--text-dim); text-transform: uppercase; margin-bottom: 8px; }
     .aside-link { display: block; font-size: 13px; color: var(--text-muted); text-decoration: none; padding: 3px 0; transition: color 0.15s; }
     .aside-link:hover, .aside-link.active { color: var(--text); }
 
-    /* ── Main content ── */
+    /* Main */
     main { flex: 1; min-width: 0; padding: 56px 48px 100px; }
 
     h1 { font-size: 28px; font-weight: 300; letter-spacing: -0.02em; color: var(--text); margin-bottom: 8px; }
     .page-desc { font-family: var(--mono); font-size: 12px; color: var(--text-dim); margin-bottom: 48px; }
     h2 { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin: 48px 0 12px; padding-top: 8px; }
     h2:first-of-type { margin-top: 0; }
-    h3 { font-size: 14px; font-weight: 500; color: var(--text); margin: 20px 0 8px; }
     p { font-size: 14px; color: var(--text-muted); margin-bottom: 12px; }
     a { color: var(--teal); text-decoration: none; }
     a:hover { text-decoration: underline; }
@@ -107,62 +108,56 @@
       background: var(--bg-card2); color: var(--teal);
       padding: 1px 5px; border-radius: 3px; border: 1px solid var(--border);
     }
-    pre {
+
+    /* Item list */
+    .item-list { display: flex; flex-direction: column; gap: 2px; margin: 10px 0 20px; }
+    .item {
+      padding: 11px 16px;
       background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 6px; padding: 18px 20px;
-      font-family: var(--mono); font-size: 12px; color: var(--text-muted);
-      overflow-x: auto; margin: 10px 0 20px; line-height: 1.8;
+      font-size: 13px; color: var(--text-muted); line-height: 1.65;
+      transition: background 0.1s;
     }
-    pre code { background: none; border: none; padding: 0; color: inherit; }
-
-    /* ── Section label ── */
-    .section-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; color: var(--text-dim); text-transform: uppercase; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
-
-    /* ── Table ── */
-    .table-wrap { overflow-x: auto; margin: 10px 0 24px; }
-    table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    th { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--border); }
-    td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text-muted); vertical-align: top; }
-    tr:last-child td { border-bottom: none; }
-    tr:hover td { background: var(--bg-card); }
-    td:first-child { color: var(--text); font-weight: 500; }
-
-    /* ── List items ── */
-    .item-list { display: flex; flex-direction: column; gap: 2px; margin: 10px 0 24px; }
-    .item { padding: 11px 16px; background: var(--bg-card); border: 1px solid var(--border); font-size: 13px; color: var(--text-muted); line-height: 1.6; transition: background 0.1s; }
     .item:first-child { border-radius: 6px 6px 0 0; }
     .item:last-child  { border-radius: 0 0 6px 6px; }
     .item:only-child  { border-radius: 6px; }
     .item:hover { background: var(--bg-card2); }
-    .item-row { display: flex; gap: 14px; align-items: flex-start; }
-    .item-icon { flex-shrink: 0; margin-top: 1px; }
-    .item-icon.yes { color: var(--teal); }
-    .item-icon.no  { color: #e85050; }
 
-    /* ── Callout ── */
-    .note { padding: 13px 16px; background: var(--accent-glow); border: 1px solid var(--accent-dim); border-radius: 6px; font-size: 13px; color: var(--text-muted); margin: 10px 0 20px; }
-    .note strong { color: var(--accent); }
-    .warn { padding: 13px 16px; background: rgba(232,160,64,0.07); border: 1px solid rgba(232,160,64,0.22); border-radius: 6px; font-size: 13px; color: var(--text-muted); margin: 10px 0 20px; }
-    .warn strong { color: var(--orange); }
-
-    /* ── Card ── */
-    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 16px; }
-    .card p:last-child { margin-bottom: 0; }
-
-    /* ── Version block (changelog) ── */
-    .version-block { margin-bottom: 48px; }
-    .version-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
-    .version-tag { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--accent); background: var(--accent-glow); border: 1px solid var(--accent-dim); padding: 3px 10px; border-radius: 4px; }
+    /* Version block */
+    .version-block { margin-bottom: 56px; }
+    .version-header { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; }
+    .version-tag {
+      font-family: var(--mono); font-size: 12px; font-weight: 500;
+      color: var(--accent); background: var(--accent-glow);
+      border: 1px solid var(--accent-dim); padding: 3px 10px; border-radius: 4px;
+    }
     .version-date { font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
     .version-divider { flex: 1; height: 1px; background: var(--border); }
-    .change-group { margin-bottom: 24px; }
-    .change-label { display: inline-flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
-    .change-label.added { color: var(--teal); }
-    .change-label.fixed { color: var(--orange); }
-    .change-label::before { content: ''; display: block; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
 
-    /* ── Footer ── */
-    footer { border-top: 1px solid var(--border); padding: 24px 48px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    /* Change group */
+    .change-group { margin-bottom: 28px; }
+    .change-group-title {
+      font-family: var(--mono); font-size: 10px; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-dim); margin: 20px 0 6px;
+    }
+    .change-label {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .change-label.added  { color: var(--teal); }
+    .change-label.fixed  { color: var(--orange); }
+    .change-label::before {
+      content: ''; display: block; width: 5px; height: 5px;
+      border-radius: 50%; background: currentColor;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border); padding: 24px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+    }
     footer p { font-size: 12px; color: var(--text-dim); font-family: var(--mono); margin: 0; }
     footer a { color: var(--text-dim); font-size: 12px; text-decoration: none; transition: color 0.15s; }
     footer a:hover { color: var(--text-muted); }
@@ -172,12 +167,13 @@
       .nav-breadcrumb { display: none; }
       .page-layout { flex-direction: column; }
       aside { display: none; }
-      main { padding: 56px 48px 100px; }
+      main { padding: 40px 24px 80px; }
       footer { padding: 20px; }
     }
   </style>
 </head>
 <body>
+
 <nav>
   <div class="nav-left">
     <a class="nav-logo" href="/"><span>//</span> dustforge.studio</a>
@@ -192,10 +188,10 @@
 
 <div class="page-layout">
   <aside>
-    <div class="aside-name">URPUIBlur</div>
+    <div class="aside-name">URPUIBlur Pro</div>
     <div class="aside-section">
       <div class="aside-label">Versions</div>
-      <a class="aside-link active" href="#v1-0-0">v1.0.0 — 2026-05-01</a>
+      <a class="aside-link active" href="#v1-0-0">v1.0.0 &mdash; 2026-06-25</a>
     </div>
     <div class="aside-section">
       <div class="aside-label">Pages</div>
@@ -207,63 +203,109 @@
 
   <main>
     <h1>Changelog</h1>
-    <p class="page-desc">// format follows Keep a Changelog · keepachangelog.com</p>
+    <p class="page-desc">// format follows <a href="https://keepachangelog.com">Keep a Changelog</a></p>
 
+    <!-- v1.0.0 -->
     <div class="version-block" id="v1-0-0">
       <div class="version-header">
         <span class="version-tag">v1.0.0</span>
-        <span class="version-date">2026-05-01</span>
+        <span class="version-date">2026-06-25</span>
         <div class="version-divider"></div>
       </div>
 
+      <!-- ADDED -->
       <div class="change-group">
         <div class="change-label added">Added</div>
+
+        <div class="change-group-title">Blur Algorithms</div>
         <div class="item-list">
-          <div class="item">Six blur algorithms: Dual Kawase, Gaussian Separable, Tent/Hex, Poisson Disk, Custom Kawase, Radial — all implemented with URP 17+ native RenderGraph API</div>
-          <div class="item"><code>ScriptableRendererFeature</code> + <code>ScriptableRenderPass</code> architecture supporting multiple simultaneous presets, each independently configured via a <code>BlurPreset</code> ScriptableObject asset</div>
-          <div class="item">Five canvas space targets: Screen Space Overlay (before/after post-processing), Screen Space Camera, World Space, World Objects — each writing to a distinct global texture sampled by the corresponding material</div>
-          <div class="item">Persistent RTHandle strategy — each preset owns its intermediate textures (allocated via <code>RTHandles.Alloc()</code>), preventing cross-preset memory aliasing by the RenderGraph allocator</div>
-          <div class="item"><code>UI_Blur_Universal</code> shader for UI Image / Canvas panels — frosted glass tint, brightness, desaturation, vignette edge darkening, and normal-map glass distortion; three normal mapping modes: Standard Tile, Local Fixed Scale, Screen Space Fix</div>
-          <div class="item"><code>WorldObject</code> shader for 3D world-space glass meshes — true IOR refraction via <code>refract()</code> with normal map support; samples <code>_BlurredBackground_WorldObjects</code></div>
-          <div class="item">Resolution-independent blur scaling — continuous parameters (<code>blurOffset</code>, <code>gaussianRadius</code>, <code>radialRadius</code>) scale with screen width relative to 1920 px baseline; discrete parameters (<code>iterations</code>, <code>taps</code>, <code>radialTaps</code>) do not scale</div>
-          <div class="item">Auto-culling for world-space presets via <code>cullResults.visibleRenderers</code> — UI presets intentionally bypass culling to prevent one-frame pop-in</div>
-          <div class="item">Duplicate spaceType detection: Inspector warning in <code>BlurEditor</code> and runtime guard in <code>AddRenderPasses</code> (first preset wins, duplicates are skipped)</div>
-          <div class="item"><code>SetPresetsActive(CanvasSpaceType, bool)</code> — toggle all presets targeting a space type; fires <code>OnPresetActiveChanged</code> event on each state change</div>
-          <div class="item"><code>GetPreset(CanvasSpaceType)</code> — returns the first matching preset for direct parameter access at runtime</div>
-          <div class="item"><code>GetAllPresets()</code> — returns a snapshot list of all assigned presets</div>
-          <div class="item"><code>SetIntensity</code> / <code>GetIntensity</code> — per-spaceType multiplier applied to all continuous blur parameters each frame; enables smooth fade without disabling the pass</div>
-          <div class="item"><code>OnPresetActiveChanged</code> static event — fired when a preset's active state changes via <code>SetPresetsActive()</code></div>
-          <div class="item"><code>BlurSetupWizard</code> Editor window — auto-opens on first import; scans all <code>UniversalRendererData</code> assets, adds the Blur Renderer Feature via <code>SerializedObject</code> to keep <code>m_RendererFeatureMap</code> in sync, and auto-assigns the bundled <code>UI-Overlay.asset</code> default preset</div>
-          <div class="item"><code>BlurPreset</code> ScriptableObject — per-method field visibility, algorithm info box with performance cost indicator (dot scale), and renderer user list in Inspector</div>
-          <div class="item">Custom Inspectors: <code>BlurEditor</code> (Renderer Feature), <code>BlurScriptable</code> (BlurPreset)</div>
-          <div class="item">Included materials: <code>UI_Blur_Universal.mat</code> (UI panels), <code>Blur_WorldSurface.mat</code> (3D world meshes) — pre-configured, no wizard generation needed</div>
-          <div class="item">Interactive Demo Scene (Samples~) comparing all six blur methods with live runtime parameter controls</div>
+          <div class="item">Six blur algorithms: <strong>Dual Kawase</strong>, <strong>Gaussian Separable</strong>, <strong>Tent/Hex</strong>, <strong>Poisson Disk</strong>, <strong>Custom Kawase</strong>, <strong>Radial</strong> &mdash; all implemented with URP 17+ native RenderGraph API.</div>
+          <div class="item">Resolution-independent blur scaling &mdash; continuous parameters (<code>blurOffset</code>, <code>gaussianRadius</code>, <code>radialRadius</code>) scale with screen width relative to 1920 px baseline; discrete parameters (<code>iterations</code>, <code>taps</code>, <code>radialTaps</code>) do not scale.</div>
+        </div>
+
+        <div class="change-group-title">Architecture</div>
+        <div class="item-list">
+          <div class="item"><code>ScriptableRendererFeature</code> + <code>ScriptableRenderPass</code> architecture supporting up to 16 independent <code>BlurProfile</code> slots simultaneously, each independently configured via a <code>BlurProfile</code> ScriptableObject asset.</div>
+          <div class="item"><code>IBlurConsumer</code> interface unifying <code>BlurImage</code> (UI <code>Graphic</code>) and <code>BlurObject</code> (<code>MeshRenderer</code>) &mdash; <code>Blur.cs</code> scans all consumers in a single pass without type checks; exposes <code>profile</code>, <code>captureMode</code>, <code>isActiveAndEnabled</code>, and <code>IsVisible()</code>.</div>
+          <div class="item">Two capture modes: <code>CaptureMode.WithoutPostProcessing</code> (before transparents &mdash; compatible with all Canvas modes) and <code>CaptureMode.WithPostProcessing</code> (after post-processing &mdash; Screen Space Overlay only); each mode is an independent pass-chain with its own <code>RTHandle</code> set, paying GPU cost only when at least one consumer requests that branch.</div>
+          <div class="item"><strong>Persistent <code>RTHandle</code> strategy</strong> &mdash; each profile owns its intermediate textures allocated via <code>RTHandles.Alloc()</code>; the RenderGraph allocator cannot alias them, eliminating cross-profile texture contamination regardless of matching descriptors.</div>
+          <div class="item"><code>isActive</code> and active <code>CaptureMode</code> branches for each profile fully recomputed every frame at the start of <code>AddRenderPasses</code> &mdash; self-correcting across domain reloads and Play-mode-exit scene restorations with no persisted incremental state.</div>
+          <div class="item">Instance claiming in <code>AddRenderPasses()</code> (not <code>Create()</code>) &mdash; ensures only the Renderer Feature instance used by the active camera's renderer claims the active-instance slot, preventing multi-renderer conflicts.</div>
+          <div class="item"><code>slotIndex</code> field on <code>BlurProfile</code> &mdash; 1-based index (1&ndash;16) assigned by <code>Blur.cs</code> whenever the profiles list changes; read directly by <code>BlurImage</code> and <code>BlurObject</code> to derive the correct shader keyword (<code>_BLUR_{n}_BT</code> / <code>_BLUR_{n}_APP</code>) without calling <code>profiles.IndexOf()</code> at runtime.</div>
+          <div class="item">Auto-culling for world-space profiles via <code>cullResults.visibleRenderers</code> &mdash; UI profiles intentionally bypass culling to prevent one-frame pop-in.</div>
+        </div>
+
+        <div class="change-group-title">Components</div>
+        <div class="item-list">
+          <div class="item"><code>BlurImage</code> component &mdash; attaches a <code>BlurProfile</code>'s blur output to any UI <code>Graphic</code>; owns a fully private <code>Material</code> instance; appearance fields (frost tint, brightness, desaturation, vignette, normal map, tiling, offset) synced lazily via dirty flag; <code>MarkDirty()</code> for script-driven updates.</div>
+          <div class="item"><code>BlurImage.FadeIn(float duration)</code> / <code>FadeOut(float duration)</code> &mdash; coroutine-based built-in fade API that animates <code>profile.intensity</code> from its current value to full or zero over the given duration. Uses <code>Time.unscaledDeltaTime</code> so fades work when <code>Time.timeScale = 0</code>. Both methods reverse smoothly if called mid-animation.</div>
+          <div class="item"><code>BlurObject</code> component &mdash; attaches a <code>BlurProfile</code>'s blur output to any 3D <code>MeshRenderer</code> using the <code>WorldObject</code> shader; always captures <code>WithoutPostProcessing</code> (self-sampling guard); supports frost tint, brightness, desaturation, IOR refraction, normal map distortion, albedo overlay, and <code>MarkDirty()</code>.</div>
+          <div class="item"><code>Blur.RegisterImage</code> / <code>UnregisterImage</code> / <code>RegisterObject</code> / <code>UnregisterObject</code> &mdash; explicit consumer registration; consumers self-register in <code>OnEnable</code> / <code>Update</code> and self-unregister in <code>OnDisable</code>.</div>
+          <div class="item"><code>Blur.GetPresetUserCount(BlurProfile)</code> &mdash; returns how many currently enabled, visible consumers reference a given profile.</div>
+          <div class="item"><code>Blur.CountSceneConsumers(BlurProfile)</code> / <code>FindSceneConsumerObjects(BlurProfile)</code> &mdash; Editor-only utilities using <code>FindObjectsByType</code> with <code>FindObjectsInactive.Include</code>; used by Inspectors for "Show All" scene highlight.</div>
+        </div>
+
+        <div class="change-group-title">Runtime API</div>
+        <div class="item-list">
+          <div class="item"><code>BlurProfile.intensity</code> &mdash; runtime float (0&ndash;1) that scales all blur-strength parameters each frame without modifying serialized values. Scaled: <code>blurOffset</code>, <code>gaussianRadius</code>, <code>radialRadius</code>, <code>iterations</code>, <code>downsample</code>. Not scaled: <code>blurMethod</code>, <code>taps</code>, <code>radialTaps</code>, <code>useIGNRotation</code>. Inspector shows a live slider in both Edit mode and Play mode.</div>
+          <div class="item"><code>BlurProfile.SetIntensity(float)</code> / <code>GetIntensity()</code> &mdash; typed accessor pair for <code>intensity</code>. Per-profile; multiple <code>BlurImage</code>s sharing a profile are affected simultaneously.</div>
+          <div class="item"><code>BlurProfile.updateMode</code> (<code>BlurUpdateMode</code>: <code>EveryFrame</code>, <code>Throttled</code>) &mdash; controls how often the blur pass chain re-runs. Skipped frames reuse the last persistent <code>RTHandle</code> at zero added cost.</div>
+          <div class="item"><code>BlurProfile.throttleFps</code> (int 0&ndash;120) &mdash; maximum blur updates per second in <code>Throttled</code> mode. <code>0</code> = freeze: blurs once on activation and holds that frame until the profile goes inactive; re-captures automatically on reopen.</div>
+        </div>
+
+        <div class="change-group-title">Shaders</div>
+        <div class="item-list">
+          <div class="item"><code>UI_Blur_Universal</code> shader for UI panels &mdash; frosted glass tint, brightness, desaturation, vignette edge darkening, and normal-map glass distortion; three normal mapping modes: Standard Tile, Local Fixed Scale, Screen Space Fix; up to 16 profile slots &times; 2 branches via <code>shader_feature_local</code> keywords.</div>
+          <div class="item"><code>WorldObject</code> shader for 3D world-space glass meshes &mdash; IOR refraction via <code>refract()</code> with normal map support; samples <code>_BlurredBackground_WorldObjects</code>; same 16-slot keyword system.</div>
+        </div>
+
+        <div class="change-group-title">Editor Tooling</div>
+        <div class="item-list">
+          <div class="item"><code>BlurSetupWizard</code> &mdash; auto-opens once per project on first import; scans all <code>UniversalRendererData</code> and <code>Renderer2DData</code> assets; adds the Blur Renderer Feature via <code>SerializedObject</code> to keep <code>m_RendererFeatureMap</code> in sync; auto-assigns the bundled <code>UI-Overlay.asset</code> default profile on feature add. Re-openable via <strong>Tools &rarr; URPUIBlurPro &rarr; Setup Wizard</strong>.</div>
+          <div class="item"><code>BlurProfileSync</code> (<code>AssetPostprocessor</code>) &mdash; keeps all <code>BlurProfile</code> sub-assets in sync with every <code>Blur</code> Renderer Feature whenever profile assets are created or deleted; assigns stable <code>slotIndex</code> values (1&ndash;16, over-limit profiles get slot 0); notifies live consumers to reapply keywords via <code>EditorApplication.delayCall</code>.</div>
+          <div class="item">Orphaned sub-asset cleanup &mdash; detects and removes <code>BlurProfile</code> sub-assets left behind when a Blur Renderer Feature is removed; available automatically on asset change and manually via <strong>Tools &rarr; URPUIBlurPro &rarr; Clean Up Orphaned Profiles</strong>.</div>
+          <div class="item"><code>BlurProfileEditor</code> &mdash; per-method field visibility, algorithm info box with performance cost indicator, runtime intensity slider (Edit mode and Play mode), Update Mode controls with per-mode guidance, and scene consumer list.</div>
+          <div class="item"><code>BlurImageEditor</code> &mdash; live appearance preview, profile user count, inline intensity slider, and Fade API buttons (Play mode).</div>
+          <div class="item"><code>BlurObjectEditor</code> &mdash; frosted glass appearance preview, profile user count, Update Mode controls, and "Show All Users" scene highlight.</div>
+        </div>
+
+        <div class="change-group-title">Assets</div>
+        <div class="item-list">
+          <div class="item">Included materials: <code>UI_Blur_Universal.mat</code> (UI panels) and <code>Blur_WorldSurface.mat</code> (3D world meshes) &mdash; pre-configured, no wizard generation needed.</div>
+          <div class="item">Interactive Demo Scene (<code>Samples~</code>) comparing all six blur methods with live runtime parameter controls.</div>
         </div>
       </div>
 
+      <!-- FIXED -->
       <div class="change-group">
         <div class="change-label fixed">Fixed</div>
         <div class="item-list">
-          <div class="item">Horizontal stretch in Gaussian and Tent/Hex passes — replaced <code>_BlitTexture_TexelSize</code> (source size) with <code>_TargetTexelSize</code> (destination size) passed from C#; ensures both separable passes use the same texel step regardless of source/destination resolution mismatch</div>
-          <div class="item">Blur darkening at high iterations in DualKawase, TentHex, Gaussian — caused by dividing by theoretical tap count when some taps were skipped by the <code>abs(i) > radius</code> guard; fixed by dividing by the actual sampled count</div>
-          <div class="item">Screen UV precision at 4K — <code>ComputeScreenPos</code> + perspective divide in <code>UI_Blur_Universal.shader</code> replaces the previous <code>_ScreenParams</code>-based UV calculation that drifted at high resolutions</div>
-          <div class="item">Cross-preset texture contamination — graph-owned transient textures with matching descriptors were being memory-aliased by the RenderGraph allocator across presets; fixed by switching to externally-owned persistent RTHandles which the allocator cannot alias</div>
-          <div class="item">Stale <code>_propReferenceHeight</code> serialized property reference in <code>BlurScriptable.cs</code></div>
-          <div class="item">Pass name collisions across presets sharing the same algorithm — all pass names now include <code>_texPrefix</code> (slot index + output texture name)</div>
+          <div class="item"><strong>Horizontal stretch in Gaussian and Tent/Hex passes</strong> &mdash; replaced <code>_BlitTexture_TexelSize</code> (source size) with <code>_TargetTexelSize</code> (destination size) passed from C#; ensures both separable passes use the same texel step regardless of source/destination resolution mismatch.</div>
+          <div class="item"><strong>Blur darkening at high iterations</strong> (Dual Kawase, Tent/Hex, Gaussian) &mdash; caused by dividing by the theoretical tap count when some taps were skipped by the <code>abs(i) &gt; radius</code> guard; fixed by dividing by the actual sampled count.</div>
+          <div class="item"><strong>Screen UV precision at 4K</strong> &mdash; <code>ComputeScreenPos</code> + perspective divide in <code>UI_Blur_Universal.shader</code> replaces the previous <code>_ScreenParams</code>-based UV calculation that drifted at high resolutions.</div>
+          <div class="item"><strong>Cross-profile texture contamination</strong> &mdash; graph-owned transient textures with matching descriptors were being memory-aliased by the RenderGraph allocator across profiles; fixed by switching to externally-owned persistent <code>RTHandle</code> objects which the allocator cannot alias.</div>
+          <div class="item"><strong>Pass name collisions</strong> across profiles sharing the same algorithm &mdash; all pass names now include <code>_texPrefix</code> (slot index + output texture name).</div>
+          <div class="item"><strong>Grey panel in Edit mode</strong> &mdash; material was assigned inside <code>Sync()</code> which fired every Canvas repaint; material is now assigned once in <code>OnEnable</code> and via a deferred <code>AssignMaterialOnce</code> callback, eliminating the per-frame <code>SetMaterialDirty()</code> rebuild.</div>
+          <div class="item"><strong>Null profile showing another profile's blur</strong> &mdash; a <code>BlurImage</code> with no profile assigned was inheriting whichever slot remained enabled on a shared material; each <code>BlurImage</code> now owns a fully private material instance and disables all keywords when <code>profile</code> is null or <code>slotIndex</code> is invalid.</div>
+          <div class="item"><strong><code>BlurObject</code> material leak</strong> &mdash; <code>renderer.material</code> (instance accessor) was used for equality comparisons, creating a new instance on every check; comparisons now use <code>renderer.sharedMaterial</code>.</div>
+          <div class="item"><strong>Play-mode keyword-null</strong> &mdash; <code>slotIndex</code> is persisted directly on <code>BlurProfile</code> and read at runtime, replacing the <code>profiles.IndexOf()</code> lookup that could return &minus;1 after a domain reload before <code>AddRenderPasses</code> had a chance to re-assign slots.</div>
+          <div class="item"><strong>Normal map dark fringe at high bump strength</strong> &mdash; scissor region now expands by <code>bumpStrength</code> (normalised screen units) beyond the panel's world-corner bounds; distorted UVs that reach past the previous tight scissor no longer sample black pixels at the RT edge.</div>
         </div>
       </div>
-    </div>
+
+    </div><!-- /version-block -->
   </main>
 </div>
 
 <footer>
   <p>// dustforge.studio / urpuiblur / changelog</p>
   <div style="display:flex;gap:20px">
-    <a href="/urpuiblur/">← Back</a>
+    <a href="/urpuiblur/">&larr; Back</a>
     <a href="../docs/">Docs</a>
     <a href="../license/">License</a>
   </div>
-  <p>© 2026 Dustforge Studio</p>
+  <p>&copy; 2026 Dustforge Studio</p>
 </footer>
+
 </body>
 </html>
