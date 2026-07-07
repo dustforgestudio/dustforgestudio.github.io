@@ -414,7 +414,6 @@
                 <a class="aside-link" href="#layered-blur">Layered Blur Panels</a>
                 <a class="aside-link" href="#troubleshooting">Troubleshooting</a>
                 <a class="aside-link" href="#perf-tips">Performance Tips</a>
-                <a class="aside-link" href="#folder-structure">Folder Structure</a>
             </div>
         </aside>
 
@@ -424,7 +423,7 @@
 
             <!-- HOW IT WORKS -->
             <h2 id="how-it-works">How It Works</h2>
-            <p>URP UI Blur Pro hooks into URP's RenderGraph pipeline, captures the scene color at a configurable point, runs a blur algorithm on it, and writes the result into a global shader texture. UI materials and world-space shaders sample that texture to produce frosted-glass. The blur computes once per profile per frame — the display shader does no blur work at draw time.</p>
+            <p>URP UI Blur Pro integrates with URP's rendering pipeline, captures the scene at a configurable point, runs a blur algorithm, and makes the result available for UI panels and 3D world objects to sample. The blur computes once per profile per frame — panels themselves do no blur work at draw time.</p>
             <p><strong>The blur only runs when at least one active <code>BlurImage</code> or <code>BlurObject</code> references that profile. Profiles with no active consumers cost nothing.</strong></p>
 
             <div style="margin: 20px 0 24px; display:flex; flex-direction:column; gap:2px;">
@@ -436,26 +435,20 @@
                 </div>
                 <div class="step">
                     <span class="step-num" style="color:var(--teal);">02</span>
-                    <div><strong>Renderer Feature captures the frame</strong>
-                        <p style="margin:4px 0 0; font-size:13px;">The Blur Renderer Feature intercepts <code>activeColorTexture</code> at the render event chosen by each profile's <code>CaptureMode</code>.</p>
+                    <div><strong>Background is captured</strong>
+                        <p style="margin:4px 0 0; font-size:13px;">The Blur Renderer Feature captures the rendered scene at the point controlled by each profile's <code>CaptureMode</code>.</p>
                     </div>
                 </div>
                 <div class="step">
                     <span class="step-num" style="color:var(--teal);">03</span>
                     <div><strong>Blur passes run on the GPU</strong>
-                        <p style="margin:4px 0 0; font-size:13px;">The captured texture is processed by the selected algorithm across one or more passes, writing into persistent <code>RTHandle</code>s owned by the feature.</p>
+                        <p style="margin:4px 0 0; font-size:13px;">The captured image is processed by the selected algorithm. Up to 16 profiles can run simultaneously, each fully independent.</p>
                     </div>
                 </div>
                 <div class="step">
                     <span class="step-num" style="color:var(--teal);">04</span>
-                    <div><strong>Result is written to a global texture</strong>
-                        <p style="margin:4px 0 0; font-size:13px;">The blurred output is set as a named global shader texture keyed by profile slot and branch (<code>_BLUR_1_BT</code>, <code>_BLUR_1_APP</code>, &hellip;). Materials sample whichever slot their <code>BlurImage</code> or <code>BlurObject</code> points to.</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <span class="step-num" style="color:var(--teal);">05</span>
-                    <div><strong>Shader samples at draw time</strong>
-                        <p style="margin:4px 0 0; font-size:13px;"><code>UI_Blur_Universal</code> (UI panels) and <code>WorldObject</code> (3D meshes) read the correct global texture using screen-space UVs, then apply frost tint, brightness, desaturation, and optional normal-map distortion.</p>
+                    <div><strong>Panels sample the result</strong>
+                        <p style="margin:4px 0 0; font-size:13px;"><code>BlurImage</code> (UI panels) and <code>BlurObject</code> (3D meshes) sample the blurred output and apply frost tint, brightness, desaturation, and optional normal-map distortion.</p>
                     </div>
                 </div>
             </div>
@@ -1097,51 +1090,6 @@
                 </div>
             </div>
 
-            <!-- FOLDER STRUCTURE -->
-            <h2 id="folder-structure">Folder Structure</h2>
-            <div class="code-block">
-                <div class="code-header">
-                    <div class="code-dot" style="background:#ff5f57"></div>
-                    <div class="code-dot" style="background:#febc2e"></div>
-                    <div class="code-dot" style="background:#28c840"></div>
-                    <span class="code-filename">Project Structure</span>
-                </div>
-<pre><code>Assets/URPUIBlurPro/
-&#9500;&#9472;&#9472; Runtime/
-&#9474;   &#9500;&#9472;&#9472; Scripts/
-&#9474;   &#9474;   &#9500;&#9472;&#9472; Blur.cs                  Renderer Feature + IBlurConsumer interface
-&#9474;   &#9474;   &#9500;&#9472;&#9472; BlurProfile.cs           Serializable blur recipe asset
-&#9474;   &#9474;   &#9500;&#9472;&#9472; BlurImage.cs             UI Graphic consumer component
-&#9474;   &#9474;   &#9500;&#9472;&#9472; BlurObject.cs            MeshRenderer consumer component
-&#9474;   &#9474;   &#9500;&#9472;&#9472; DualKawaseBlurPass.cs
-&#9474;   &#9474;   &#9500;&#9472;&#9472; GaussianBlurPass.cs
-&#9474;   &#9474;   &#9500;&#9472;&#9472; KawaseBlurPass.cs
-&#9474;   &#9474;   &#9500;&#9472;&#9472; TentHexBlurPass.cs
-&#9474;   &#9474;   &#9492;&#9472;&#9472; RadialBlurPass.cs
-&#9474;   &#9500;&#9472;&#9472; Shaders/
-&#9474;   &#9474;   &#9500;&#9472;&#9472; UI_Blur_Universal.shader
-&#9474;   &#9474;   &#9500;&#9472;&#9472; WorldObject.shader
-&#9474;   &#9474;   &#9500;&#9472;&#9472; DualKawaseBlur.shader
-&#9474;   &#9474;   &#9500;&#9472;&#9472; GaussianBlur.shader
-&#9474;   &#9474;   &#9500;&#9472;&#9472; CustomKawaseBlur.shader
-&#9474;   &#9474;   &#9500;&#9472;&#9472; TentHexBlur.shader
-&#9474;   &#9474;   &#9500;&#9472;&#9472; RadialBlur.shader
-&#9474;   &#9474;   &#9492;&#9472;&#9472; PoissonDiskBlur.shader
-&#9474;   &#9492;&#9472;&#9472; URPUIBlurPro.Runtime.asmdef
-&#9500;&#9472;&#9472; Editor/
-&#9474;   &#9500;&#9472;&#9472; BlurEditor.cs                Custom Inspector for Blur (Renderer Feature)
-&#9474;   &#9500;&#9472;&#9472; BlurProfileEditor.cs         Custom Inspector for BlurProfile
-&#9474;   &#9500;&#9472;&#9472; BlurImageEditor.cs           Custom Inspector for BlurImage
-&#9474;   &#9500;&#9472;&#9472; BlurObjectEditor.cs          Custom Inspector for BlurObject
-&#9474;   &#9500;&#9472;&#9472; BlurProfileSync.cs           Syncs slot indices when profiles list changes
-&#9474;   &#9500;&#9472;&#9472; BlurSetupWizard.cs           Setup Wizard window
-&#9474;   &#9492;&#9472;&#9472; URPUIBlurPro.Editor.asmdef
-&#9500;&#9472;&#9472; Samples~/
-&#9474;   &#9492;&#9472;&#9472; Demo/                        Interactive comparison scene
-&#9492;&#9472;&#9472; Documentation~/
-    &#9500;&#9472;&#9472; CHANGELOG.md
-    &#9492;&#9472;&#9472; README.md</code></pre>
-            </div>
 
             <h2 id="credits" style="margin-top:48px;">Third-Party Credits</h2>
             <p><strong>Dual Kawase Blur</strong> &mdash; algorithm by Marius Bj&oslash;rge, presented at GDC 2015 (ARM).</p>
